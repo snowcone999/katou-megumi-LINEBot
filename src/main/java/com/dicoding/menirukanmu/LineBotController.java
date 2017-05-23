@@ -7,6 +7,7 @@ import com.linecorp.bot.client.LineSignatureValidator;
 import com.linecorp.bot.model.PushMessage;
 import com.linecorp.bot.model.ReplyMessage;
 import com.linecorp.bot.model.message.TextMessage;
+import com.linecorp.bot.model.profile.UserProfileResponse;
 import com.linecorp.bot.model.response.BotApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -68,27 +69,26 @@ public class LineBotController
 
             if (!payload.events[0].message.type.equals("text")){
                 replyToUser(payload.events[0].replyToken, "Unknown message");
-            } else {
-                msgText = payload.events[0].message.text;
-                msgText = msgText.toLowerCase();
-
-                if (!msgText.contains("bot leave")){
-                    try {
-                        getMessageData(msgText, idTarget);
-                    } catch (IOException e) {
-                        System.out.println("Exception is raised ");
-                        e.printStackTrace();
-                    }
-                } else {
-                    if (payload.events[0].source.type.equals("group")){
-                        leaveGR(payload.events[0].source.groupId, "group");
-                    } else if (payload.events[0].source.type.equals("room")){
-                        leaveGR(payload.events[0].source.roomId, "room");
-                    }
+            }
+            if (!msgText.contains("bot leave")){
+                try {
+                    getMessageData(msgText, idTarget);
+                } catch (IOException e) {
+                    System.out.println("Exception is raised ");
+                    e.printStackTrace();
                 }
-
+            } else {
+                if (payload.events[0].source.type.equals("group")){
+                    leaveGR(payload.events[0].source.groupId, "group");
+                } else if (payload.events[0].source.type.equals("room")){
+                    leaveGR(payload.events[0].source.roomId, "room");
+                }
+            }
+            if(!payload.events[0].message.type.equals("Hai Katou")){
+                replyToUser(payload.events[0].replyToken, "Hai Juga");
             }
         }
+
          
         return new ResponseEntity<String>(HttpStatus.OK);
     }
@@ -151,6 +151,26 @@ public class LineBotController
         } catch (IOException e) {
             System.out.println("Exception is raised ");
             e.printStackTrace();
+        }
+    }
+
+    private void userProfileName(){
+        Response<UserProfileResponse> response =
+                null;
+        try {
+            response = LineMessagingServiceBuilder
+                    .create("<channel access token>")
+                    .build()
+                    .getProfile("<userId>")
+                    .execute();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if (response.isSuccessful()) {
+            UserProfileResponse profile = response.body();
+            System.out.println(profile.getDisplayName());
+        } else {
+            System.out.println(response.code() + " " + response.message());
         }
     }
 }

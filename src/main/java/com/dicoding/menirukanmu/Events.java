@@ -6,4 +6,5 @@ public class Events {
     public Source source;
     public Long timestamp;
     public Message message;
+    public Response response;
 }
