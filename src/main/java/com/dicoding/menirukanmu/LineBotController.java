@@ -69,26 +69,29 @@ public class LineBotController
 
             if (!payload.events[0].message.type.equals("text")){
                 replyToUser(payload.events[0].replyToken, "Unknown message");
-            }
-            if (!msgText.contains("bot leave")){
-                try {
-                    getMessageData(msgText, idTarget);
-                } catch (IOException e) {
-                    System.out.println("Exception is raised ");
-                    e.printStackTrace();
-                }
             } else {
-                if (payload.events[0].source.type.equals("group")){
-                    leaveGR(payload.events[0].source.groupId, "group");
-                } else if (payload.events[0].source.type.equals("room")){
-                    leaveGR(payload.events[0].source.roomId, "room");
+                if (payload.events[0].source.type.equals("Hai Katou")) {
+                    msgText = "Hai Juga";
+                    msgText = msgText.toLowerCase();
                 }
-            }
-            if(!payload.events[0].message.type.equals("Hai Katou")){
-                replyToUser(payload.events[0].replyToken, "Hai Juga");
+
+                if (!msgText.contains("bot leave")){
+                    try {
+                        getMessageData(msgText, idTarget);
+                    } catch (IOException e) {
+                        System.out.println("Exception is raised ");
+                        e.printStackTrace();
+                    }
+                } else {
+                    if (payload.events[0].source.type.equals("group")){
+                        leaveGR(payload.events[0].source.groupId, "group");
+                    } else if (payload.events[0].source.type.equals("room")){
+                        leaveGR(payload.events[0].source.roomId, "room");
+                    }
+                }
+
             }
         }
-
          
         return new ResponseEntity<String>(HttpStatus.OK);
     }
@@ -154,7 +157,7 @@ public class LineBotController
         }
     }
 
-    private void userProfileName(){
+    private void userProfile(){
         Response<UserProfileResponse> response =
                 null;
         try {
@@ -169,6 +172,8 @@ public class LineBotController
         if (response.isSuccessful()) {
             UserProfileResponse profile = response.body();
             System.out.println(profile.getDisplayName());
+            System.out.println(profile.getPictureUrl());
+            System.out.println(profile.getStatusMessage());
         } else {
             System.out.println(response.code() + " " + response.message());
         }
