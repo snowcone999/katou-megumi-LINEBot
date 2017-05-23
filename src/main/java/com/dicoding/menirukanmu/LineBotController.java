@@ -7,7 +7,6 @@ import com.linecorp.bot.client.LineSignatureValidator;
 import com.linecorp.bot.model.PushMessage;
 import com.linecorp.bot.model.ReplyMessage;
 import com.linecorp.bot.model.message.TextMessage;
-import com.linecorp.bot.model.profile.UserProfileResponse;
 import com.linecorp.bot.model.response.BotApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -68,12 +67,11 @@ public class LineBotController
             }
 
             if (!payload.events[0].message.type.equals("text")){
-                replyToUser(payload.events[0].replyToken, "Unknown message");
+
             } else {
-                if (payload.events[0].source.type.equals("Hai Katou")) {
-                    msgText = "Hai Juga";
+                if (payload.events[0].message.text.equals("Hai Katou")) {
+                    msgText = "Hai juga";
                     msgText = msgText.toLowerCase();
-                    replyToUser(payload.events[0].replyToken, msgText);
                 }
 
                 if (!msgText.contains("bot leave")){
@@ -158,25 +156,4 @@ public class LineBotController
         }
     }
 
-    private void userProfile(){
-        Response<UserProfileResponse> response =
-                null;
-        try {
-            response = LineMessagingServiceBuilder
-                    .create("<channel access token>")
-                    .build()
-                    .getProfile("<userId>")
-                    .execute();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        if (response.isSuccessful()) {
-            UserProfileResponse profile = response.body();
-            System.out.println(profile.getDisplayName());
-            System.out.println(profile.getPictureUrl());
-            System.out.println(profile.getStatusMessage());
-        } else {
-            System.out.println(response.code() + " " + response.message());
-        }
-    }
 }
