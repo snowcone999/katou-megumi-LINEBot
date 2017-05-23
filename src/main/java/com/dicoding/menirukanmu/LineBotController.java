@@ -73,6 +73,7 @@ public class LineBotController
                 if (payload.events[0].source.type.equals("Hai Katou")) {
                     msgText = "Hai Juga";
                     msgText = msgText.toLowerCase();
+                    replyToUser(payload.events[0].replyToken, msgText);
                 }
 
                 if (!msgText.contains("bot leave")){
