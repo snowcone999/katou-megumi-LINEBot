@@ -87,7 +87,7 @@ public class LineBotController
                 if (payload.events[0].message.text.contains("Katou berapa ")) {
                     String textBerapa = payload.events[0].message.text.substring(0,12);
                     String angka = payload.events[0].message.text.substring(12);
-                    String angkaNumber = "2";
+                    String angkaNumber = "20";
                     String hasil = String.valueOf(angkaNumber);
                     msgText = "Hasil dari "+angka+" adalah "+hasil;
                 }
