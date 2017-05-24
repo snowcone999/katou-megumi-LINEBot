@@ -70,27 +70,25 @@ public class LineBotController
             if (!payload.events[0].message.type.equals("text")){
 
             } else {
-                String pesan = payload.events[0].message.text;
-
-                if (pesan.equals("Hai Katou")) {
+                if (payload.events[0].message.text.equals("Hai Katou")) {
                     msgText = "Hai juga" ;
                     replyToUser(payload.events[0].replyToken, msgText);
                 }
 
-                if (pesan.equals("Katou")) {
-                    msgText = "Nani ?";
+                if (payload.events[0].message.text.equals("Katou")) {
+                    msgText = "Iya";
                     replyToUser(payload.events[0].replyToken, msgText);
                 }
 
-                if (pesan.equals("Oke Katou ucapkan selamat ulang tahun ke ")) {
-                    String textUltah = pesan.substring(0,41);
-                    String namaUltah = pesan.substring(41);
+                if (payload.events[0].message.text.equals("Oke Katou ucapkan selamat ulang tahun ke ")) {
+                    String textUltah = payload.events[0].message.text.substring(0,41);
+                    String namaUltah = payload.events[0].message.text.substring(41);
                     msgText = "Selamat Ulang Tahun "+namaUltah+" :D";
                 }
 
-                if (pesan.equals("Katou berapa ")) {
-                    String textBerapa = pesan.substring(0,12);
-                    String angka = pesan.substring(12);
+                if (payload.events[0].message.text.equals("Katou berapa ")) {
+                    String textBerapa = payload.events[0].message.text.substring(0,12);
+                    String angka = payload.events[0].message.text.substring(12);
                     int angkaNumber = Integer.parseInt(angka);
                     String hasil = String.valueOf(angkaNumber);
                     msgText = "Hasil dari "+angka+" adalah "+hasil;
