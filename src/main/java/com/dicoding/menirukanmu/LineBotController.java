@@ -70,31 +70,31 @@ public class LineBotController
             if (!payload.events[0].message.type.equals("text")){
 
             } else {
-                if (payload.events[0].message.text.equals("Hai Katou")) {
+                String pesan = payload.events[0].message.text;
+
+                if (pesan.equals("Hai Katou")) {
                     msgText = "Hai juga" ;
                     replyToUser(payload.events[0].replyToken, msgText);
                 }
 
-                if (payload.events[0].message.text.equals("Katou")) {
-                    msgText = "Nani ?" ;
+                if (pesan.equals("Katou")) {
+                    msgText = "Nani ?";
                     replyToUser(payload.events[0].replyToken, msgText);
                 }
 
-                String ultah = payload.events[0].message.text;
-                String textUltah = ultah.substring(0,41);
-                String namaUltah = ultah.substring(41);
-                if (textUltah.equals("Oke Katou ucapkan selamat ulang tahun ke ")) {
+                if (pesan.equals("Oke Katou ucapkan selamat ulang tahun ke ")) {
+                    String textUltah = pesan.substring(0,41);
+                    String namaUltah = pesan.substring(41);
                     msgText = "Selamat Ulang Tahun "+namaUltah+" :D";
                 }
 
-//                String ngitung = payload.events[0].message.text;
-//                String textBerapa = ngitung.substring(0,12);
-//                String angka = ngitung.substring(12);
-//                int angkaNumber = Integer.parseInt(angka);
-//                String hasil = String.valueOf(angkaNumber);
-//                if (ngitung.equals("Katou berapa ")) {
-//                    msgText = "Hasil dari "+angka+" adalah "+hasil;
-//                }
+                if (pesan.equals("Katou berapa ")) {
+                    String textBerapa = pesan.substring(0,12);
+                    String angka = pesan.substring(12);
+                    int angkaNumber = Integer.parseInt(angka);
+                    String hasil = String.valueOf(angkaNumber);
+                    msgText = "Hasil dari "+angka+" adalah "+hasil;
+                }
 
 //                if (payload.events[0].message.text.equals("Katou siapa namaku ?")) {
 //                    String iduser = payload.events[0].source.userId;
