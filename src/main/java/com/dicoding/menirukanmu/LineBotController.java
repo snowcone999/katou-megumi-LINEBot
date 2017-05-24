@@ -75,8 +75,11 @@ public class LineBotController
                     msgText = "Hai juga" ;
                 }
 
-                if (payload.events[0].message.text.equals("Oke Katou ucapkan selamat ulang tahun ke lutfi")) {
-                    msgText = "Selamat Ulang Tahun Lutfi :D";
+                String ultah = payload.events[0].message.text;
+                String TextUltah = ultah.substring(42);
+                String namaUltah = ultah.substring(43);
+                if (payload.events[0].message.text.equals(TextUltah)) {
+                    msgText = "Selamat Ulang Tahun "+namaUltah+" :D";
                 }
 
 //                if (payload.events[0].message.text.equals("Katou siapa namaku ?")) {
