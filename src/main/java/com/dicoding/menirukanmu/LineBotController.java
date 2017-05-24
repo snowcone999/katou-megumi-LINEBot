@@ -56,7 +56,7 @@ public class LineBotController
                 replyToUser(payload.events[0].replyToken, "Halo Semuanya :D");
             }
             if (payload.events[0].source.type.equals("room")){
-                replyToUser(payload.events[0].replyToken, "Hello Room");
+                replyToUser(payload.events[0].replyToken, "Halo Semuanya :D");
             }
         } else if (eventType.equals("message")){
             if (payload.events[0].source.type.equals("group")){
@@ -70,9 +70,20 @@ public class LineBotController
             if (!payload.events[0].message.type.equals("text")){
 
             } else {
-                if (payload.events[0].message.text.equals("Hai Katou" + userName();)) {
-                    msgText = "Hai juga";
+                if (payload.events[0].message.text.equals("Hai Katou")) {
+                    String iduser = payload.events[0].source.userId;
+                    msgText = "Hai juga" ;
+                    UserProfileName(iduser) ;
                     msgText = msgText.toLowerCase();
+                }
+
+                if (payload.events[0].message.text.equals("Oke Katou ucapkan selamat ulang tahun ke lutfi")) {
+                    msgText = "Selamat Ulang Tahun Lutfi :D";
+                }
+
+                if (payload.events[0].message.text.equals("Siapa namaku ?")) {
+                    String iduser = payload.events[0].source.userId;
+                    UserProfileName(iduser) ;
                 }
 
                 if (!msgText.contains("bot leave")){
@@ -157,14 +168,14 @@ public class LineBotController
         }
     }
 
-    private void userName(){
+    private void UserProfileName(String TargetId){
         Response<UserProfileResponse> response =
                 null;
         try {
             response = LineMessagingServiceBuilder
                     .create("<channel access token>")
                     .build()
-                    .getProfile("<userId>")
+                    .getProfile(TargetId)
                     .execute();
         } catch (IOException e) {
             e.printStackTrace();
@@ -176,5 +187,4 @@ public class LineBotController
             System.out.println(response.code() + " " + response.message());
         }
     }
-
 }
