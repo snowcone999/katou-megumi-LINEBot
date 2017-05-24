@@ -74,6 +74,10 @@ public class LineBotController
                     msgText = "Hai juga" ;
                 }
 
+                if (payload.events[0].message.text.equals("Katou")) {
+                    msgText = "Nani ?" ;
+                }
+
                 String ultah = payload.events[0].message.text;
                 String textUltah = ultah.substring(0,41);
                 String namaUltah = ultah.substring(41);
@@ -86,7 +90,6 @@ public class LineBotController
                 String angka = ngitung.substring(6);
                 int angkaNumber = Integer.parseInt(angka);
                 String hasil = String.valueOf(angkaNumber);
-                int
                 if (textUltah.equals("Katou berapa ")) {
                     msgText = "Hasil dari "+angka+" adalah "+hasil;
                 }
