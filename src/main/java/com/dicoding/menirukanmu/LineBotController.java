@@ -86,11 +86,11 @@ public class LineBotController
                 }
 
                 String ngitung = payload.events[0].message.text;
-                String textBerapa = ngitung.substring(0,6);
-                String angka = ngitung.substring(6);
+                String textBerapa = ngitung.substring(0,12);
+                String angka = ngitung.substring(12);
                 int angkaNumber = Integer.parseInt(angka);
                 String hasil = String.valueOf(angkaNumber);
-                if (textUltah.equals("Katou berapa ")) {
+                if (ngitung.equals("Katou berapa ")) {
                     msgText = "Hasil dari "+angka+" adalah "+hasil;
                 }
 
