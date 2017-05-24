@@ -72,7 +72,7 @@ public class LineBotController
             } else {
                 if (payload.events[0].message.text.equals("Hai Katou")) {
                     String iduser = payload.events[0].source.userId;
-                    msgText = "Hai juga" +  UserProfileName(iduser) ;
+                    msgText = "Hai juga " +  UserProfileName(iduser) ;
                     msgText = msgText.toLowerCase();
                 }
 
@@ -82,7 +82,7 @@ public class LineBotController
 
                 if (payload.events[0].message.text.equals("Siapa namaku ?")) {
                     String iduser = payload.events[0].source.userId;
-                    msgText = "Namamu" +  UserProfileName(iduser) ;
+                    msgText = "Namamu " +  UserProfileName(iduser) ;
                     msgText = msgText.toLowerCase();
                 }
 
