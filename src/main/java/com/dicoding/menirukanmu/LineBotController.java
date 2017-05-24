@@ -72,10 +72,12 @@ public class LineBotController
             } else {
                 if (payload.events[0].message.text.equals("Hai Katou")) {
                     msgText = "Hai juga" ;
+                    replyToUser(payload.events[0].replyToken, msgText);
                 }
 
                 if (payload.events[0].message.text.equals("Katou")) {
                     msgText = "Nani ?" ;
+                    replyToUser(payload.events[0].replyToken, msgText);
                 }
 
                 String ultah = payload.events[0].message.text;
@@ -85,14 +87,14 @@ public class LineBotController
                     msgText = "Selamat Ulang Tahun "+namaUltah+" :D";
                 }
 
-                String ngitung = payload.events[0].message.text;
-                String textBerapa = ngitung.substring(0,12);
-                String angka = ngitung.substring(12);
-                int angkaNumber = Integer.parseInt(angka);
-                String hasil = String.valueOf(angkaNumber);
-                if (ngitung.equals("Katou berapa ")) {
-                    msgText = "Hasil dari "+angka+" adalah "+hasil;
-                }
+//                String ngitung = payload.events[0].message.text;
+//                String textBerapa = ngitung.substring(0,12);
+//                String angka = ngitung.substring(12);
+//                int angkaNumber = Integer.parseInt(angka);
+//                String hasil = String.valueOf(angkaNumber);
+//                if (ngitung.equals("Katou berapa ")) {
+//                    msgText = "Hasil dari "+angka+" adalah "+hasil;
+//                }
 
 //                if (payload.events[0].message.text.equals("Katou siapa namaku ?")) {
 //                    String iduser = payload.events[0].source.userId;
