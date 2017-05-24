@@ -72,16 +72,16 @@ public class LineBotController
             } else {
                 if (payload.events[0].message.text.equals("Hai Katou")) {
                     String iduser = payload.events[0].source.userId;
-                    msgText = "Hai juga @" +  UserProfileName(iduser) ;
+                    msgText = "Hai juga " +  UserProfileName(iduser) ;
                 }
-                
+
                 if (payload.events[0].message.text.equals("Oke Katou ucapkan selamat ulang tahun ke lutfi")) {
                     msgText = "Selamat Ulang Tahun Lutfi :D";
                 }
 
                 if (payload.events[0].message.text.equals("Katou siapa namaku ?")) {
                     String iduser = payload.events[0].source.userId;
-                    msgText = "Namamu @" +  UserProfileName(iduser) ;
+                    msgText = "Namamu " +  UserProfileName(iduser) ;
                 }
 
                 if (!msgText.contains("bot leave")){
