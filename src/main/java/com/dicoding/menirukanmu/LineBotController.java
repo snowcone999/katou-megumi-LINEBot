@@ -76,8 +76,8 @@ public class LineBotController
                 }
 
                 String ultah = payload.events[0].message.text;
-                String textUltah = ultah.substring(0,42);
-                String namaUltah = ultah.substring(43);
+                String textUltah = ultah.substring(0,41);
+                String namaUltah = ultah.substring(41);
                 if (textUltah.equals("Oke Katou ucapkan selamat ulang tahun ke ")) {
                     msgText = "Selamat Ulang Tahun "+namaUltah+" :D";
                 }
