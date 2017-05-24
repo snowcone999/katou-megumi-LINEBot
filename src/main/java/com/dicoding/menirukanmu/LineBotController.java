@@ -71,7 +71,6 @@ public class LineBotController
 
             } else {
                 if (payload.events[0].message.text.equals("Hai Katou")) {
-                    String iduser = payload.events[0].source.userId;
                     msgText = "Hai juga" ;
                 }
 
@@ -80,6 +79,16 @@ public class LineBotController
                 String namaUltah = ultah.substring(41);
                 if (textUltah.equals("Oke Katou ucapkan selamat ulang tahun ke ")) {
                     msgText = "Selamat Ulang Tahun "+namaUltah+" :D";
+                }
+
+                String ngitung = payload.events[0].message.text;
+                String textBerapa = ngitung.substring(0,6);
+                String angka = ngitung.substring(6);
+                int angkaNumber = Integer.parseInt(angka);
+                String hasil = String.valueOf(angkaNumber);
+                int
+                if (textUltah.equals("Katou berapa ")) {
+                    msgText = "Hasil dari "+angka+" adalah "+hasil;
                 }
 
 //                if (payload.events[0].message.text.equals("Katou siapa namaku ?")) {
