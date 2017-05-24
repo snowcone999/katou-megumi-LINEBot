@@ -18,6 +18,7 @@ import retrofit2.Response;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
 import java.io.IOException;
 
 @RestController
@@ -92,7 +93,12 @@ public class LineBotController
                     String angkaNumber = "20";
                     ScriptEngineManager mgr = new ScriptEngineManager();
                     ScriptEngine engine = mgr.getEngineByName("JavaScript");
-                    int hitung = (engine.eval(angka));
+                    int hitung = 0;
+                    try {
+                        hitung = (int) engine.eval(angka);
+                    } catch (ScriptException e) {
+                        e.printStackTrace();
+                    }
                     String hasil = String.valueOf(hitung);
                     msgText = "Hasil dari "+angka+" adalah "+hasil;
                 }
