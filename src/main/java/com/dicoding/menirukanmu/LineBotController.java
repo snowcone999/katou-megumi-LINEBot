@@ -72,8 +72,7 @@ public class LineBotController
             } else {
                 if (payload.events[0].message.text.equals("Hai Katou")) {
                     String iduser = payload.events[0].source.userId;
-                    msgText = "Hai juga" ;
-                    UserProfileName(iduser) ;
+                    msgText = "Hai juga" +  UserProfileName(iduser) ;
                     msgText = msgText.toLowerCase();
                 }
 
@@ -83,7 +82,8 @@ public class LineBotController
 
                 if (payload.events[0].message.text.equals("Siapa namaku ?")) {
                     String iduser = payload.events[0].source.userId;
-                    UserProfileName(iduser) ;
+                    msgText = "Namamu" +  UserProfileName(iduser) ;
+                    msgText = msgText.toLowerCase();
                 }
 
                 if (!msgText.contains("bot leave")){
@@ -168,23 +168,29 @@ public class LineBotController
         }
     }
 
-    private void UserProfileName(String TargetId){
+    private String UserProfileName(String TargetId) {
         Response<UserProfileResponse> response =
                 null;
         try {
             response = LineMessagingServiceBuilder
-                    .create("<channel access token>")
+                    .create(lChannelAccessToken)
                     .build()
                     .getProfile(TargetId)
                     .execute();
         } catch (IOException e) {
             e.printStackTrace();
         }
+        String nameUser;
+        nameUser = null;
         if (response.isSuccessful()) {
             UserProfileResponse profile = response.body();
-            System.out.println(profile.getDisplayName());
+            nameUser = profile.getDisplayName();
         } else {
             System.out.println(response.code() + " " + response.message());
         }
+
+
+        String name = nameUser;
+        return name;
     }
 }
