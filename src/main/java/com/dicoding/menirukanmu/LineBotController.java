@@ -80,7 +80,7 @@ public class LineBotController
                     msgText = "Selamat Ulang Tahun Lutfi :D";
                 }
 
-                if (payload.events[0].message.text.equals("Siapa namaku ?")) {
+                if (payload.events[0].message.text.equals("Katou Siapa namaku ?")) {
                     String iduser = payload.events[0].source.userId;
                     msgText = "Namamu " +  UserProfileName(iduser) ;
                     msgText = msgText.toLowerCase();
