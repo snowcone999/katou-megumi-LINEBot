@@ -16,6 +16,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import retrofit2.Response;
 
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
 import java.io.IOException;
 
 @RestController
@@ -88,7 +90,10 @@ public class LineBotController
                     String textBerapa = payload.events[0].message.text.substring(0,12);
                     String angka = payload.events[0].message.text.substring(12);
                     String angkaNumber = "20";
-                    String hasil = String.valueOf(angkaNumber);
+                    ScriptEngineManager mgr = new ScriptEngineManager();
+                    ScriptEngine engine = mgr.getEngineByName("JavaScript");
+                    int hitung = (engine.eval(angka));
+                    String hasil = String.valueOf(hitung);
                     msgText = "Hasil dari "+angka+" adalah "+hasil;
                 }
 
