@@ -9,8 +9,6 @@ import com.linecorp.bot.model.ReplyMessage;
 import com.linecorp.bot.model.message.TextMessage;
 import com.linecorp.bot.model.profile.UserProfileResponse;
 import com.linecorp.bot.model.response.BotApiResponse;
-import com.teknikindustries.yahooweather.WeatherDisplay;
-import com.teknikindustries.yahooweather.WeatherDoc;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -86,10 +84,6 @@ public class LineBotController
 
                 if (payload.events[0].message.text.equals("Katou ramal")) {
                     msgText = getRandom(ramal);
-                }
-
-                if (payload.events[0].message.text.equals("Katou ramal cuaca")) {
-                    msgText = getWeather();
                 }
 
                 if (payload.events[0].message.text.contains("Oke Katou ucapkan selamat ulang tahun ke ")) {
@@ -245,12 +239,4 @@ public class LineBotController
         return textArray;
     }
 
-    private String getWeather(){
-        WeatherDoc doc = new WeatherDoc("1030077","c");
-        WeatherDisplay disp = new WeatherDisplay();
-
-        String Suhu = disp.getTemperature();
-
-        return Suhu;
-    }
 }
