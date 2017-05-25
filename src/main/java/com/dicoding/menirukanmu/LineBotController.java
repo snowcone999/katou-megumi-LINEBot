@@ -20,6 +20,7 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 import java.io.IOException;
+import java.util.Random;
 
 @RestController
 @RequestMapping(value="/linebot")
@@ -79,6 +80,10 @@ public class LineBotController
 
                 if (payload.events[0].message.text.equals("Katou")) {
                     msgText = "Iya";
+                }
+
+                if (payload.events[0].message.text.equals("Katou Ramal")) {
+                    msgText = getRandom(ramal);
                 }
 
                 if (payload.events[0].message.text.contains("Oke Katou ucapkan selamat ulang tahun ke ")) {
@@ -214,5 +219,23 @@ public class LineBotController
 
         String name = nameUser;
         return name;
+    }
+
+    //ramal Quotes
+    String[] ramal ={
+            "Berhati-hatilah hari ini adalah hari tersial mu",
+            "Hari ini mungkin agak menyusahkan bagimu jadi berhati-hatilah",
+            "Hari ini mungkin kamu akan menemukan jodohmu",
+            "Hari ini mungkin akan sangat menguntungkan bagi keuanganmu",
+            "Tiada hari yang lebih baik dari hari ini bagimu"
+    };
+
+    private String getRandom(String[] array){
+        Random n = new Random();
+
+        int i = n.nextInt(array.length) + 0;
+        String  textArray = array[i];
+
+        return textArray;
     }
 }
