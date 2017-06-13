@@ -283,7 +283,7 @@ public class LineBotController
         String fileType = "png,jpg";
         String searchType = "image";
         URL url = new URL(
-                "https://www.googleapis.com/customsearch/v1?key=" +key+ "&amp;cx=" +cx+ "&amp;q=" +qry+"&amp;fileType="+fileType+"&amp;searchType="+searchType+"&amp;num=1;alt=json");
+                "https://www.googleapis.com/customsearch/v1?key=" +key+ ";cx=" +cx+ ";q=" +qry+";fileType="+fileType+";searchType="+searchType+";num=1;alt=json");
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");
         conn.setRequestProperty("Accept", "application/json");
