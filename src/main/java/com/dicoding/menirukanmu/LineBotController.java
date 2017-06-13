@@ -6,9 +6,12 @@ import com.linecorp.bot.client.LineMessagingServiceBuilder;
 import com.linecorp.bot.client.LineSignatureValidator;
 import com.linecorp.bot.model.PushMessage;
 import com.linecorp.bot.model.ReplyMessage;
+import com.linecorp.bot.model.message.ImageMessage;
 import com.linecorp.bot.model.message.TextMessage;
 import com.linecorp.bot.model.profile.UserProfileResponse;
 import com.linecorp.bot.model.response.BotApiResponse;
+import org.json.JSONObject;
+import org.json.JSONString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -19,7 +22,13 @@ import retrofit2.Response;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.Random;
 
 @RestController
@@ -86,6 +95,20 @@ public class LineBotController
                     msgText = getRandom(ramal);
                 }
 
+                if (payload.events[0].message.text.equals("Katou cari gambar ")) {
+                    String textGambar= payload.events[0].message.text.substring(18);
+                    try {
+                        String url = Search(textGambar);
+                        replyToUserImage(payload.events[0].replyToken,url,url);
+                    } catch (URISyntaxException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+
+                }
+
                 if (payload.events[0].message.text.contains("Oke Katou ucapkan selamat ulang tahun ke ")) {
                     String textUltah = payload.events[0].message.text.substring(0,41);
                     String namaUltah = payload.events[0].message.text.substring(41);
@@ -149,6 +172,22 @@ public class LineBotController
                 .build()
                 .replyMessage(replyMessage)
                 .execute();
+            System.out.println("Reply Message: " + response.code() + " " + response.message());
+        } catch (IOException e) {
+            System.out.println("Exception is raised ");
+            e.printStackTrace();
+        }
+    }
+
+    private void replyToUserImage(String rToken, String imageUrl, String previewURl){
+        ImageMessage imgMessage = new ImageMessage(imageUrl,previewURl);
+        ReplyMessage replyMessage = new ReplyMessage(rToken, imgMessage);
+        try {
+            Response<BotApiResponse> response = LineMessagingServiceBuilder
+                    .create(lChannelAccessToken)
+                    .build()
+                    .replyMessage(replyMessage)
+                    .execute();
             System.out.println("Reply Message: " + response.code() + " " + response.message());
         } catch (IOException e) {
             System.out.println("Exception is raised ");
@@ -233,10 +272,29 @@ public class LineBotController
     private String getRandom(String[] array){
         Random n = new Random();
 
-        int i = n.nextInt(array.length) + 0;
+        int i = n.nextInt(array.length);
         String  textArray = array[i];
 
         return textArray;
+    }
+
+    private String Search(String text)  throws MalformedURLException, URISyntaxException, IOException {
+        String key = "AIzaSyDlrK6kokD3dDhSoWQKCz3oMAaJMCqaQqM";
+        String qry = text;
+        String cx  = "016498147224075515320:ukepxzq_vus";
+        String fileType = "png,jpg";
+        String searchType = "image";
+        URL url = new URL("https://www.googleapis.com/customsearch/v1?key=" +key+ "&amp;cx=" +cx+ "&amp;q=" +qry+"&amp;fileType="+fileType+"&amp;searchType="+searchType+"&amp;num=1;alt=json");
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("GET");
+        conn.setRequestProperty("Accept", "application/json");
+        BufferedReader br = new BufferedReader(new InputStreamReader( ( conn.getInputStream() ) ) );
+        JSONObject hasil = new JSONObject(br);
+        JSONObject link = hasil.getJSONObject("items");
+        String linkImage = link.getString("link");
+        conn.disconnect();
+
+        return linkImage;
     }
 
 }
