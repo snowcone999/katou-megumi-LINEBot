@@ -279,25 +279,26 @@ public class LineBotController
         String key = "AIzaSyDlrK6kokD3dDhSoWQKCz3oMAaJMCqaQqM";
         String qry = text;
         String cx  = "016498147224075515320:ukepxzq_vus";
-        String fileType = "png,jpg";
-        String searchType = "image";
-        URL url = new URL("https://www.googleapis.com/customsearch/v1?key=" +key+ "&amp;cx=" +cx+ "&amp;q=" +qry+"&amp;fileType="+fileType+"&amp;searchType="+searchType+"&amp;num=1;alt=json");
+        URL url = new URL(
+                "https://www.googleapis.com/customsearch/v1?key="+key+ "&cx=016498147224075515320:ukepxzq_vus&q="+ qry + "&alt=json");
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");
         conn.setRequestProperty("Accept", "application/json");
-        BufferedReader br = new BufferedReader(new InputStreamReader( ( conn.getInputStream() ) ) );
+        BufferedReader br = new BufferedReader(new InputStreamReader(
+                (conn.getInputStream())));
 
         String output;
+        String gagal = "gagal";
         System.out.println("Output from Server .... \n");
         while ((output = br.readLine()) != null) {
-
-            if(output.contains("\"link\": \"")) {
-                String link = output.substring(output.indexOf("\"link\": \"") + ("\"link\": \"").length(), output.indexOf("\","));
-                return link;
+            if(output.contains("\"link\": \"")){
+                String link=output.substring(output.indexOf("\"link\": \"")+("\"link\": \"").length(), output.indexOf("\","));
+               return link;    //Will print the google search links
             }
         }
         conn.disconnect();
-        return output;
+        return gagal;
+
 
     }
 
