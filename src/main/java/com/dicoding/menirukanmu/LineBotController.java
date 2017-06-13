@@ -291,8 +291,8 @@ public class LineBotController
                 (conn.getInputStream())));
         JSONObject object = new JSONObject(br);
         JSONArray jArray = object.getJSONArray("items");
-        JSONObject object = jArray.getJSONObject(0);
-        String link = object.getString("link");
+        JSONObject object2 = jArray.getJSONObject(0);
+        String link = object2.getString("link");
         conn.disconnect();
         return  link;
     }
