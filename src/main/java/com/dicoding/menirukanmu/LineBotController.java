@@ -97,16 +97,7 @@ public class LineBotController
 
                 if (payload.events[0].message.text.equals("Katou cari gambar ")) {
                     String textGambar= payload.events[0].message.text.substring(18);
-
-                    try {
-                        msgText = textGambar;
-                    } catch (URISyntaxException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
-
+                    msgText = textGambar;
                 }
 
                 if (payload.events[0].message.text.contains("Oke Katou ucapkan selamat ulang tahun ke ")) {
