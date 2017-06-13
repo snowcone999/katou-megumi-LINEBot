@@ -280,7 +280,7 @@ public class LineBotController
         String qry = text;
         String cx  = "016498147224075515320:ukepxzq_vus";
         URL url = new URL(
-                "https://www.googleapis.com/customsearch/v1?key="+key+ "&cx=016498147224075515320:ukepxzq_vus&q="+ qry + "&alt=json");
+                "https://www.googleapis.com/customsearch/v1?key="+key+ "&cx=016498147224075515320:ukepxzq_vus&q="+ qry + "&searchtype=img&filetype=png,jpg&alt=json");
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");
         conn.setRequestProperty("Accept", "application/json");
