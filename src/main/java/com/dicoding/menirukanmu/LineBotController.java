@@ -289,9 +289,18 @@ public class LineBotController
         conn.setRequestProperty("Accept", "application/json");
         BufferedReader br = new BufferedReader(new InputStreamReader(
                 (conn.getInputStream())));
-        String link = br.toString();
+        String output;
+        String gagal = "gagal";
+        System.out.println("Output from Server .... \n");
+        while ((output = br.readLine()) != null) {
+
+            if(output.contains("\"link\": \"")){
+                String link=output.substring(output.indexOf("\"link\": \"")+("\"link\": \"").length(), output.indexOf("\","));
+                return  link;
+            }
+        }
         conn.disconnect();
-        return  link;
+        return  gagal;
     }
 
 }
