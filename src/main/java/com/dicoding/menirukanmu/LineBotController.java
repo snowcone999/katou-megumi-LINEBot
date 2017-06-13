@@ -289,10 +289,7 @@ public class LineBotController
         conn.setRequestProperty("Accept", "application/json");
         BufferedReader br = new BufferedReader(new InputStreamReader(
                 (conn.getInputStream())));
-        JSONObject object = new JSONObject(br);
-        JSONArray jArray = object.getJSONArray("items");
-        JSONObject object2 = jArray.getJSONObject(0);
-        String link = object2.getString("link");
+        String link = br;
         conn.disconnect();
         return  link;
     }
