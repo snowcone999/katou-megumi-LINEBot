@@ -97,9 +97,10 @@ public class LineBotController
 
                 if (payload.events[0].message.text.equals("Katou cari gambar ")) {
                     String textGambar= payload.events[0].message.text.substring(18);
+
                     try {
                         String url = Search(textGambar);
-                        replyToUserImage(payload.events[0].replyToken,url,url);
+                        msgText = url;
                     } catch (URISyntaxException e) {
                         e.printStackTrace();
                     } catch (IOException e) {
@@ -112,7 +113,7 @@ public class LineBotController
                 if (payload.events[0].message.text.contains("Oke Katou ucapkan selamat ulang tahun ke ")) {
                     String textUltah = payload.events[0].message.text.substring(0,41);
                     String namaUltah = payload.events[0].message.text.substring(41);
-                    msgText = "Selamat Ulang Tahun "+namaUltah+" :D";
+
                 }
 
                 if (payload.events[0].message.text.contains("Katou berapa ")) {
