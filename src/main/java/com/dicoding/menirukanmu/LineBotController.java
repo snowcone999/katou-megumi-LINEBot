@@ -289,8 +289,9 @@ public class LineBotController
         BufferedReader br = new BufferedReader(new InputStreamReader(
                 (conn.getInputStream())));
         GResults results = new Gson().fromJson(br, GResults.class);
-        String path  = results.getLink(0)
+        String path  = results.getLink(0);
         conn.disconnect();
+        return  path;
     }
 
 }
