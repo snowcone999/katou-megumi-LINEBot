@@ -10,6 +10,7 @@ import com.linecorp.bot.model.message.ImageMessage;
 import com.linecorp.bot.model.message.TextMessage;
 import com.linecorp.bot.model.profile.UserProfileResponse;
 import com.linecorp.bot.model.response.BotApiResponse;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONString;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -288,9 +289,10 @@ public class LineBotController
         conn.setRequestProperty("Accept", "application/json");
         BufferedReader br = new BufferedReader(new InputStreamReader(
                 (conn.getInputStream())));
-        JSONObject json = new JSONObject(br);
-        String statistics = json.getString("item");
-        String link = json.getString("link");
+        JSONObject object = new JSONObject(br);
+        JSONArray jArray = object.getJSONArray("items");
+        JSONObject object = jArray.getJSONObject(0);
+        String link = object.getString("link");
         conn.disconnect();
         return  link;
     }
