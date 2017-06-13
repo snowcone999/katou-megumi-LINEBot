@@ -99,8 +99,7 @@ public class LineBotController
                     String textGambar= payload.events[0].message.text.substring(18);
 
                     try {
-                        String url = Search(textGambar);
-                        msgText = url;
+                        msgText = textGambar;
                     } catch (URISyntaxException e) {
                         e.printStackTrace();
                     } catch (IOException e) {
