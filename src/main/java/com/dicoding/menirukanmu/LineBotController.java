@@ -276,23 +276,29 @@ public class LineBotController
     }
 
     private String Search(String text)  throws MalformedURLException, URISyntaxException, IOException {
-//        String key = "AIzaSyDlrK6kokD3dDhSoWQKCz3oMAaJMCqaQqM";
-//        String qry = text;
-//        String cx  = "016498147224075515320:ukepxzq_vus";
-//        String fileType = "png,jpg";
-//        String searchType = "image";
-//        URL url = new URL("https://www.googleapis.com/customsearch/v1?key=" +key+ "&amp;cx=" +cx+ "&amp;q=" +qry+"&amp;fileType="+fileType+"&amp;searchType="+searchType+"&amp;num=1;alt=json");
-//        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-//        conn.setRequestMethod("GET");
-//        conn.setRequestProperty("Accept", "application/json");
-//        BufferedReader br = new BufferedReader(new InputStreamReader( ( conn.getInputStream() ) ) );
-//        JSONObject hasil = new JSONObject(br);
-//        JSONObject link = hasil.getJSONObject("items");
-//        String linkImage = link.getString("link");
-//        conn.disconnect();
-        String linkImage = text;
+        String key = "AIzaSyDlrK6kokD3dDhSoWQKCz3oMAaJMCqaQqM";
+        String qry = text;
+        String cx  = "016498147224075515320:ukepxzq_vus";
+        String fileType = "png,jpg";
+        String searchType = "image";
+        URL url = new URL("https://www.googleapis.com/customsearch/v1?key=" +key+ "&amp;cx=" +cx+ "&amp;q=" +qry+"&amp;fileType="+fileType+"&amp;searchType="+searchType+"&amp;num=1;alt=json");
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("GET");
+        conn.setRequestProperty("Accept", "application/json");
+        BufferedReader br = new BufferedReader(new InputStreamReader( ( conn.getInputStream() ) ) );
 
-        return linkImage;
+        String output;
+        System.out.println("Output from Server .... \n");
+        while ((output = br.readLine()) != null) {
+
+            if(output.contains("\"link\": \"")) {
+                String link = output.substring(output.indexOf("\"link\": \"") + ("\"link\": \"").length(), output.indexOf("\","));
+                return link;
+            }
+        }
+        conn.disconnect();
+        return output;
+
     }
 
 }
