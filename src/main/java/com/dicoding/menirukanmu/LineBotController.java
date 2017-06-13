@@ -99,7 +99,8 @@ public class LineBotController
                 if (payload.events[0].message.text.contains("Katou cari gambar ")) {
                     String textGambar= payload.events[0].message.text.substring(18);
                     try {
-                       msgText = Search(textGambar);
+                       String urlImg = Search(textGambar);
+                       replyToUserImage(payload.events[0].replyToken,urlImg,urlImg);
                     } catch (URISyntaxException e) {
                         e.printStackTrace();
                     } catch (IOException e) {
