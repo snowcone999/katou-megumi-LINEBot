@@ -13,6 +13,10 @@ import com.linecorp.bot.model.response.BotApiResponse;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONString;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -94,6 +98,16 @@ public class LineBotController
 
                 if (payload.events[0].message.text.equals("Katou ramal")) {
                     msgText = getRandom(ramal);
+                }
+
+                if (payload.events[0].message.text.contains("Katou apa itu ")) {
+                    String textTanya= payload.events[0].message.text.substring(14);
+                    try {
+                        String jawaban = wiki(textTanya);
+                        msgText = jawaban;
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
 
                 if (payload.events[0].message.text.contains("Katou cari gambar ")) {
@@ -304,5 +318,19 @@ public class LineBotController
         return  gagal;
     }
 
+    private String wiki(String text) throws IOException{
+        String gagal = "Maaf tidak ditemukan referensi dengan keyword : "+text;
+        String url = "http://id.wikipedia.org/wiki/"+text;
+        Document doc;
+        doc = Jsoup.connect(url).get();
+        Elements paragraph = doc.select(".mw-output-parser");
+        Element firstParagraph = paragraph.first();
+
+        if(firstParagraph != null){
+            return String.valueOf(firstParagraph);
+        }else{
+            return gagal;
+        }
+    }
 }
 
