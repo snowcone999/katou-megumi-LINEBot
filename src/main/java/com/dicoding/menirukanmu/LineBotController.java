@@ -8,6 +8,7 @@ import com.linecorp.bot.model.PushMessage;
 import com.linecorp.bot.model.ReplyMessage;
 import com.linecorp.bot.model.message.ImageMessage;
 import com.linecorp.bot.model.message.TextMessage;
+import com.linecorp.bot.model.message.VideoMessage;
 import com.linecorp.bot.model.profile.UserProfileResponse;
 import com.linecorp.bot.model.response.BotApiResponse;
 import org.json.JSONArray;
@@ -98,6 +99,12 @@ public class LineBotController
 
                 if (payload.events[0].message.text.equals("Katou ramal")) {
                     msgText = getRandom(ramal);
+                }
+
+                if (payload.events[0].message.text.equals("Katou cari video")) {
+                    String videoUrl = "https://www.youtube.com/watch?v=us2SQF9nbPI";
+                    String thumbnailUrl = "https://i.ytimg.com/vi/hjTAakwP924/hqdefault.jpg?custom=true&w=246&h=138&stc=true&jpg444=true&jpgq=90&sp=68&sigh=Y9NwGg7Kltm6L-tr1TpUlaCnEOw";
+                    replyToUserVideo(payload.events[0].replyToken, videoUrl, thumbnailUrl);
                 }
 
                 if (payload.events[0].message.text.contains("Katou apa itu ")) {
@@ -332,6 +339,36 @@ public class LineBotController
             return jawaban;
         }else{
             return gagal;
+        }
+    }
+
+    private String lirik(String artis,String lagu) throws IOException{
+        String url = "https://lirik.kapanlagi.com/artis/"+artis+"/"+lagu;
+        Document doc;
+        doc = Jsoup.connect(url).get();
+        Elements lirik = doc.select(" .mw-parser-output p");
+        String jawaban = lirik.text();
+
+        if(lirik != null){
+            return jawaban;
+        }else{
+            return null;
+        }
+    }
+
+    private void replyToUserVideo(String rToken, String videoUrl, String thumbnailURl){
+        VideoMessage videoMessage = new VideoMessage(videoUrl,thumbnailURl);
+        ReplyMessage replyMessage = new ReplyMessage(rToken, videoMessage);
+        try {
+            Response<BotApiResponse> response = LineMessagingServiceBuilder
+                    .create(lChannelAccessToken)
+                    .build()
+                    .replyMessage(replyMessage)
+                    .execute();
+            System.out.println("Reply Message: " + response.code() + " " + response.message());
+        } catch (IOException e) {
+            System.out.println("Exception is raised ");
+            e.printStackTrace();
         }
     }
 }
