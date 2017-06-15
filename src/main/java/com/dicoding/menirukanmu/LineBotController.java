@@ -325,7 +325,7 @@ public class LineBotController
         doc = Jsoup.connect(url).get();
         Elements paragraph = doc.select(" .mw-parser-output p");
         Element firstParagraph = paragraph.first();
-        String readMore = "Read More : "+url;
+        String readMore = " Read More : "+url;
         String jawaban = firstParagraph.text()+readMore;
 
         if(paragraph != null){
