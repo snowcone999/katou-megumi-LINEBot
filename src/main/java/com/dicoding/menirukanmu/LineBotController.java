@@ -323,11 +323,12 @@ public class LineBotController
         String url = "http://id.wikipedia.org/wiki/"+text;
         Document doc;
         doc = Jsoup.connect(url).get();
-        Elements paragraph = doc.select(".mw-output-parser p");
+        Elements paragraph = doc.select(" .mw-parser-output p");
         Element firstParagraph = paragraph.first();
+        String jawaban = firstParagraph.text();
 
         if(firstParagraph != null){
-            return String.valueOf(firstParagraph);
+            return jawaban;
         }else{
             return gagal;
         }
