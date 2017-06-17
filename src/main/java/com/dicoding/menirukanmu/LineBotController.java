@@ -371,5 +371,6 @@ public class LineBotController
             e.printStackTrace();
         }
     }
+
 }
 
