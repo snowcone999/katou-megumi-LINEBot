@@ -5,11 +5,11 @@ Bot for LINE
 
 --
 Katou -- 
-Jawab : iya
+Jawaban : iya
 
 --
 Hai Katou  -- 
-Jawab : Hai juga
+Jawaban : Hai juga
 
 --
 Katou perkenalkan dirimu -- 
