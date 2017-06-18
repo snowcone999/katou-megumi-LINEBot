@@ -119,6 +119,7 @@ public class LineBotController
                         msgText = jawaban;
                     } catch (IOException e) {
                         e.printStackTrace();
+                        msgText = "Tidak ditemukan hasil dengan keyword : "+payload.events[0].message.text;
                     }
                 }
 
@@ -351,13 +352,7 @@ public class LineBotController
         String extract = yourDesiredElement.getAsJsonObject().get("extract").getAsString();
         String gagal = "Tidak ditemukan hasil dengan keyword : "+text;
 
-        if(yourDesiredElement.isJsonNull()){
-            return gagal;
-        }else{
-            return extract;
-        }
-
-
+        return extract;
     }
 
     private String lirik(String artis,String lagu) throws IOException{
