@@ -351,11 +351,12 @@ public class LineBotController
         String extract = yourDesiredElement.getAsJsonObject().get("extract").getAsString();
         String gagal = "Tidak ditemukan hasil dengan keyword : "+text;
 
-        if(extract.equals("")){
+        if(String.valueOf(yourDesiredElement).contains("missing"){
             return gagal;
         }else{
             return extract;
         }
+
 
     }
 
