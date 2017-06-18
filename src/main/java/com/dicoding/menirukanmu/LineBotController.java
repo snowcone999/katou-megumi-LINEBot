@@ -353,13 +353,13 @@ public class LineBotController
             yourDesiredElement = entry.getValue();
         }
 
-        String extract = yourDesiredElement.getAsJsonObject().get("extract").getAsString()+" Read More : "+urls;
+        String extract = yourDesiredElement.getAsJsonObject().get("extract").getAsString();
         String gagalCari = "Link dialihkan ke "+urls;
 
         if(extract.equals("")){
             return gagalCari;
         }else{
-            return extract;
+            return extract+" Read More : "+urls;
         }
     }
 
