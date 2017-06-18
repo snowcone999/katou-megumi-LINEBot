@@ -122,7 +122,7 @@ public class LineBotController
 
                     } catch (NullPointerException e){
                         e.printStackTrace();
-                        msgText = "Tidak ditemukan hasil dengan keyword : "+payload.events[0].message.text;
+                        msgText = "Tidak ditemukan hasil dengan keyword : "+textTanya;
                     }
                 }
 
