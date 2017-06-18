@@ -333,7 +333,7 @@ public class LineBotController
     private String wiki(String text) throws IOException{
 
         // Connect to the URL using java's native library
-        URL url = new URL("https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro=&explaintext=&titles="+text);
+        URL url = new URL("https://id.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro=&explaintext=&titles="+text);
         HttpURLConnection request = (HttpURLConnection) url.openConnection();
         request.connect();
 
