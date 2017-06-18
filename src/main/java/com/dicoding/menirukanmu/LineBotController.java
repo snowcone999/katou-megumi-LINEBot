@@ -354,9 +354,13 @@ public class LineBotController
         }
 
         String extract = yourDesiredElement.getAsJsonObject().get("extract").getAsString()+" Read More : "+urls;
-        String gagal = "Tidak ditemukan hasil dengan keyword : "+text;
+        String gagalCari = "Link dialihkan ke "+urls;
 
-        return extract;
+        if(extract.equals("")){
+            return gagalCari;
+        }else{
+            return extract;
+        }
     }
 
     private String lirik(String artis,String lagu) throws IOException{
