@@ -351,7 +351,7 @@ public class LineBotController
         String extract = yourDesiredElement.getAsJsonObject().get("extract").getAsString();
         String gagal = "Tidak ditemukan hasil dengan keyword : "+text;
 
-        if(extract.contains("")){
+        if(extract.equals("")){
             return gagal;
         }else{
             return extract;
