@@ -2,6 +2,8 @@
 package com.dicoding.menirukanmu;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 import com.linecorp.bot.client.LineMessagingServiceBuilder;
 import com.linecorp.bot.client.LineSignatureValidator;
 import com.linecorp.bot.model.PushMessage;
@@ -30,12 +32,15 @@ import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 
 @RestController
 @RequestMapping(value="/linebot")
@@ -326,20 +331,32 @@ public class LineBotController
     }
 
     private String wiki(String text) throws IOException{
-        String gagal = "Maaf tidak ditemukan referensi dengan keyword : "+text;
-        String url = "http://id.wikipedia.org/wiki/"+text;
-        Document doc;
-        doc = Jsoup.connect(url).get();
-        Elements paragraph = doc.select(" .mw-parser-output p");
-        Element firstParagraph = paragraph.first();
-        String readMore = " Read More : "+url;
-        String jawaban = firstParagraph.text()+readMore;
 
-        if(paragraph != null){
-            return jawaban;
-        }else{
-            return gagal;
+        // Connect to the URL using java's native library
+        URL url = new URL("https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro=&explaintext=&titles="+text);
+        HttpURLConnection request = (HttpURLConnection) url.openConnection();
+        request.connect();
+
+        JsonElement jsonElement = new JsonParser().parse(new InputStreamReader((InputStream) request.getContent()));
+        JsonElement pages = jsonElement.getAsJsonObject().get("query").getAsJsonObject().get("pages");
+
+        Set<Map.Entry<String, JsonElement>> entrySet = pages.getAsJsonObject().entrySet();
+
+        JsonElement yourDesiredElement = null;
+
+        for(Map.Entry<String,JsonElement> entry : entrySet){
+            yourDesiredElement = entry.getValue();
         }
+
+        String extract = yourDesiredElement.getAsJsonObject().get("extract").getAsString();
+        String gagal = "Tidak ditemukan hasil dengan keyword : "+text;
+
+        if(extract.contains("")){
+            return gagal;
+        }else{
+            return extract;
+        }
+
     }
 
     private String lirik(String artis,String lagu) throws IOException{
