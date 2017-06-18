@@ -114,7 +114,7 @@ public class LineBotController
 
                 if (payload.events[0].message.text.contains("Katou apa itu ")) {
                     String textTanya= payload.events[0].message.text.substring(14);
-                    textTanya.replaceAll("\\s+","_");
+                    textTanya = textTanya.replaceAll("\\s+","_");
                     try {
                         String jawaban = wiki(textTanya);
                         msgText = jawaban;
