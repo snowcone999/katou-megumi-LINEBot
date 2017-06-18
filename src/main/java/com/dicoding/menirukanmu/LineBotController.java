@@ -114,6 +114,7 @@ public class LineBotController
 
                 if (payload.events[0].message.text.contains("Katou apa itu ")) {
                     String textTanya= payload.events[0].message.text.substring(14);
+                    textTanya.replaceAll("\\s+","_");
                     try {
                         String jawaban = wiki(textTanya);
                         msgText = jawaban;
@@ -335,7 +336,7 @@ public class LineBotController
     }
 
     private String wiki(String text) throws IOException{
-        String urls = "https://id.wikipeida.org/wiki/"+text;
+        String urls = "https://id.wikipedia.org/wiki/"+text;
         // Connect to the URL using java's native library
         URL url = new URL("https://id.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro=&explaintext=&titles="+text);
         HttpURLConnection request = (HttpURLConnection) url.openConnection();
