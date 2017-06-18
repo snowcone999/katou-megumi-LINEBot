@@ -119,6 +119,9 @@ public class LineBotController
                         msgText = jawaban;
                     } catch (IOException e) {
                         e.printStackTrace();
+
+                    } catch (NullPointerException e){
+                        e.printStackTrace();
                         msgText = "Tidak ditemukan hasil dengan keyword : "+payload.events[0].message.text;
                     }
                 }
@@ -332,7 +335,7 @@ public class LineBotController
     }
 
     private String wiki(String text) throws IOException{
-
+        String urls = "https://id.wikipeida.org/wiki/"+text;
         // Connect to the URL using java's native library
         URL url = new URL("https://id.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro=&explaintext=&titles="+text);
         HttpURLConnection request = (HttpURLConnection) url.openConnection();
@@ -349,7 +352,7 @@ public class LineBotController
             yourDesiredElement = entry.getValue();
         }
 
-        String extract = yourDesiredElement.getAsJsonObject().get("extract").getAsString();
+        String extract = yourDesiredElement.getAsJsonObject().get("extract").getAsString()+" Read More : "+urls;
         String gagal = "Tidak ditemukan hasil dengan keyword : "+text;
 
         return extract;
