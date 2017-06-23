@@ -42,3 +42,7 @@ Jawaban : Selamat Ulang Tahun (nama) :D
 --
 Katou cuaca (nama kota) -- 
 Jawaban : Cuaca
+
+--
+Katou keyword -- 
+Jawaban : keyword yang ada di Katou
