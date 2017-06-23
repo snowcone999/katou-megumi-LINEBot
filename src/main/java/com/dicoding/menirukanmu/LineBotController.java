@@ -376,7 +376,7 @@ public class LineBotController
     private static String forecastweather(String text)  throws MalformedURLException, URISyntaxException, IOException {
 
         // Connect to the URL using java's native library
-        URL url = new URL("http://api.openweathermap.org/data/2.5/weather?q="+text+",ID&units=metric&APPID=2505c1215671faf783b59b44620d4218");
+        URL url = new URL("http://api.openweathermap.org/data/2.5/weather?q="+text+"&units=metric&APPID=2505c1215671faf783b59b44620d4218");
         HttpURLConnection request = (HttpURLConnection) url.openConnection();
         request.connect();
 
