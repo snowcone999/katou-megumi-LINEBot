@@ -28,7 +28,7 @@ Katou ramal --
 Jawaban : text ramalan
 
 --
-Katou apa itu (text_text) -- 
+Katou apa itu (text text) -- 
 Jawaban : hasil dari wikipedia indonesia
 
 --
@@ -42,3 +42,7 @@ Jawaban : Selamat Ulang Tahun (nama) :D
 --
 Katou cuaca (nama kota) -- 
 Jawaban : Cuaca
+
+--
+Katou keyword -- 
+Jawaban : keyword yang ada di Katou
