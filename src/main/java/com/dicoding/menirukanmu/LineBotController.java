@@ -1,9 +1,7 @@
 
 package com.dicoding.menirukanmu;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
+import com.google.gson.*;
 import com.linecorp.bot.client.LineMessagingServiceBuilder;
 import com.linecorp.bot.client.LineSignatureValidator;
 import com.linecorp.bot.model.PushMessage;
@@ -38,9 +36,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.Map;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 
 @RestController
 @RequestMapping(value="/linebot")
@@ -322,28 +318,29 @@ public class LineBotController
     private String Search(String text)  throws MalformedURLException, URISyntaxException, IOException {
         String key = "AIzaSyDlrK6kokD3dDhSoWQKCz3oMAaJMCqaQqM";
         String qry = text;
-        String cx  = "016498147224075515320:ukepxzq_vus";
+        String cx = "016498147224075515320:ukepxzq_vus";
         String fileType = "png,jpg";
         String searchType = "image";
         URL url = new URL(
-                "https://www.googleapis.com/customsearch/v1?key=" +key+ "&cx=" +cx+ "&q=" +qry+"&fileType="+fileType+"&searchType="+searchType+"&num=1&alt=json");
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestMethod("GET");
-        conn.setRequestProperty("Accept", "application/json");
-        BufferedReader br = new BufferedReader(new InputStreamReader(
-                (conn.getInputStream())));
-        String output;
-        String gagal = "gagal";
-        System.out.println("Output from Server .... \n");
-        while ((output = br.readLine()) != null) {
+                "https://www.googleapis.com/customsearch/v1?key=" + key + "&cx=" + cx + "&q=" + qry + "&fileType=" + fileType + "&searchType=" + searchType + "&num=1&alt=json");
+        HttpURLConnection request = (HttpURLConnection) url.openConnection();
+        request.connect();
 
-            if(output.contains("\"link\": \"")){
-                String link=output.substring(output.indexOf("\"link\": \"")+("\"link\": \"").length(), output.indexOf("\","));
-                return  link;
-            }
+        JsonElement jsonElement = new JsonParser().parse(new InputStreamReader((InputStream) request.getContent()));
+        JsonArray items = jsonElement.getAsJsonObject().getAsJsonArray("items");
+
+        List<String> list = null;
+
+        for (JsonElement it : items) {
+            JsonObject itemsObj = it.getAsJsonObject();
+            String link = itemsObj.get("link").getAsString();
+            list = new ArrayList<String>();
+            list.add(link);
         }
-        conn.disconnect();
-        return  gagal;
+
+        Random randomizer = new Random();
+        String linkImg = list.get(randomizer.nextInt(list.size()));
+        return linkImg;
     }
 
     private String wiki(String text) throws IOException{
