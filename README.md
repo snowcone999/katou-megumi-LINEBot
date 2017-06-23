@@ -28,7 +28,7 @@ Katou ramal --
 Jawaban : text ramalan
 
 --
-Katou apa itu (text_text) -- 
+Katou apa itu (text text) -- 
 Jawaban : hasil dari wikipedia indonesia
 
 --
