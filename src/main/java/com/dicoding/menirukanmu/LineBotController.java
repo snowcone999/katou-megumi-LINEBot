@@ -139,6 +139,17 @@ public class LineBotController
                     }
                 }
 
+                if (payload.events[0].message.text.contains("Katou cuaca ")) {
+                    String namaKota = payload.events[0].message.text.substring(12);
+                    try {
+                        msgText = forecastweather(namaKota);
+                    } catch (URISyntaxException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+
                 if (payload.events[0].message.text.contains("Oke Katou ucapkan selamat ulang tahun ke ")) {
                     String textUltah = payload.events[0].message.text.substring(0,41);
                     String namaUltah = payload.events[0].message.text.substring(41);
@@ -361,6 +372,27 @@ public class LineBotController
         }else{
             return extract+" Read More : "+urls;
         }
+    }
+    private static String forecastweather(String text)  throws MalformedURLException, URISyntaxException, IOException {
+
+        // Connect to the URL using java's native library
+        URL url = new URL("http://api.openweathermap.org/data/2.5/weather?q="+text+",ID&units=metric&APPID=2505c1215671faf783b59b44620d4218");
+        HttpURLConnection request = (HttpURLConnection) url.openConnection();
+        request.connect();
+
+        JsonElement jsonElement = new JsonParser().parse(new InputStreamReader((InputStream) request.getContent()));
+        JsonElement main = jsonElement.getAsJsonObject().get("main");
+        JsonElement wind = jsonElement.getAsJsonObject().get("wind");
+
+        String suhu = main.getAsJsonObject().get("temp").getAsString()+" c";
+        String kelembaban = main.getAsJsonObject().get("humidity").getAsString()+" %";
+        String tekanan = main.getAsJsonObject().get("pressure").getAsString()+" HPa";
+        String jarak_peng = main.getAsJsonObject().get("Visibility").getAsString()+" m";
+        String kecepatan_angin = wind.getAsJsonObject().get("speed").getAsString()+" m/s";
+
+        String cuaca ="Temperatur di kota "+text+" : "+suhu+", Kelembaban : "+kelembaban+", Tekanan udara : "+tekanan+", Jarak penglihatan : "+jarak_peng+", dan Kecepatan angin : "+kecepatan_angin;
+
+        return cuaca;
     }
 
     private String lirik(String artis,String lagu) throws IOException{
