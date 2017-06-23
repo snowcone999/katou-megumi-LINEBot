@@ -38,3 +38,7 @@ Jawaban : hasil gambar dari google
 --
 Oke Katou ucapkan selamat ulang tahun ke (nama) -- 
 Jawaban : Selamat Ulang Tahun (nama) :D
+
+--
+Katou cuaca (nama kota) -- 
+Jawaban : Cuaca
