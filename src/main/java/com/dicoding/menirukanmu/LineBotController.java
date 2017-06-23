@@ -383,7 +383,6 @@ public class LineBotController
         JsonElement jsonElement = new JsonParser().parse(new InputStreamReader((InputStream) request.getContent()));
         JsonElement main = jsonElement.getAsJsonObject().get("main");
         JsonElement wind = jsonElement.getAsJsonObject().get("wind");
-        String jarak_peng = jsonElement.getAsJsonObject().get("visibility").getAsString()+" m";
 
 
         String suhu = main.getAsJsonObject().get("temp").getAsString()+" c";
@@ -391,7 +390,7 @@ public class LineBotController
         String tekanan = main.getAsJsonObject().get("pressure").getAsString()+" HPa";
         String kecepatan_angin = wind.getAsJsonObject().get("speed").getAsString()+" m/s";
 
-        String cuaca ="Temperatur di kota "+text+" : "+suhu+", Kelembaban : "+kelembaban+", Tekanan udara : "+tekanan+", Jarak penglihatan : "+jarak_peng+", dan Kecepatan angin : "+kecepatan_angin;
+        String cuaca ="Temperatur di kota "+text+" : "+suhu+", Kelembaban : "+kelembaban+", Tekanan udara : "+tekanan+", dan Kecepatan angin : "+kecepatan_angin;
 
         return cuaca;
     }
