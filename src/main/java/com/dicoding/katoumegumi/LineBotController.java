@@ -132,7 +132,7 @@ public class LineBotController
                        List url = Search(textGambar);
                        String linkImg = String.valueOf(url.get(0));
                         String thumbnailLinkImg = String.valueOf(url.get(1));
-                       replyToUserImage(payload.events[0].replyToken,linkImg,thumbnailLinkImg);
+                       replyToUserImage(payload.events[0].replyToken,linkImg.replace("http","https"),thumbnailLinkImg);
                     } catch (URISyntaxException e) {
                         e.printStackTrace();
                     } catch (IOException e) {
@@ -340,9 +340,7 @@ public class LineBotController
             JsonObject itemsObj = it.getAsJsonObject();
             JsonObject imgObj = itemsObj.get("image").getAsJsonObject();
             String link = itemsObj.get("link").getAsString();
-            link.replaceAll("\\bhttp\\b", "https");
             String thumbnailLink = imgObj.get("thumbnailLink").getAsString();
-            thumbnailLink.replaceAll("\\bhttp\\b", "https");
             list = new ArrayList<String>();
             list.add(link);
             list.add(thumbnailLink);
