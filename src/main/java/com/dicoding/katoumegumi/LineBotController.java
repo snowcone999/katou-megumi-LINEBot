@@ -115,19 +115,19 @@ public class LineBotController
                     }
                 }
 
-                if (payload.events[0].message.text.contains("Katou tulis ")) {
-                    String textGambar= payload.events[0].message.text.substring(12);
-                    try {
-                        String urlImg = ambilGambar(textGambar);
-                        replyToUserImage(payload.events[0].replyToken,urlImg,urlImg);
-                    } catch (URISyntaxException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
+//                if (payload.events[0].message.text.contains("Katou tulis ")) {
+//                    String textGambar= payload.events[0].message.text.substring(12);
+//                    try {
+//                        String urlImg = ambilGambar(textGambar);
+//                        replyToUserImage(payload.events[0].replyToken,urlImg,urlImg);
+//                    } catch (URISyntaxException e) {
+//                        e.printStackTrace();
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                    }
+//                }
 
                 if (payload.events[0].message.text.contains("Katou cari gambar ")) {
                     String textGambar= payload.events[0].message.text.substring(18);
@@ -439,20 +439,20 @@ public class LineBotController
 //        }
 //    }
 
-    private String ambilGambar(String text) throws Exception{
-        String key = text;
-        BufferedImage bufferedImage = ImageIO.read(new File(getClass().getResource("test.jpg").toExternalForm()));
-        Graphics graphics = bufferedImage.getGraphics();
-        graphics.setColor(Color.BLACK);
-        graphics.setFont(new Font("Arial Black", Font.BOLD, 30));
-        graphics.drawString(key, 200, 200);
-        ImageIO.write(bufferedImage, "jpg", new File(
-                getClass().getResource("image.jpg").toExternalForm()));
-
-        String link = getClass().getResource("image.jpg").toExternalForm();
-
-        return link;
-    }
+//    private String ambilGambar(String text) throws Exception{
+//        String key = text;
+//        BufferedImage bufferedImage = ImageIO.read(new File(getClass().getResource("test.jpg").toExternalForm()));
+//        Graphics graphics = bufferedImage.getGraphics();
+//        graphics.setColor(Color.BLACK);
+//        graphics.setFont(new Font("Arial Black", Font.BOLD, 30));
+//        graphics.drawString(key, 200, 200);
+//        ImageIO.write(bufferedImage, "jpg", new File(
+//                getClass().getResource("image.jpg").toExternalForm()));
+//
+//        String link = getClass().getResource("image.jpg").toExternalForm();
+//
+//        return link;
+//    }
 
 }
 
