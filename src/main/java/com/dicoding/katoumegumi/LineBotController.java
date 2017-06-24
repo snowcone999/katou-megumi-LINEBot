@@ -340,7 +340,9 @@ public class LineBotController
             JsonObject itemsObj = it.getAsJsonObject();
             JsonObject imgObj = itemsObj.get("image").getAsJsonObject();
             String link = itemsObj.get("link").getAsString();
+            link.replace("\\bhttp\\b", "https");
             String thumbnailLink = imgObj.get("thumbnailLink").getAsString();
+            thumbnailLink.replace("\\bhttp\\b", "https");
             list = new ArrayList<String>();
             list.add(link);
             list.add(thumbnailLink);
