@@ -135,8 +135,7 @@ public class LineBotController
                        String thumbnailLinkImg = String.valueOf(url.get(1));
                         String httpnyaThumbnailLink = linkImg.substring(0,4);
                        replyToUserImage(payload.events[0].replyToken,
-                               httpnyaLink.equals("http:")?linkImg.replace("http","https"):linkImg,
-                               httpnyaThumbnailLink.equals("http:")?thumbnailLinkImg.replace("http","https"):thumbnailLinkImg);
+                               httpnyaLink.equals("http:")?linkImg.replace("http","https"):linkImg, thumbnailLinkImg);
                     } catch (URISyntaxException e) {
                         e.printStackTrace();
                     } catch (IOException e) {
