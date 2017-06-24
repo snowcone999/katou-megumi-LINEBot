@@ -127,7 +127,7 @@ public class LineBotController
                 if (payload.events[0].message.text.contains("Katou tulis ")) {
                     String textGambar= payload.events[0].message.text.substring(12);
                     try {
-                        String urlImg = String.valueOf(ambilGambar(textGambar));
+                        String urlImg = ambilGambar(textGambar);
                         replyToUserImage(payload.events[0].replyToken,urlImg,urlImg);
                     } catch (URISyntaxException e) {
                         e.printStackTrace();
