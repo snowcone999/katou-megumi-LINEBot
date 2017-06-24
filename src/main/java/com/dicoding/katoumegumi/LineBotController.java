@@ -129,8 +129,10 @@ public class LineBotController
                 if (payload.events[0].message.text.contains("Katou cari gambar ")) {
                     String textGambar= payload.events[0].message.text.substring(18);
                     try {
-                       String urlImg = Search(textGambar);
-                       replyToUserImage(payload.events[0].replyToken,urlImg,urlImg);
+                       List url = Search(textGambar);
+                       String linkImg = String.valueOf(url.get(0));
+                        String thumbnailLinkImg = String.valueOf(url.get(1));
+                       replyToUserImage(payload.events[0].replyToken,linkImg,thumbnailLinkImg);
                     } catch (URISyntaxException e) {
                         e.printStackTrace();
                     } catch (IOException e) {
@@ -318,7 +320,7 @@ public class LineBotController
         return textArray;
     }
 
-    private String Search(String text)  throws MalformedURLException, URISyntaxException, IOException {
+    private List<String> Search(String text)  throws MalformedURLException, URISyntaxException, IOException {
         String key = "AIzaSyDlrK6kokD3dDhSoWQKCz3oMAaJMCqaQqM";
         String qry = text;
         String cx = "016498147224075515320:ukepxzq_vus";
@@ -336,13 +338,16 @@ public class LineBotController
 
         for (JsonElement it : items) {
             JsonObject itemsObj = it.getAsJsonObject();
+            JsonObject imgObj = itemsObj.get("image").getAsJsonObject();
             String link = itemsObj.get("link").getAsString();
+            String thumbnailLink = imgObj.get("thumbnailLink").getAsString();
             list = new ArrayList<String>();
             list.add(link);
+            list.add(thumbnailLink);
+            return list;
         }
 
-        String linkImg = list.get(new Random().nextInt(list.size()));
-        return linkImg;
+       return list;
     }
 
     private String wiki(String text) throws IOException{
