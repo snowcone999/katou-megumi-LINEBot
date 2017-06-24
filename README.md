@@ -32,7 +32,7 @@ Katou apa itu (text text) --
 Jawaban : hasil dari wikipedia indonesia
 
 --
-Katou cari gambar (teks+teks) -- 
+Katou cari gambar (teks teks) -- 
 Jawaban : hasil gambar dari google
 
 --
