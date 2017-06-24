@@ -464,13 +464,12 @@ public class LineBotController
             YouTubeParser parser = new YouTubeParser();
 
             List<YouTubeParser.VideoDownload> list = parser.extractLinks(info);
-            List<String> listUrl = null;
+            List<URL> listUrl = new ArrayList<URL>();
             for (YouTubeParser.VideoDownload d : list) {
-                String link = String.valueOf(d.url);
-                listUrl.add(link);
+                listUrl.add(d.url);
             }
 
-            urlDownload = listUrl.get(2);
+            urlDownload = String.valueOf(listUrl.get(2));
         } catch (Exception e) {
             e.printStackTrace();
         }
