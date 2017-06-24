@@ -1,6 +1,8 @@
 
 package com.dicoding.katoumegumi;
 
+import com.github.axet.vget.vhs.YouTubeInfo;
+import com.github.axet.vget.vhs.YouTubeParser;
 import com.google.gson.*;
 import com.linecorp.bot.client.LineMessagingServiceBuilder;
 import com.linecorp.bot.client.LineSignatureValidator;
@@ -94,11 +96,9 @@ public class LineBotController
                     msgText = getRandom(ramal);
                 }
 
-//                if (payload.events[0].message.text.equals("Katou cari video")) {
-//                    String videoUrl = "https://www.youtube.com/watch?v=us2SQF9nbPI";
-//                    String thumbnailUrl = "https://i.ytimg.com/vi/hjTAakwP924/hqdefault.jpg?custom=true&w=246&h=138&stc=true&jpg444=true&jpgq=90&sp=68&sigh=Y9NwGg7Kltm6L-tr1TpUlaCnEOw";
-//                    replyToUserVideo(payload.events[0].replyToken, videoUrl, thumbnailUrl);
-//                }
+                if (payload.events[0].message.text.equals("Katou cari video")) {
+                   msgText = ambilUrlVideo();
+                }
 
                 if (payload.events[0].message.text.contains("Katou apa itu ")) {
                     String textTanya= payload.events[0].message.text.substring(14);
@@ -453,6 +453,30 @@ public class LineBotController
 //
 //        return link;
 //    }
+
+    private static String ambilUrlVideo() {
+        String urlDownload = null;
+        try {
+            // ex: http://www.youtube.com/watch?v=Nj6PFaDmp6c
+            String url = "http://www.youtube.com/watch?v=YTbLER12-P4";
+            YouTubeInfo info = new YouTubeInfo(new URL(url));
+
+            YouTubeParser parser = new YouTubeParser();
+
+            List<YouTubeParser.VideoDownload> list = parser.extractLinks(info);
+            List<String> listUrl = null;
+            for (YouTubeParser.VideoDownload d : list) {
+                String link = String.valueOf(d.url);
+                listUrl.add(link);
+            }
+
+            urlDownload = listUrl.get(2);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return urlDownload;
+    }
 
 }
 
