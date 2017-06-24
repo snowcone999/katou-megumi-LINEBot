@@ -25,18 +25,19 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import retrofit2.Response;
 
+import javax.imageio.ImageIO;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.*;
+import java.util.List;
 
 @RestController
 @RequestMapping(value="/linebot")
@@ -120,6 +121,20 @@ public class LineBotController
                     } catch (NullPointerException e){
                         e.printStackTrace();
                         msgText = "Tidak ditemukan hasil dengan keyword : "+textTanya;
+                    }
+                }
+
+                if (payload.events[0].message.text.contains("Katou tulis ")) {
+                    String textGambar= payload.events[0].message.text.substring(12);
+                    try {
+                        String urlImg = ambilGambar(textGambar);
+                        replyToUserImage(payload.events[0].replyToken,urlImg,urlImg);
+                    } catch (URISyntaxException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
                 }
 
@@ -420,6 +435,19 @@ public class LineBotController
             System.out.println("Exception is raised ");
             e.printStackTrace();
         }
+    }
+
+    private static String ambilGambar(String text) throws Exception{
+        String key = text;
+        BufferedImage bufferedImage = ImageIO.read(new File("Image_holder/test.jpg"));
+        Graphics graphics = bufferedImage.getGraphics();
+        graphics.setColor(Color.BLACK);
+        graphics.setFont(new Font("Arial Black", Font.BOLD, 30));
+        graphics.drawString(key, 200, 200);
+        String url = "dumper/image.jpg";
+        ImageIO.write(bufferedImage, "jpg", new File(
+                url));
+        return url;
     }
 
 }
