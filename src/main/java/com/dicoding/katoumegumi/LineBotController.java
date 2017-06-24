@@ -16,9 +16,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import retrofit2.Response;
 
+import javax.imageio.ImageIO;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -112,19 +115,19 @@ public class LineBotController
                     }
                 }
 
-//                if (payload.events[0].message.text.contains("Katou tulis ")) {
-//                    String textGambar= payload.events[0].message.text.substring(12);
-//                    try {
-//                        String urlImg = ambilGambar(textGambar);
-//                        replyToUserImage(payload.events[0].replyToken,urlImg,urlImg);
-//                    } catch (URISyntaxException e) {
-//                        e.printStackTrace();
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    } catch (Exception e) {
-//                        e.printStackTrace();
-//                    }
-//                }
+                if (payload.events[0].message.text.contains("Katou tulis ")) {
+                    String textGambar= payload.events[0].message.text.substring(12);
+                    try {
+                        String urlImg = ambilGambar(textGambar);
+                        replyToUserImage(payload.events[0].replyToken,urlImg,urlImg);
+                    } catch (URISyntaxException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
 
                 if (payload.events[0].message.text.contains("Katou cari gambar ")) {
                     String textGambar= payload.events[0].message.text.substring(18);
@@ -436,20 +439,20 @@ public class LineBotController
 //        }
 //    }
 
-//    private String ambilGambar(String text) throws Exception{
-//        String key = text;
-//        BufferedImage bufferedImage = ImageIO.read(getClass().getResource("/resources/test.jpg"));
-//        Graphics graphics = bufferedImage.getGraphics();
-//        graphics.setColor(Color.BLACK);
-//        graphics.setFont(new Font("Arial Black", Font.BOLD, 30));
-//        graphics.drawString(key, 200, 200);
-//        ImageIO.write(bufferedImage, "jpg", new File(
-//                String.valueOf(getClass().getResource("/resources/image.jpg"))));
-//
-//        String link = String.valueOf(getClass().getResource("/resources/image.jpg"));
-//
-//        return link;
-//    }
+    private String ambilGambar(String text) throws Exception{
+        String key = text;
+        BufferedImage bufferedImage = ImageIO.read(getClass().getResource("test.jpg"));
+        Graphics graphics = bufferedImage.getGraphics();
+        graphics.setColor(Color.BLACK);
+        graphics.setFont(new Font("Arial Black", Font.BOLD, 30));
+        graphics.drawString(key, 200, 200);
+        ImageIO.write(bufferedImage, "jpg", new File(
+                String.valueOf(getClass().getResource("image.jpg"))));
+
+        String link = String.valueOf(getClass().getResource("/resources/image.jpg"));
+
+        return link;
+    }
 
 }
 
