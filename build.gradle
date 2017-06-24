@@ -53,6 +53,18 @@ dependencyManagement {
         }
     }
 
+sourceSets {
+	main {
+		java {
+			srcDir 'src'
+		}
+		resources {
+			srcDir 'Image_holder'
+            srcDir 'dumper'
+		}
+	}
+}
+
 
 dependencies
 {
@@ -79,3 +91,4 @@ dependencies
 	providedRuntime('org.springframework.boot:spring-boot-starter-tomcat:1.4.0.RELEASE')
 	testCompile("junit:junit")
 }
+
