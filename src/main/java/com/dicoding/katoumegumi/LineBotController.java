@@ -364,6 +364,9 @@ public class LineBotController
         }
 
         String extract = yourDesiredElement.getAsJsonObject().get("extract").getAsString();
+        if(extract.length() > 50) {
+            extract = extract.substring(0, 1900) + "...";
+        }
         String gagalCari = "Link dialihkan ke "+urls;
 
         if(extract.equals("")){
