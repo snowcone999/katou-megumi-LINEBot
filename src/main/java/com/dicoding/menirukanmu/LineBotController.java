@@ -437,19 +437,17 @@ public class LineBotController
         }
     }
 
-    private static URL ambilGambar(String text) throws Exception{
+    private String ambilGambar(String text) throws Exception{
         String key = text;
-        BufferedImage bufferedImage = ImageIO.read(new File("Image_holder/test.jpg"));
+        BufferedImage bufferedImage = ImageIO.read(getClass().getResource("/resources/test.jpg"));
         Graphics graphics = bufferedImage.getGraphics();
         graphics.setColor(Color.BLACK);
         graphics.setFont(new Font("Arial Black", Font.BOLD, 30));
         graphics.drawString(key, 200, 200);
-        String url = "dumper/image.jpg";
         ImageIO.write(bufferedImage, "jpg", new File(
-                url));
+                String.valueOf(getClass().getResource("/resources/image.jpg"))));
 
-
-        URL link = new File(url).toURI().toURL();
+        String link = String.valueOf(getClass().getResource("/resources/image.jpg"));
 
         return link;
     }
