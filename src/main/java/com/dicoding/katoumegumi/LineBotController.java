@@ -10,6 +10,7 @@ import com.linecorp.bot.model.PushMessage;
 import com.linecorp.bot.model.ReplyMessage;
 import com.linecorp.bot.model.message.ImageMessage;
 import com.linecorp.bot.model.message.TextMessage;
+import com.linecorp.bot.model.message.VideoMessage;
 import com.linecorp.bot.model.response.BotApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -97,7 +98,9 @@ public class LineBotController
                 }
 
                 if (payload.events[0].message.text.equals("Katou cari video")) {
-                   msgText = ambilUrlVideo();
+                   String urlYoutubeDownload = ambilUrlVideo();
+                    String urlYoutubeThumbnail = "https://i.ytimg.com/vi/YTbLER12-P4/hqdefault.jpg?sqp=-oaymwEXCPYBEIoBSFryq4qpAwkIARUAAIhCGAE=&rs=AOn4CLCe1zABTUuccqfyQEgbu7grvfA5Ag";
+                   replyToUserVideo(payload.events[0].replyToken,urlYoutubeDownload,urlYoutubeThumbnail);
                 }
 
                 if (payload.events[0].message.text.contains("Katou apa itu ")) {
@@ -423,21 +426,21 @@ public class LineBotController
 //        }
 //    }
 
-//    private void replyToUserVideo(String rToken, String videoUrl, String thumbnailURl){
-//        VideoMessage videoMessage = new VideoMessage(videoUrl,thumbnailURl);
-//        ReplyMessage replyMessage = new ReplyMessage(rToken, videoMessage);
-//        try {
-//            Response<BotApiResponse> response = LineMessagingServiceBuilder
-//                    .create(lChannelAccessToken)
-//                    .build()
-//                    .replyMessage(replyMessage)
-//                    .execute();
-//            System.out.println("Reply Message: " + response.code() + " " + response.message());
-//        } catch (IOException e) {
-//            System.out.println("Exception is raised ");
-//            e.printStackTrace();
-//        }
-//    }
+    private void replyToUserVideo(String rToken, String videoUrl, String thumbnailURl){
+        VideoMessage videoMessage = new VideoMessage(videoUrl,thumbnailURl);
+        ReplyMessage replyMessage = new ReplyMessage(rToken, videoMessage);
+        try {
+            Response<BotApiResponse> response = LineMessagingServiceBuilder
+                    .create(lChannelAccessToken)
+                    .build()
+                    .replyMessage(replyMessage)
+                    .execute();
+            System.out.println("Reply Message: " + response.code() + " " + response.message());
+        } catch (IOException e) {
+            System.out.println("Exception is raised ");
+            e.printStackTrace();
+        }
+    }
 
 //    private String ambilGambar(String text) throws Exception{
 //        String key = text;
