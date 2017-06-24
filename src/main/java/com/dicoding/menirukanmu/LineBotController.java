@@ -127,7 +127,7 @@ public class LineBotController
                 if (payload.events[0].message.text.contains("Katou tulis ")) {
                     String textGambar= payload.events[0].message.text.substring(12);
                     try {
-                        String urlImg = ambilGambar(textGambar);
+                        String urlImg = String.valueOf(ambilGambar(textGambar));
                         replyToUserImage(payload.events[0].replyToken,urlImg,urlImg);
                     } catch (URISyntaxException e) {
                         e.printStackTrace();
@@ -437,7 +437,7 @@ public class LineBotController
         }
     }
 
-    private static String ambilGambar(String text) throws Exception{
+    private static URL ambilGambar(String text) throws Exception{
         String key = text;
         BufferedImage bufferedImage = ImageIO.read(new File("Image_holder/test.jpg"));
         Graphics graphics = bufferedImage.getGraphics();
@@ -447,7 +447,11 @@ public class LineBotController
         String url = "dumper/image.jpg";
         ImageIO.write(bufferedImage, "jpg", new File(
                 url));
-        return url;
+
+
+        URL link = new File(url).toURI().toURL();
+
+        return link;
     }
 
 }
