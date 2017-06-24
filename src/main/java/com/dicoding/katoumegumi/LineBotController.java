@@ -1,5 +1,5 @@
 
-package com.dicoding.menirukanmu;
+package com.dicoding.katoumegumi;
 
 import com.google.gson.*;
 import com.linecorp.bot.client.LineMessagingServiceBuilder;
@@ -8,16 +8,7 @@ import com.linecorp.bot.model.PushMessage;
 import com.linecorp.bot.model.ReplyMessage;
 import com.linecorp.bot.model.message.ImageMessage;
 import com.linecorp.bot.model.message.TextMessage;
-import com.linecorp.bot.model.message.VideoMessage;
-import com.linecorp.bot.model.profile.UserProfileResponse;
 import com.linecorp.bot.model.response.BotApiResponse;
-import org.json.JSONArray;
-import org.json.JSONObject;
-import org.json.JSONString;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -25,12 +16,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import retrofit2.Response;
 
-import javax.imageio.ImageIO;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
-import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -103,11 +91,11 @@ public class LineBotController
                     msgText = getRandom(ramal);
                 }
 
-                if (payload.events[0].message.text.equals("Katou cari video")) {
-                    String videoUrl = "https://www.youtube.com/watch?v=us2SQF9nbPI";
-                    String thumbnailUrl = "https://i.ytimg.com/vi/hjTAakwP924/hqdefault.jpg?custom=true&w=246&h=138&stc=true&jpg444=true&jpgq=90&sp=68&sigh=Y9NwGg7Kltm6L-tr1TpUlaCnEOw";
-                    replyToUserVideo(payload.events[0].replyToken, videoUrl, thumbnailUrl);
-                }
+//                if (payload.events[0].message.text.equals("Katou cari video")) {
+//                    String videoUrl = "https://www.youtube.com/watch?v=us2SQF9nbPI";
+//                    String thumbnailUrl = "https://i.ytimg.com/vi/hjTAakwP924/hqdefault.jpg?custom=true&w=246&h=138&stc=true&jpg444=true&jpgq=90&sp=68&sigh=Y9NwGg7Kltm6L-tr1TpUlaCnEOw";
+//                    replyToUserVideo(payload.events[0].replyToken, videoUrl, thumbnailUrl);
+//                }
 
                 if (payload.events[0].message.text.contains("Katou apa itu ")) {
                     String textTanya= payload.events[0].message.text.substring(14);
@@ -124,19 +112,19 @@ public class LineBotController
                     }
                 }
 
-                if (payload.events[0].message.text.contains("Katou tulis ")) {
-                    String textGambar= payload.events[0].message.text.substring(12);
-                    try {
-                        String urlImg = ambilGambar(textGambar);
-                        replyToUserImage(payload.events[0].replyToken,urlImg,urlImg);
-                    } catch (URISyntaxException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
+//                if (payload.events[0].message.text.contains("Katou tulis ")) {
+//                    String textGambar= payload.events[0].message.text.substring(12);
+//                    try {
+//                        String urlImg = ambilGambar(textGambar);
+//                        replyToUserImage(payload.events[0].replyToken,urlImg,urlImg);
+//                    } catch (URISyntaxException e) {
+//                        e.printStackTrace();
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                    }
+//                }
 
                 if (payload.events[0].message.text.contains("Katou cari gambar ")) {
                     String textGambar= payload.events[0].message.text.substring(18);
@@ -286,31 +274,31 @@ public class LineBotController
         }
     }
 
-    private String UserProfileName(String TargetId) {
-        Response<UserProfileResponse> response =
-                null;
-        try {
-            response = LineMessagingServiceBuilder
-                    .create(lChannelAccessToken)
-                    .build()
-                    .getProfile(TargetId)
-                    .execute();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        String nameUser;
-        nameUser = null;
-        if (response.isSuccessful()) {
-            UserProfileResponse profile = response.body();
-            nameUser = profile.getDisplayName();
-        } else {
-            System.out.println(response.code() + " " + response.message());
-        }
-
-
-        String name = nameUser;
-        return name;
-    }
+//    private String UserProfileName(String TargetId) {
+//        Response<UserProfileResponse> response =
+//                null;
+//        try {
+//            response = LineMessagingServiceBuilder
+//                    .create(lChannelAccessToken)
+//                    .build()
+//                    .getProfile(TargetId)
+//                    .execute();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        String nameUser;
+//        nameUser = null;
+//        if (response.isSuccessful()) {
+//            UserProfileResponse profile = response.body();
+//            nameUser = profile.getDisplayName();
+//        } else {
+//            System.out.println(response.code() + " " + response.message());
+//        }
+//
+//
+//        String name = nameUser;
+//        return name;
+//    }
 
     //ramal Quotes
     String[] ramal ={
@@ -407,50 +395,50 @@ public class LineBotController
         return cuaca;
     }
 
-    private String lirik(String artis,String lagu) throws IOException{
-        String url = "https://lirik.kapanlagi.com/artis/"+artis+"/"+lagu;
-        Document doc;
-        doc = Jsoup.connect(url).get();
-        Elements lirik = doc.select(" .mw-parser-output p");
-        String jawaban = lirik.text();
+//    private String lirik(String artis,String lagu) throws IOException{
+//        String url = "https://lirik.kapanlagi.com/artis/"+artis+"/"+lagu;
+//        Document doc;
+//        doc = Jsoup.connect(url).get();
+//        Elements lirik = doc.select(" .mw-parser-output p");
+//        String jawaban = lirik.text();
+//
+//        if(lirik != null){
+//            return jawaban;
+//        }else{
+//            return null;
+//        }
+//    }
 
-        if(lirik != null){
-            return jawaban;
-        }else{
-            return null;
-        }
-    }
+//    private void replyToUserVideo(String rToken, String videoUrl, String thumbnailURl){
+//        VideoMessage videoMessage = new VideoMessage(videoUrl,thumbnailURl);
+//        ReplyMessage replyMessage = new ReplyMessage(rToken, videoMessage);
+//        try {
+//            Response<BotApiResponse> response = LineMessagingServiceBuilder
+//                    .create(lChannelAccessToken)
+//                    .build()
+//                    .replyMessage(replyMessage)
+//                    .execute();
+//            System.out.println("Reply Message: " + response.code() + " " + response.message());
+//        } catch (IOException e) {
+//            System.out.println("Exception is raised ");
+//            e.printStackTrace();
+//        }
+//    }
 
-    private void replyToUserVideo(String rToken, String videoUrl, String thumbnailURl){
-        VideoMessage videoMessage = new VideoMessage(videoUrl,thumbnailURl);
-        ReplyMessage replyMessage = new ReplyMessage(rToken, videoMessage);
-        try {
-            Response<BotApiResponse> response = LineMessagingServiceBuilder
-                    .create(lChannelAccessToken)
-                    .build()
-                    .replyMessage(replyMessage)
-                    .execute();
-            System.out.println("Reply Message: " + response.code() + " " + response.message());
-        } catch (IOException e) {
-            System.out.println("Exception is raised ");
-            e.printStackTrace();
-        }
-    }
-
-    private String ambilGambar(String text) throws Exception{
-        String key = text;
-        BufferedImage bufferedImage = ImageIO.read(getClass().getResource("/resources/test.jpg"));
-        Graphics graphics = bufferedImage.getGraphics();
-        graphics.setColor(Color.BLACK);
-        graphics.setFont(new Font("Arial Black", Font.BOLD, 30));
-        graphics.drawString(key, 200, 200);
-        ImageIO.write(bufferedImage, "jpg", new File(
-                String.valueOf(getClass().getResource("/resources/image.jpg"))));
-
-        String link = String.valueOf(getClass().getResource("/resources/image.jpg"));
-
-        return link;
-    }
+//    private String ambilGambar(String text) throws Exception{
+//        String key = text;
+//        BufferedImage bufferedImage = ImageIO.read(getClass().getResource("/resources/test.jpg"));
+//        Graphics graphics = bufferedImage.getGraphics();
+//        graphics.setColor(Color.BLACK);
+//        graphics.setFont(new Font("Arial Black", Font.BOLD, 30));
+//        graphics.drawString(key, 200, 200);
+//        ImageIO.write(bufferedImage, "jpg", new File(
+//                String.valueOf(getClass().getResource("/resources/image.jpg"))));
+//
+//        String link = String.valueOf(getClass().getResource("/resources/image.jpg"));
+//
+//        return link;
+//    }
 
 }
 

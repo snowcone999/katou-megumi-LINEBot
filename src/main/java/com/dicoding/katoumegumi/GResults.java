@@ -1,4 +1,4 @@
-package com.dicoding.menirukanmu;
+package com.dicoding.katoumegumi;
 import java.util.List;
 
 public class GResults {

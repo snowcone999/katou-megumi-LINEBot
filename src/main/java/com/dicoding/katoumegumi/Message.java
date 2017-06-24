@@ -1,4 +1,4 @@
-package com.dicoding.menirukanmu;
+package com.dicoding.katoumegumi;
 
 public class Message {
     public String type;
