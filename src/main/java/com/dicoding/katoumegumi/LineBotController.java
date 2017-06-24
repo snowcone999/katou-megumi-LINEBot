@@ -128,6 +128,7 @@ public class LineBotController
 
                 if (payload.events[0].message.text.contains("Katou cari gambar ")) {
                     String textGambar= payload.events[0].message.text.substring(18);
+                    textGambar = textGambar.replaceAll("\\s+","+");
                     try {
                        List url = Search(textGambar);
                        String linkImg = String.valueOf(url.get(0));
