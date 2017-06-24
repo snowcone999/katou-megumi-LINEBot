@@ -449,7 +449,7 @@ public class LineBotController
         ImageIO.write(bufferedImage, "jpg", new File(
                 String.valueOf(getClass().getResource("image.jpg"))));
 
-        String link = String.valueOf(getClass().getResource("/resources/image.jpg"));
+        String link = String.valueOf(getClass().getResource("image.jpg"));
 
         return link;
     }
