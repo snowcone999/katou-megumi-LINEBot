@@ -441,15 +441,15 @@ public class LineBotController
 
     private String ambilGambar(String text) throws Exception{
         String key = text;
-        BufferedImage bufferedImage = ImageIO.read(getClass().getResource("test.jpg"));
+        BufferedImage bufferedImage = ImageIO.read(new File(getClass().getResource("test.jpg").toExternalForm()));
         Graphics graphics = bufferedImage.getGraphics();
         graphics.setColor(Color.BLACK);
         graphics.setFont(new Font("Arial Black", Font.BOLD, 30));
         graphics.drawString(key, 200, 200);
         ImageIO.write(bufferedImage, "jpg", new File(
-                String.valueOf(getClass().getResource("image.jpg"))));
+                getClass().getResource("image.jpg").toExternalForm()));
 
-        String link = String.valueOf(getClass().getResource("image.jpg"));
+        String link = getClass().getResource("image.jpg").toExternalForm();
 
         return link;
     }
