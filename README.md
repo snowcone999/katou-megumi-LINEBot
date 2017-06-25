@@ -46,3 +46,7 @@ Jawaban : Cuaca
 --
 Katou keyword -- 
 Jawaban : keyword yang ada di Katou
+
+--
+Katou cari video (teks teks) -- 
+Jawaban : cari video di youtube maks 10mb
