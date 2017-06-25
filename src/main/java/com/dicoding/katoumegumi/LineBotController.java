@@ -12,6 +12,10 @@ import com.linecorp.bot.model.message.ImageMessage;
 import com.linecorp.bot.model.message.TextMessage;
 import com.linecorp.bot.model.message.VideoMessage;
 import com.linecorp.bot.model.response.BotApiResponse;
+import org.json.JSONObject;
+import org.json.JSONTokener;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -97,9 +101,11 @@ public class LineBotController
                     msgText = getRandom(ramal);
                 }
 
-                if (payload.events[0].message.text.equals("Katou cari video")) {
-                   String urlYoutubeDownload = ambilUrlVideo();
-                    String urlYoutubeThumbnail = "https://i.ytimg.com/vi/YTbLER12-P4/hqdefault.jpg?sqp=-oaymwEXCPYBEIoBSFryq4qpAwkIARUAAIhCGAE=&rs=AOn4CLCe1zABTUuccqfyQEgbu7grvfA5Ag";
+                if (payload.events[0].message.text.equals("Katou cari video ")) {
+                    String keyword = payload.events[0].message.text.substring(16);
+                    String urlVideoId = ambilUrlVideoId(keyword)
+                    String urlYoutubeDownload = ambilUrlVideo(urlVideoId);
+                    String urlYoutubeThumbnail = "https://i.ytimg.com/vi/"+urlVideoId+"/mqdefault.jpg";
                    replyToUserVideo(payload.events[0].replyToken,urlYoutubeDownload,urlYoutubeThumbnail);
                 }
 
@@ -457,11 +463,11 @@ public class LineBotController
 //        return link;
 //    }
 
-    private static String ambilUrlVideo() {
+    private static String ambilUrlVideo(String text) {
         String urlDownload = null;
+        String videoId = text;
         try {
-            // ex: http://www.youtube.com/watch?v=Nj6PFaDmp6c
-            String url = "http://www.youtube.com/watch?v=YTbLER12-P4";
+            String url = "http://www.youtube.com/watch?v="+text;
             YouTubeInfo info = new YouTubeInfo(new URL(url));
 
             YouTubeParser parser = new YouTubeParser();
@@ -478,6 +484,25 @@ public class LineBotController
         }
 
         return urlDownload;
+    }
+
+    private static String ambilUrlVideoId(String text) {
+        String keyword = text;
+        keyword = keyword.replace(" ", "+");
+
+        String url = "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&order=rating&q=" + keyword + "&key=AIzaSyDlrK6kokD3dDhSoWQKCz3oMAaJMCqaQqM";
+
+        Document doc = null;
+        try {
+            doc = Jsoup.connect(url).timeout(10 * 1000).get();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        String getJson = doc.text();
+        JSONObject jsonObject = (JSONObject) new JSONTokener(getJson ).nextValue();
+
+        return jsonObject.getString("videoId");
     }
 
 }
