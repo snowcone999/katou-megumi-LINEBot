@@ -469,7 +469,7 @@ public class LineBotController
         String urlDownload = null;
         String videoId = "hitorigoto";
         try {
-            String url = "http://www.youtube.com/watch?v=WY_pSE94n3c";
+            String url = "http://www.youtube.com/watch?v=OdhNR-VVc3Y";
             YouTubeInfo info = new YouTubeInfo(new URL(url));
 
             YouTubeParser parser = new YouTubeParser();
