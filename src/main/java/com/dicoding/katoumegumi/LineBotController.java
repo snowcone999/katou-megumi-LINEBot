@@ -104,7 +104,7 @@ public class LineBotController
                 if (payload.events[0].message.text.equals("Katou cari video ")) {
                     String keyword = payload.events[0].message.text.substring(16);
                     String urlVideoId = ambilUrlVideoId(keyword);
-                    String urlYoutubeDownload = ambilUrlVideo(urlVideoId);
+                    String urlYoutubeDownload = ambilUrlVideo(urlVideoId.replace("[","").replace("]",""));
                     String urlYoutubeThumbnail = "https://i.ytimg.com/vi/"+urlVideoId+"/default.jpg";
                    replyToUserVideo(payload.events[0].replyToken,urlYoutubeDownload,urlYoutubeThumbnail);
                 }
