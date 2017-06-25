@@ -102,7 +102,7 @@ public class LineBotController
                 }
 
                 if (payload.events[0].message.text.equals("Katou cari video ")) {
-                    String keyword = payload.events[0].message.text.substring(16);
+                    String keyword = payload.events[0].message.text.substring(17);
                     String urlVideoId = ambilUrlVideoId(keyword);
                     String urlYoutubeDownload = ambilUrlVideo(urlVideoId.replace("[","").replace("]",""));
                     String urlYoutubeThumbnail = "https://i.ytimg.com/vi/"+urlVideoId+"/default.jpg";
@@ -490,19 +490,44 @@ public class LineBotController
         String keyword = text;
         keyword = keyword.replace(" ", "+");
 
-        String url = "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&order=rating&q=" + keyword + "&key=AIzaSyDlrK6kokD3dDhSoWQKCz3oMAaJMCqaQqM";
-
-        Document doc = null;
+        URL url = null;
         try {
-            doc = Jsoup.connect(url).timeout(10 * 1000).get();
+            url = new URL("https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&order=rating&q=" + keyword + "&key=AIzaSyDlrK6kokD3dDhSoWQKCz3oMAaJMCqaQqM");
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        HttpURLConnection request = null;
+        try {
+            request = (HttpURLConnection) url.openConnection();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            request.connect();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        String getJson = doc.text();
-        JSONObject jsonObject = (JSONObject) new JSONTokener(getJson ).nextValue();
+        JsonElement jsonElement = null;
+        try {
+            jsonElement = new JsonParser().parse(new InputStreamReader((InputStream) request.getContent()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        JsonArray items = jsonElement.getAsJsonObject().getAsJsonArray("items");
 
-        return jsonObject.getString("videoId");
+        List<String> list = null;
+
+        for (JsonElement it : items) {
+            JsonObject itemsObj = it.getAsJsonObject();
+            JsonObject id = itemsObj.get("id").getAsJsonObject();
+            String videoId = id.get("videoId").getAsString();
+            list = new ArrayList<String>();
+            list.add(videoId);
+            return String.valueOf(list);
+        }
+
+        return String.valueOf(list);
     }
 
 }
