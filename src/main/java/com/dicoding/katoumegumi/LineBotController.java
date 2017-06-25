@@ -102,11 +102,13 @@ public class LineBotController
                 }
 
                 if (payload.events[0].message.text.equals("Katou cari video ")) {
-                    String keyword = payload.events[0].message.text.substring(17);
-                    String urlVideoId = ambilUrlVideoId(keyword);
-                    String urlYoutubeDownload = ambilUrlVideo(urlVideoId.replace("[","").replace("]",""));
-                    String urlYoutubeThumbnail = "https://i.ytimg.com/vi/"+urlVideoId.replace("[","").replace("]","")+"/default.jpg";
-                   replyToUserVideo(payload.events[0].replyToken,urlYoutubeDownload,urlYoutubeThumbnail);
+//                    String keyword = payload.events[0].message.text.substring(17);
+//                    String urlVideoId = ambilUrlVideoId(keyword);
+//                    String urlYoutubeDownload = ambilUrlVideo(urlVideoId.replace("[","").replace("]",""));
+//                    String urlYoutubeThumbnail = "https://i.ytimg.com/vi/"+urlVideoId.replace("[","").replace("]","")+"/default.jpg";
+                    String urlYoutubeDownload = ambilUrlVideo();
+                    String urlYoutubeThumbnail = "https://i.ytimg.com/vi/hjTAakwP924/hqdefault.jpg?sqp=-oaymwEXCPYBEIoBSFryq4qpAwkIARUAAIhCGAE=&rs=AOn4CLD4jQPxagi91z8A6Oy6H_mlpElfBw";
+                    replyToUserVideo(payload.events[0].replyToken,urlYoutubeDownload,urlYoutubeThumbnail);
                 }
 
                 if (payload.events[0].message.text.contains("Katou apa itu ")) {
@@ -463,11 +465,11 @@ public class LineBotController
 //        return link;
 //    }
 
-    private static String ambilUrlVideo(String text) {
+    private static String ambilUrlVideo() {
         String urlDownload = null;
-        String videoId = text;
+        String videoId = "hitorigoto";
         try {
-            String url = "http://www.youtube.com/watch?v="+text;
+            String url = "http://www.youtube.com/watch?v="+videoId;
             YouTubeInfo info = new YouTubeInfo(new URL(url));
 
             YouTubeParser parser = new YouTubeParser();
@@ -524,10 +526,10 @@ public class LineBotController
             String videoId = id.get("videoId").getAsString();
             list = new ArrayList<String>();
             list.add(videoId);
-            return String.valueOf(list);
+            return String.valueOf(list.get(0));
         }
 
-        return String.valueOf(list);
+        return String.valueOf(list.get(0));
     }
 
 }
