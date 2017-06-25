@@ -105,7 +105,7 @@ public class LineBotController
                     String keyword = payload.events[0].message.text.substring(17);
                     String urlVideoId = ambilUrlVideoId(keyword);
                     String urlYoutubeDownload = ambilUrlVideo(urlVideoId.replace("[","").replace("]",""));
-                    String urlYoutubeThumbnail = "https://i.ytimg.com/vi/"+urlVideoId+"/default.jpg";
+                    String urlYoutubeThumbnail = "https://i.ytimg.com/vi/"+urlVideoId.replace("[","").replace("]","")+"/default.jpg";
                    replyToUserVideo(payload.events[0].replyToken,urlYoutubeDownload,urlYoutubeThumbnail);
                 }
 
