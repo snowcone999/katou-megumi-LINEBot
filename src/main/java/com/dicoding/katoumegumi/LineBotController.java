@@ -101,7 +101,7 @@ public class LineBotController
                     msgText = getRandom(ramal);
                 }
 
-                if (payload.events[0].message.text.equals("Katou cari video ")) {
+                if (payload.events[0].message.text.contains("Katou cari video ")) {
 //                    String keyword = payload.events[0].message.text.substring(17);
 //                    String urlVideoId = ambilUrlVideoId(keyword);
 //                    String urlYoutubeDownload = ambilUrlVideo(urlVideoId.replace("[","").replace("]",""));
