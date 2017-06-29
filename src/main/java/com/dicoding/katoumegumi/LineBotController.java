@@ -12,10 +12,6 @@ import com.linecorp.bot.model.message.ImageMessage;
 import com.linecorp.bot.model.message.TextMessage;
 import com.linecorp.bot.model.message.VideoMessage;
 import com.linecorp.bot.model.response.BotApiResponse;
-import org.json.JSONObject;
-import org.json.JSONTokener;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -23,12 +19,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import retrofit2.Response;
 
-import javax.imageio.ImageIO;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
-import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -103,12 +96,24 @@ public class LineBotController
 
                 if (payload.events[0].message.text.contains("Katou cari video ")) {
                     String keyword = payload.events[0].message.text.substring(17);
-                    String urlVideoId = ambilUrlVideoId(keyword);
+                    List videoItem = ambilUrlVideoId(keyword);
+                    String urlVideoId = String.valueOf(videoItem.get(0));
                     String urlYoutubeDownload = ambilUrlVideo(urlVideoId.replace("[","").replace("]",""));
                     String urlYoutubeThumbnail = "https://i.ytimg.com/vi/"+urlVideoId.replace("[","").replace("]","")+"/default.jpg";
 //                    String urlYoutubeDownload = ambilUrlVideo();
 //                    String urlYoutubeThumbnail = "https://i.ytimg.com/vi/hjTAakwP924/hqdefault.jpg?sqp=-oaymwEXCPYBEIoBSFryq4qpAwkIARUAAIhCGAE=&rs=AOn4CLD4jQPxagi91z8A6Oy6H_mlpElfBw";
                     replyToUserVideo(payload.events[0].replyToken,urlYoutubeDownload,urlYoutubeThumbnail);
+                }
+
+                if (payload.events[0].message.text.contains("Katou download musik ")) {
+                    String keyword = payload.events[0].message.text.substring(21);
+                    List videoItem = ambilUrlVideoId(keyword);
+                    String urlVideoId = String.valueOf(videoItem.get(0));
+                    String urlVideoTitle = String.valueOf(videoItem.get(1));
+                    String title = urlVideoTitle;
+                    String linkDownload = "http://mp3you.tube/get/?direct=https://www.youtube.com/watch?v="+urlVideoId.replace("[","").replace("]","");
+                    String messageLink = title+"\n\n"+linkDownload;
+                    replyToUser(payload.events[0].replyToken,messageLink);
                 }
 
                 if (payload.events[0].message.text.contains("Katou apa itu ")) {
@@ -488,7 +493,7 @@ public class LineBotController
         return urlDownload;
     }
 
-    private static String ambilUrlVideoId(String text) {
+    private static List<String> ambilUrlVideoId(String text) {
         String keyword = text;
         keyword = keyword.replace(" ", "+");
 
@@ -523,13 +528,16 @@ public class LineBotController
         for (JsonElement it : items) {
             JsonObject itemsObj = it.getAsJsonObject();
             JsonObject id = itemsObj.get("id").getAsJsonObject();
+            JsonObject snippet = itemsObj.get("snippet").getAsJsonObject();
             String videoId = id.get("videoId").getAsString();
+            String title = snippet.get("title").getAsString();
             list = new ArrayList<String>();
             list.add(videoId);
-            return String.valueOf(list.get(0));
+            list.add(title);
+            return list;
         }
 
-        return String.valueOf(list.get(0));
+        return list;
     }
 
 }
