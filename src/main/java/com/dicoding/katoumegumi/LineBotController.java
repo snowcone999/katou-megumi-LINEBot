@@ -111,7 +111,7 @@ public class LineBotController
                     String urlVideoId = String.valueOf(videoItem.get(0));
                     String urlVideoTitle = String.valueOf(videoItem.get(1));
                     String title = urlVideoTitle;
-                    String linkDownload = "http://mp3you.tube/get/?direct=https://www.youtube.com/watch?v="+urlVideoId.replace("[","").replace("]","");
+                    String linkDownload = "Link : http://mp3you.tube/get/?direct=https://www.youtube.com/watch?v="+urlVideoId.replace("[","").replace("]","");
                     String messageLink = title+"\n\n"+linkDownload;
                     replyToUser(payload.events[0].replyToken,messageLink);
                 }
