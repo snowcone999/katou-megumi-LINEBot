@@ -121,14 +121,14 @@ public class LineBotController
                     List listIg = null;
                     try {
                         listIg = SearchIg(keyword);
-                        String username = String.valueOf(listIg.get(0));
-                        String fullname = String.valueOf(listIg.get(1));
-                        String biography = String.valueOf(listIg.get(2));
-                        String followers = String.valueOf(listIg.get(3));
-                        String following = String.valueOf(listIg.get(4));
-                        String profile_pic = String.valueOf(listIg.get(5));
-                        String urlImg = String.valueOf(listIg.get(6));
-                        String urlPost = String.valueOf(listIg.get(7));
+//                        String username = String.valueOf(listIg.get(0));
+//                        String fullname = String.valueOf(listIg.get(1));
+//                        String biography = String.valueOf(listIg.get(2));
+//                        String followers = String.valueOf(listIg.get(3));
+//                        String following = String.valueOf(listIg.get(4));
+//                        String profile_pic = String.valueOf(listIg.get(5));
+                        String urlImg = String.valueOf(listIg.get(0));
+                        String urlPost = String.valueOf(listIg.get(1));
 
 
 //                        String first = "Stalking instagram user dengan id : "+ keyword;
@@ -602,12 +602,12 @@ public class LineBotController
         String profile_pic = media.get("profile_pic.url").getAsString();
 
         List<String> list = null;
-        list.add(username);
-        list.add(fullname);
-        list.add(biography);
-        list.add(folowers);
-        list.add(following);
-        list.add(profile_pic);
+//        list.add(username);
+//        list.add(fullname);
+//        list.add(biography);
+//        list.add(folowers);
+//        list.add(following);
+//        list.add(profile_pic);
 
         for (JsonElement it : nodes) {
             JsonObject items = it.getAsJsonObject();
@@ -616,7 +616,6 @@ public class LineBotController
             list = new ArrayList<String>();
             list.add(src);
             list.add(code);
-            return list;
         }
 
 
