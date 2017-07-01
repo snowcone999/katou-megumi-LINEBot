@@ -118,11 +118,18 @@ public class LineBotController
 
                 if (payload.events[0].message.text.contains("Katou stalk ")) {
                     String keyword = payload.events[0].message.text.substring(12);
-                    List listIg = SearchIg(keyword);
-                    String urlImg = String.valueOf(listIg.get(0));
-                    String urlPost = String.valueOf(listIg.get(1));
-                    replyToUserImage(payload.events[0].replyToken,urlImg,urlImg);
-                    replyToUser(payload.events[0].replyToken,urlPost);
+                    List listIg = null;
+                    try {
+                        listIg = SearchIg(keyword);
+                        String urlImg = String.valueOf(listIg.get(0));
+                        String urlPost = String.valueOf(listIg.get(1));
+                        replyToUserImage(payload.events[0].replyToken,urlImg,urlImg);
+                        replyToUser(payload.events[0].replyToken,urlPost);
+                    } catch (URISyntaxException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
 
                 if (payload.events[0].message.text.contains("Katou apa itu ")) {
