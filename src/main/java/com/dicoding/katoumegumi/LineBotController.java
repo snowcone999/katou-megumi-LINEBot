@@ -128,20 +128,18 @@ public class LineBotController
                         String is_private = String.valueOf(listIg.get(0));
                         String username = String.valueOf(listIg.get(1));
                         String fullname = String.valueOf(listIg.get(2));
-                        String biography = String.valueOf(listIg.get(3));
-                        String followers = String.valueOf(listIg.get(4));
-                        String following = String.valueOf(listIg.get(5));
-                        String profile_pic = String.valueOf(listIg.get(6));
+                        String followers = String.valueOf(listIg.get(3));
+                        String following = String.valueOf(listIg.get(4));
+                        String profile_pic = String.valueOf(listIg.get(5));
                         if(is_private != "true") {
-                            urlImg = String.valueOf(listIg.get(7));
-                            urlPost = String.valueOf(listIg.get(8));
+                            urlImg = String.valueOf(listIg.get(6));
+                            urlPost = String.valueOf(listIg.get(7));
                         }
 
 
                         String first = "Stalking user instagram dengan id : "+keyword;
                         String sec = "Username : "+username;
                         String third = "Nama panjang : "+fullname;
-                        String four = "biografi : "+biography;
                         String five = "Followers : "+followers+"\nFollowing : "+following;
                         String six = "Foto Profil :";
                         if(is_private != "true") {
@@ -153,7 +151,6 @@ public class LineBotController
                         pushMessage(idTarget,first);
                         pushMessage(idTarget,sec);
                         pushMessage(idTarget,third);
-                        pushMessage(idTarget,four);
                         pushMessage(idTarget,five);
                         pushMessage(idTarget,six);
                         pushMessageImage(idTarget,profile_pic,profile_pic);
@@ -623,7 +620,6 @@ public class LineBotController
 
         String fullname = user.get("full_name").getAsString();
         String username = user.get("username").getAsString();
-        String biography = user.get("biography").getAsString();
         JsonObject followers = user.get("followed_by").getAsJsonObject();
         JsonObject follows = user.get("follows").getAsJsonObject();
         String folowers = followers.get("count").getAsString();
@@ -636,7 +632,6 @@ public class LineBotController
         list.add(is_private);
         list.add(username);
         list.add(fullname);
-        list.add(biography);
         list.add(folowers);
         list.add(following);
         list.add(profile_pic);
