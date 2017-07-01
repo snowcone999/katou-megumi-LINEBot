@@ -54,3 +54,7 @@ Jawaban : cari video di youtube maks 10mb
 --
 Katou download musik (teks teks) -- 
 Jawaban : cari video di youtube dan memberikan link download mp3nya
+
+--
+Katou stalk (id instagram) -- 
+Jawaban : mendapatkan informasi user dari id instagram
