@@ -131,7 +131,7 @@ public class LineBotController
                         String urlPost = String.valueOf(listIg.get(1));
 
 
-                        String first = "Stalking instagram user dengan id : "+keyword+;
+                        String first = "Stalking instagram user dengan id : "+keyword;
                         String sec = "Username : "+username;
                         String third = "Nama panjang : "+fullname;
                         String four = "biography : \n"+biography;
