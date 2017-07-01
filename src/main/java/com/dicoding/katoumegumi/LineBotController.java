@@ -121,36 +121,37 @@ public class LineBotController
                     List listIg = null;
                     try {
                         listIg = SearchIg(keyword);
-//                        String username = String.valueOf(listIg.get(0));
-//                        String fullname = String.valueOf(listIg.get(1));
-//                        String biography = String.valueOf(listIg.get(2));
-//                        String followers = String.valueOf(listIg.get(3));
-//                        String following = String.valueOf(listIg.get(4));
-//                        String profile_pic = String.valueOf(listIg.get(5));
-                        String urlImg = String.valueOf(listIg.get(6));
-                        String urlPost = String.valueOf(listIg.get(7));
+                        String username = String.valueOf(listIg.get(0));
+                        String fullname = String.valueOf(listIg.get(1));
+                        String biography = String.valueOf(listIg.get(2));
+                        String followers = String.valueOf(listIg.get(3));
+                        String following = String.valueOf(listIg.get(4));
+                        String profile_pic = String.valueOf(listIg.get(5));
+                        String urlImg = String.valueOf(listIg.get(0));
+                        String urlPost = String.valueOf(listIg.get(1));
 
 
-//                        String first = "Nama panjang : "+fullname;
-//                        String sec = "Followers : "+followers+"\n Following : "+following;
-//                        String third = "Foto Profil :";
-//
-//                        String four = "Postingan terakhir :";
-//                        String five = urlPost;
-//
-//                        String[] text = new String[];
-//                        text[0] = first;
-//                        text[1] = sec;
-//                        text[2] = third;
-//                        text[3] = four;
-//                        text[4] = five;
-//
-//                        replyToUser(payload.events[0].replyToken,first);
-//                        replyToUserImage(payload.events[0].replyToken,profile_pic,profile_pic);
-                        replyToUserImage(payload.events[0].replyToken,urlImg,urlImg);
-                        msgText=urlPost;
-                        msgText="halo";
+                        String first = "Stalking user instagram dengan id :"+keyword;
+                        String sec = "Username : "+username;
+                        String third = "Nama panjang : "+fullname;
+                        String four = "biografi : "+biography;
+                        String five = "Followers : "+followers+"\n Following : "+following;
+                        String six = "Foto Profil :";
+                        String seven = "Postingan terakhir :";
+                        String eight = urlPost;
+                        String nine = "Stalking "+keyword+" Selesai.";
 
+                        pushMessage(idTarget,first);
+                        pushMessage(idTarget,sec);
+                        pushMessage(idTarget,third);
+                        pushMessage(idTarget,four);
+                        pushMessage(idTarget,five);
+                        pushMessage(idTarget,six);
+                        pushMessageImage(idTarget,profile_pic,profile_pic);
+                        pushMessage(idTarget,seven);
+                        pushMessageImage(idTarget,urlImg,urlImg);
+                        pushMessage(idTarget,eight);
+                        pushMessage(idTarget,nine);
                     } catch (URISyntaxException e) {
                         e.printStackTrace();
                     } catch (IOException e) {
@@ -310,6 +311,22 @@ public class LineBotController
             .build()
             .pushMessage(pushMessage)
             .execute();
+            System.out.println(response.code() + " " + response.message());
+        } catch (IOException e) {
+            System.out.println("Exception is raised ");
+            e.printStackTrace();
+        }
+    }
+
+    private void pushMessageImage(String sourceId, String imageUrl, String previewURl){
+        ImageMessage imgMessage = new ImageMessage(imageUrl,previewURl);
+        PushMessage pushMessage = new PushMessage(sourceId,imgMessage);
+        try {
+            Response<BotApiResponse> response = LineMessagingServiceBuilder
+                    .create(lChannelAccessToken)
+                    .build()
+                    .pushMessage(pushMessage)
+                    .execute();
             System.out.println(response.code() + " " + response.message());
         } catch (IOException e) {
             System.out.println("Exception is raised ");
