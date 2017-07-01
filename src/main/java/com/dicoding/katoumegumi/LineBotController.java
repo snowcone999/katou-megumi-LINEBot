@@ -135,7 +135,7 @@ public class LineBotController
                         String sec = "Username : "+username;
                         String third = "Nama panjang : "+fullname;
                         String four = "biografi : "+biography;
-                        String five = "Followers : "+followers+"\n Following : "+following;
+                        String five = "Followers : "+followers+"\nFollowing : "+following;
                         String six = "Foto Profil :";
                         String seven = "Postingan terakhir :";
                         String eight = urlPost;
