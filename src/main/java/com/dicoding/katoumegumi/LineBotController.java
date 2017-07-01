@@ -124,7 +124,7 @@ public class LineBotController
                         String urlImg = String.valueOf(listIg.get(0));
                         String urlPost = String.valueOf(listIg.get(1));
                         replyToUserImage(payload.events[0].replyToken,urlImg,urlImg);
-                        replyToUser(payload.events[0].replyToken,urlPost);
+                        msgText = urlPost;
                     } catch (URISyntaxException e) {
                         e.printStackTrace();
                     } catch (IOException e) {
