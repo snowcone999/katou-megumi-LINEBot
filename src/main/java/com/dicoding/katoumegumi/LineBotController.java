@@ -121,36 +121,36 @@ public class LineBotController
                     List listIg = null;
                     try {
                         listIg = SearchIg(keyword);
-//                        String username = String.valueOf(listIg.get(0));
-//                        String fullname = String.valueOf(listIg.get(1));
-//                        String biography = String.valueOf(listIg.get(2));
-//                        String followers = String.valueOf(listIg.get(3));
-//                        String following = String.valueOf(listIg.get(4));
-//                        String profile_pic = String.valueOf(listIg.get(5));
+                        String username = String.valueOf(listIg.get(0));
+                        String fullname = String.valueOf(listIg.get(1));
+                        String biography = String.valueOf(listIg.get(2));
+                        String followers = String.valueOf(listIg.get(3));
+                        String following = String.valueOf(listIg.get(4));
+                        String profile_pic = String.valueOf(listIg.get(5));
                         String urlImg = String.valueOf(listIg.get(0));
                         String urlPost = String.valueOf(listIg.get(1));
 
 
-//                        String first = "Stalking instagram user dengan id : "+ keyword;
-//                        replyToUser(payload.events[0].replyToken,first);
-//                        String sec = "Username : "+username;
-//                        replyToUser(payload.events[0].replyToken,sec);
-//                        String third = "Nama panjang : "+fullname;
-//                        replyToUser(payload.events[0].replyToken,third);
-//                        String four = "biography : \n"+biography;
-//                        replyToUser(payload.events[0].replyToken,four);
-//                        String five = "Followers : "+followers+"\n Following : "+following;
-//                        replyToUser(payload.events[0].replyToken,five);
-//                        String six = "Foto Profil :";
-//                        replyToUser(payload.events[0].replyToken,six);
-//                        replyToUserImage(payload.events[0].replyToken,profile_pic,profile_pic);
-//                        String seven = "Postingan terakhir :";
-//                        replyToUser(payload.events[0].replyToken,seven);
+                        String first = "Stalking instagram user dengan id : "+keyword+"...";
+                        replyToUser(payload.events[0].replyToken,first);
+                        String sec = "Username : "+username;
+                        replyToUser(payload.events[0].replyToken,sec);
+                        String third = "Nama panjang : "+fullname;
+                        replyToUser(payload.events[0].replyToken,third);
+                        String four = "biography : \n"+biography;
+                        replyToUser(payload.events[0].replyToken,four);
+                        String five = "Followers : "+followers+"\n Following : "+following;
+                        replyToUser(payload.events[0].replyToken,five);
+                        String six = "Foto Profil :";
+                        replyToUser(payload.events[0].replyToken,six);
+                        replyToUserImage(payload.events[0].replyToken,profile_pic,profile_pic);
+                        String seven = "Postingan terakhir :";
+                        replyToUser(payload.events[0].replyToken,seven);
                         replyToUserImage(payload.events[0].replyToken,urlImg,urlImg);
                         String eight = urlPost;
                         replyToUser(payload.events[0].replyToken,eight);
-//                        String nine = "Stalking "+keyword+" Complete";
-//                        replyToUser(payload.events[0].replyToken,nine);
+                        String nine = "Stalking "+keyword+" Selesai.";
+                        replyToUser(payload.events[0].replyToken,nine);
                     } catch (URISyntaxException e) {
                         e.printStackTrace();
                     } catch (IOException e) {
@@ -592,28 +592,29 @@ public class LineBotController
         JsonObject user = jsonElement.getAsJsonObject().get("user").getAsJsonObject();
         JsonObject media = user.get("media").getAsJsonObject();
         JsonArray nodes = media.get("nodes").getAsJsonArray();
-//        String fullname = media.get("full_name").getAsString();
-//        String username = media.get("username").getAsString();
-//        String biography = media.get("biography").getAsString();
-//        JsonObject followers = user.get("followed_by").getAsJsonObject();
-//        JsonObject follows = user.get("follows").getAsJsonObject();
-//        String folowers = followers.get("count").getAsString();
-//        String following = follows.get("count").getAsString();
-//        String profile_pic = media.get("profile_pic.url").getAsString();
+
+        String fullname = user.get("full_name").getAsString();
+        String username = user.get("username").getAsString();
+        String biography = user.get("biography").getAsString();
+        JsonObject followers = user.get("followed_by").getAsJsonObject();
+        JsonObject follows = user.get("follows").getAsJsonObject();
+        String folowers = followers.get("count").getAsString();
+        String following = follows.get("count").getAsString();
+        String profile_pic = user.get("profile_pic_url").getAsString();
 
         List<String> list = null;
-//        list.add(username);
-//        list.add(fullname);
-//        list.add(biography);
-//        list.add(folowers);
-//        list.add(following);
-//        list.add(profile_pic);
+        list = new ArrayList<String>();
+        list.add(username);
+        list.add(fullname);
+        list.add(biography);
+        list.add(folowers);
+        list.add(following);
+        list.add(profile_pic);
 
         for (JsonElement it : nodes) {
             JsonObject items = it.getAsJsonObject();
             String src = items.get("thumbnail_src").getAsString();
             String code = "https://www.instagram.com/p/"+items.get("code").getAsString();
-            list = new ArrayList<String>();
             list.add(src);
             list.add(code);
         }
