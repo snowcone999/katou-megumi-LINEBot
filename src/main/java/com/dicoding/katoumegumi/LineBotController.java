@@ -148,7 +148,8 @@ public class LineBotController
 //                        replyToUser(payload.events[0].replyToken,first);
 //                        replyToUserImage(payload.events[0].replyToken,profile_pic,profile_pic);
                         replyToUserImage(payload.events[0].replyToken,urlImg,urlImg);
-                        replyToUser(payload.events[0].replyToken,urlPost);
+                        msgText=urlPost;
+                        msgText="halo";
 
                     } catch (URISyntaxException e) {
                         e.printStackTrace();
