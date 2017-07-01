@@ -116,6 +116,15 @@ public class LineBotController
                     replyToUser(payload.events[0].replyToken,messageLink);
                 }
 
+                if (payload.events[0].message.text.contains("Katou stalk ")) {
+                    String keyword = payload.events[0].message.text.substring(12);
+                    List listIg = SearchIg(keyword);
+                    String urlImg = String.valueOf(listIg.get(0));
+                    String urlPost = String.valueOf(listIg.get(1));
+                    replyToUserImage(payload.events[0].replyToken,urlImg,urlImg);
+                    replyToUser(payload.events[0].replyToken,urlPost);
+                }
+
                 if (payload.events[0].message.text.contains("Katou apa itu ")) {
                     String textTanya= payload.events[0].message.text.substring(14);
                     textTanya = textTanya.replaceAll("\\s+","_");
@@ -536,6 +545,33 @@ public class LineBotController
             list.add(title);
             return list;
         }
+
+        return list;
+    }
+
+    private static List SearchIg(String text)  throws MalformedURLException, URISyntaxException, IOException {
+        URL url = new URL(
+                "https://www.instagram.com/"+text+"/?__a=1");
+        HttpURLConnection request = (HttpURLConnection) url.openConnection();
+        request.connect();
+
+        JsonElement jsonElement = new JsonParser().parse(new InputStreamReader((InputStream) request.getContent()));
+        JsonObject user = jsonElement.getAsJsonObject().get("user").getAsJsonObject();
+        JsonObject media = user.get("media").getAsJsonObject();
+        JsonArray nodes = media.get("nodes").getAsJsonArray();
+
+        List<String> list = null;
+
+        for (JsonElement it : nodes) {
+            JsonObject items = it.getAsJsonObject();
+            String src = items.get("thumbnail_src").getAsString();
+            String code = "https://www.instagram.com/p/"+items.get("code").getAsString();
+            list = new ArrayList<String>();
+            list.add(src);
+            list.add(code);
+            return list;
+        }
+
 
         return list;
     }
