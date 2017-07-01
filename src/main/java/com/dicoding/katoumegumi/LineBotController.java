@@ -121,14 +121,21 @@ public class LineBotController
                     List listIg = null;
                     try {
                         listIg = SearchIg(keyword);
-                        String username = String.valueOf(listIg.get(0));
-                        String fullname = String.valueOf(listIg.get(1));
-                        String biography = String.valueOf(listIg.get(2));
-                        String followers = String.valueOf(listIg.get(3));
-                        String following = String.valueOf(listIg.get(4));
-                        String profile_pic = String.valueOf(listIg.get(5));
-                        String urlImg = String.valueOf(listIg.get(6));
-                        String urlPost = String.valueOf(listIg.get(7));
+                        String urlPost = null;
+                        String urlImg = null;
+                        String seven = null;
+                        String eight = null;
+                        String is_private = String.valueOf(listIg.get(0));
+                        String username = String.valueOf(listIg.get(1));
+                        String fullname = String.valueOf(listIg.get(2));
+                        String biography = String.valueOf(listIg.get(3));
+                        String followers = String.valueOf(listIg.get(4));
+                        String following = String.valueOf(listIg.get(5));
+                        String profile_pic = String.valueOf(listIg.get(6));
+                        if(is_private != "true") {
+                            urlImg = String.valueOf(listIg.get(7));
+                            urlPost = String.valueOf(listIg.get(8));
+                        }
 
 
                         String first = "Stalking user instagram dengan id : "+keyword;
@@ -137,8 +144,10 @@ public class LineBotController
                         String four = "biografi : "+biography;
                         String five = "Followers : "+followers+"\nFollowing : "+following;
                         String six = "Foto Profil :";
-                        String seven = "Postingan terakhir :";
-                        String eight = urlPost;
+                        if(is_private != "true") {
+                           seven = "Postingan terakhir :";
+                           eight = urlPost;
+                        }
                         String nine = "Stalking "+keyword+" Selesai.";
 
                         pushMessage(idTarget,first);
@@ -148,9 +157,11 @@ public class LineBotController
                         pushMessage(idTarget,five);
                         pushMessage(idTarget,six);
                         pushMessageImage(idTarget,profile_pic,profile_pic);
-                        pushMessage(idTarget,seven);
-                        pushMessageImage(idTarget,urlImg,urlImg);
-                        pushMessage(idTarget,eight);
+                        if(is_private != "true") {
+                            pushMessage(idTarget,seven);
+                            pushMessageImage(idTarget,urlImg,urlImg);
+                            pushMessage(idTarget,eight);
+                        }
                         pushMessage(idTarget,nine);
                     } catch (URISyntaxException e) {
                         e.printStackTrace();
@@ -622,6 +633,7 @@ public class LineBotController
 
         List<String> list = null;
         list = new ArrayList<String>();
+        list.add(is_private);
         list.add(username);
         list.add(fullname);
         list.add(biography);
