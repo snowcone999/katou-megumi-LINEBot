@@ -592,14 +592,14 @@ public class LineBotController
         JsonObject user = jsonElement.getAsJsonObject().get("user").getAsJsonObject();
         JsonObject media = user.get("media").getAsJsonObject();
         JsonArray nodes = media.get("nodes").getAsJsonArray();
-        String fullname = media.get("full_name").getAsString();
-        String username = media.get("username").getAsString();
-        String biography = media.get("biography").getAsString();
-        JsonObject followers = user.get("followed_by").getAsJsonObject();
-        JsonObject follows = user.get("follows").getAsJsonObject();
-        String folowers = followers.get("count").getAsString();
-        String following = follows.get("count").getAsString();
-        String profile_pic = media.get("profile_pic.url").getAsString();
+//        String fullname = media.get("full_name").getAsString();
+//        String username = media.get("username").getAsString();
+//        String biography = media.get("biography").getAsString();
+//        JsonObject followers = user.get("followed_by").getAsJsonObject();
+//        JsonObject follows = user.get("follows").getAsJsonObject();
+//        String folowers = followers.get("count").getAsString();
+//        String following = follows.get("count").getAsString();
+//        String profile_pic = media.get("profile_pic.url").getAsString();
 
         List<String> list = null;
 //        list.add(username);
