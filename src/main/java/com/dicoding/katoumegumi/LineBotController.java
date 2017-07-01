@@ -127,8 +127,8 @@ public class LineBotController
                         String followers = String.valueOf(listIg.get(3));
                         String following = String.valueOf(listIg.get(4));
                         String profile_pic = String.valueOf(listIg.get(5));
-                        String urlImg = String.valueOf(listIg.get(0));
-                        String urlPost = String.valueOf(listIg.get(1));
+                        String urlImg = String.valueOf(listIg.get(6));
+                        String urlPost = String.valueOf(listIg.get(7));
 
 
                         String first = "Stalking user instagram dengan id :"+keyword;
