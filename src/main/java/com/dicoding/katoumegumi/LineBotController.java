@@ -131,26 +131,26 @@ public class LineBotController
                         String urlPost = String.valueOf(listIg.get(7));
 
 
-                        String first = "Stalking instagram user dengan id : "+ keyword;
-                        replyToUser(payload.events[0].replyToken,first);
-                        String sec = "Username : "+username;
-                        replyToUser(payload.events[0].replyToken,sec);
-                        String third = "Nama panjang : "+fullname;
-                        replyToUser(payload.events[0].replyToken,third);
-                        String four = "biography : \n"+biography;
-                        replyToUser(payload.events[0].replyToken,four);
-                        String five = "Followers : "+followers+"\n Following : "+following;
-                        replyToUser(payload.events[0].replyToken,five);
-                        String six = "Foto Profil :";
-                        replyToUser(payload.events[0].replyToken,six);
-                        replyToUserImage(payload.events[0].replyToken,profile_pic,profile_pic);
-                        String seven = "Postingan terakhir :";
-                        replyToUser(payload.events[0].replyToken,seven);
+//                        String first = "Stalking instagram user dengan id : "+ keyword;
+//                        replyToUser(payload.events[0].replyToken,first);
+//                        String sec = "Username : "+username;
+//                        replyToUser(payload.events[0].replyToken,sec);
+//                        String third = "Nama panjang : "+fullname;
+//                        replyToUser(payload.events[0].replyToken,third);
+//                        String four = "biography : \n"+biography;
+//                        replyToUser(payload.events[0].replyToken,four);
+//                        String five = "Followers : "+followers+"\n Following : "+following;
+//                        replyToUser(payload.events[0].replyToken,five);
+//                        String six = "Foto Profil :";
+//                        replyToUser(payload.events[0].replyToken,six);
+//                        replyToUserImage(payload.events[0].replyToken,profile_pic,profile_pic);
+//                        String seven = "Postingan terakhir :";
+//                        replyToUser(payload.events[0].replyToken,seven);
                         replyToUserImage(payload.events[0].replyToken,urlImg,urlImg);
                         String eight = urlPost;
                         replyToUser(payload.events[0].replyToken,eight);
-                        String nine = "Stalking "+keyword+" Complete";
-                        replyToUser(payload.events[0].replyToken,nine);
+//                        String nine = "Stalking "+keyword+" Complete";
+//                        replyToUser(payload.events[0].replyToken,nine);
                     } catch (URISyntaxException e) {
                         e.printStackTrace();
                     } catch (IOException e) {
