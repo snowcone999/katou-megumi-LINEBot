@@ -618,6 +618,7 @@ public class LineBotController
         String folowers = followers.get("count").getAsString();
         String following = follows.get("count").getAsString();
         String profile_pic = user.get("profile_pic_url").getAsString();
+        String is_private = user.get("is_private").getAsString();
 
         List<String> list = null;
         list = new ArrayList<String>();
@@ -628,12 +629,14 @@ public class LineBotController
         list.add(following);
         list.add(profile_pic);
 
-        for (JsonElement it : nodes) {
-            JsonObject items = it.getAsJsonObject();
-            String src = items.get("thumbnail_src").getAsString();
-            String code = "https://www.instagram.com/p/"+items.get("code").getAsString();
-            list.add(src);
-            list.add(code);
+        if(is_private != "true") {
+            for (JsonElement it : nodes) {
+                JsonObject items = it.getAsJsonObject();
+                String src = items.get("thumbnail_src").getAsString();
+                String code = "https://www.instagram.com/p/" + items.get("code").getAsString();
+                list.add(src);
+                list.add(code);
+            }
         }
 
 
