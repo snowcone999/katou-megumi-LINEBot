@@ -206,7 +206,7 @@ public class LineBotController
                         }
                         String nine = "Stalking "+keyword+" Selesai.";
 
-                        replyToUserTemplateIg(payload.events[0].replyToken,profile_pic,profile_url,urlImg,urlPost);
+                        replyToUserTemplateIg(payload.events[0].replyToken,profile_pic,username,five,profile_url,urlImg,urlPost);
                     } catch (URISyntaxException e) {
                         e.printStackTrace();
                     } catch (IOException e) {
@@ -325,7 +325,7 @@ public class LineBotController
         }
     }
 
-    private void replyToUserTemplateIg(String rToken, String urlImg,String profileUrl, String urlPostImg, String urlPost){
+    private void replyToUserTemplateIg(String rToken, String urlImg, String username, String deskripsiProfil,String profileUrl, String urlPostImg, String urlPost){
         URIAction urlProfil = new URIAction("Ke profil",profileUrl);
         URIAction urlPoster = new URIAction("Ke postingan",urlPost);
         URIAction urlDownload = new URIAction("Download gambar post",urlPostImg);
@@ -334,8 +334,8 @@ public class LineBotController
         action.add(urlPoster);
         action.add(urlDownload);
 
-        CarouselColumn profil = new CarouselColumn(urlImg,"Nama","Deskripsi",action);
-        CarouselColumn postingan = new CarouselColumn(urlPostImg,"Judul","Deskripsi",action);
+        CarouselColumn profil = new CarouselColumn(urlImg,username,deskripsiProfil,action);
+        CarouselColumn postingan = new CarouselColumn(urlPostImg,"Postingan terakhir","Deskripsi",action);
         List<CarouselColumn> columns = new ArrayList<CarouselColumn>();
         columns.add(profil);
         columns.add(postingan);
