@@ -328,7 +328,7 @@ public class LineBotController
     private void replyToUserTemplateIg(String rToken, String urlImg,String profileUrl, String urlPostImg, String urlPost){
         URIAction urlProfil = new URIAction("Ke profil",profileUrl);
         URIAction urlPoster = new URIAction("Ke postingan",urlPost);
-        URIAction urlDownload = new URIAction("Download postingan terakhir",urlPostImg);
+        URIAction urlDownload = new URIAction("Download gambar post",urlPostImg);
         List<Action> action = new ArrayList<Action>();
         action.add(urlProfil);
         action.add(urlPoster);
