@@ -14,6 +14,7 @@ import com.linecorp.bot.model.message.ImageMessage;
 import com.linecorp.bot.model.message.TemplateMessage;
 import com.linecorp.bot.model.message.TextMessage;
 import com.linecorp.bot.model.message.VideoMessage;
+import com.linecorp.bot.model.message.template.ButtonsTemplate;
 import com.linecorp.bot.model.message.template.CarouselColumn;
 import com.linecorp.bot.model.message.template.CarouselTemplate;
 import com.linecorp.bot.model.message.template.Template;
@@ -184,29 +185,25 @@ public class LineBotController
                         String eight = null;
                         String is_private = String.valueOf(listIg.get(0));
                         String username = String.valueOf(listIg.get(1));
-                        String fullname = String.valueOf(listIg.get(2));
-                        String followers = String.valueOf(listIg.get(3));
-                        String following = String.valueOf(listIg.get(4));
-                        String profile_pic = String.valueOf(listIg.get(5));
+                        String followers = String.valueOf(listIg.get(2));
+                        String following = String.valueOf(listIg.get(3));
+                        String profile_pic = String.valueOf(listIg.get(4));
                         String profile_url = "https://www.instagram.com/"+username;
+                        String comments = String.valueOf(listIg.get(7));
+                        String likes = String.valueOf(listIg.get(8));
+                        String deskripsi_post = "Likes : "+likes+"\nComments : "+comments;
                         if(is_private != "true") {
-                            urlImg = String.valueOf(listIg.get(6));
-                            urlPost = String.valueOf(listIg.get(7));
+                            urlImg = String.valueOf(listIg.get(5));
+                            urlPost = String.valueOf(listIg.get(6));
                         }
 
-
-                        String first = "Stalking user instagram dengan id : "+keyword;
-                        String sec = "Username : "+username;
-                        String third = "Nama panjang : "+fullname;
                         String five = "Followers : "+followers+"\nFollowing : "+following;
-                        String six = "Foto Profil :";
-                        if(is_private != "true") {
-                            seven = "Postingan terakhir :";
-                            eight = urlPost;
-                        }
-                        String nine = "Stalking "+keyword+" Selesai.";
 
-                        replyToUserTemplateIg(payload.events[0].replyToken,profile_pic,username,five,profile_url,urlImg,urlPost);
+                        if(is_private != "true") {
+                            replyToUserTemplateIgCarousel(payload.events[0].replyToken, profile_pic, username, five, deskripsi_post, profile_url, urlImg, urlPost);
+                        }else{
+                            replyToUserTemplateIgButton(payload.events[0].replyToken,profile_pic,username,five,profile_url);
+                        }
                     } catch (URISyntaxException e) {
                         e.printStackTrace();
                     } catch (IOException e) {
@@ -325,7 +322,7 @@ public class LineBotController
         }
     }
 
-    private void replyToUserTemplateIg(String rToken, String urlImg, String username, String deskripsiProfil,String profileUrl, String urlPostImg, String urlPost){
+    private void replyToUserTemplateIgCarousel(String rToken, String urlImg, String username, String deskripsiProfil, String deskripsiPost,String profileUrl, String urlPostImg, String urlPost){
         URIAction urlProfil = new URIAction("Ke profil",profileUrl);
         URIAction urlPoster = new URIAction("Ke postingan",urlPost);
         URIAction urlDownload = new URIAction("Download gambar post",urlPostImg);
@@ -335,12 +332,34 @@ public class LineBotController
         action.add(urlDownload);
 
         CarouselColumn profil = new CarouselColumn(urlImg,username,deskripsiProfil,action);
-        CarouselColumn postingan = new CarouselColumn(urlPostImg,"Postingan terakhir","Deskripsi",action);
+        CarouselColumn postingan = new CarouselColumn(urlPostImg,"Postingan Terakhir",deskripsiPost,action);
         List<CarouselColumn> columns = new ArrayList<CarouselColumn>();
         columns.add(profil);
         columns.add(postingan);
 
         Template carousel = new CarouselTemplate(columns);
+        TemplateMessage templateMessage = new TemplateMessage("Stalk",carousel);
+
+        ReplyMessage replyMessage = new ReplyMessage(rToken, templateMessage);
+        try {
+            Response<BotApiResponse> response = LineMessagingServiceBuilder
+                    .create(lChannelAccessToken)
+                    .build()
+                    .replyMessage(replyMessage)
+                    .execute();
+            System.out.println("Reply Message: " + response.code() + " " + response.message());
+        } catch (IOException e) {
+            System.out.println("Exception is raised ");
+            e.printStackTrace();
+        }
+    }
+
+    private void replyToUserTemplateIgButton(String rToken, String urlImg, String username, String deskripsiProfil,String profileUrl){
+        URIAction urlProfil = new URIAction("Ke profil",profileUrl);
+        List<Action> action = new ArrayList<Action>();
+        action.add(urlProfil);
+
+        Template carousel = new ButtonsTemplate(urlImg,username,deskripsiProfil,action);
         TemplateMessage templateMessage = new TemplateMessage("Stalk",carousel);
 
         ReplyMessage replyMessage = new ReplyMessage(rToken, templateMessage);
@@ -697,7 +716,6 @@ public class LineBotController
         JsonObject media = user.get("media").getAsJsonObject();
         JsonArray nodes = media.get("nodes").getAsJsonArray();
 
-        String fullname = user.get("full_name").getAsString();
         String username = user.get("username").getAsString();
         JsonObject followers = user.get("followed_by").getAsJsonObject();
         JsonObject follows = user.get("follows").getAsJsonObject();
@@ -710,7 +728,6 @@ public class LineBotController
         list = new ArrayList<String>();
         list.add(is_private);
         list.add(username);
-        list.add(fullname);
         list.add(folowers);
         list.add(following);
         list.add(profile_pic);
@@ -718,10 +735,16 @@ public class LineBotController
         if(is_private != "true") {
             for (JsonElement it : nodes) {
                 JsonObject items = it.getAsJsonObject();
+                JsonObject comments = items.get("comments").getAsJsonObject();
+                JsonObject likes = items.get("likes").getAsJsonObject();
                 String src = items.get("thumbnail_src").getAsString();
                 String code = "https://www.instagram.com/p/" + items.get("code").getAsString();
+                String commentCount = comments.get("count").getAsString();
+                String likeCount = likes.get("count").getAsString();
                 list.add(src);
                 list.add(code);
+                list.add(commentCount);
+                list.add(likeCount);
             }
         }
 
