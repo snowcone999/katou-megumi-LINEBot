@@ -188,15 +188,12 @@ public class LineBotController
                         String followers = String.valueOf(listIg.get(3));
                         String following = String.valueOf(listIg.get(4));
                         String profile_pic = String.valueOf(listIg.get(5));
+                        String profileUrl = "https://www.instagram.com/"+username;
                         if(is_private != "true") {
                             urlImg = String.valueOf(listIg.get(6));
                             urlPost = String.valueOf(listIg.get(7));
                         }
 
-
-                        String first = "Stalking user instagram dengan id : "+keyword;
-                        String sec = "Username : "+username;
-                        String third = "Nama panjang : "+fullname;
                         String five = "Followers : "+followers+"\nFollowing : "+following;
                         String six = "Foto Profil :";
                         if(is_private != "true") {
@@ -205,7 +202,7 @@ public class LineBotController
                         }
                         String nine = "Stalking "+keyword+" Selesai.";
 
-                        replyToUserTemplateIg(payload.events[0].replyToken,profile_pic,urlImg);
+                        replyToUserTemplateIg(payload.events[0].replyToken,profile_pic,profileUrl,username,five,urlPost,urlImg;
                     } catch (URISyntaxException e) {
                         e.printStackTrace();
                     } catch (IOException e) {
@@ -324,17 +321,24 @@ public class LineBotController
         }
     }
 
-    private void replyToUserTemplateIg(String rToken, String urlImg, String urlPost){
-        URIAction urlPoster = new URIAction("Ke postingan",urlPost);
+    private void replyToUserTemplateIg(String rToken, String urlImg, String urlProfil, String username, String deskripsiProfil, String urlPost, String urlPostImg){
+        URIAction urlProfilUser = new URIAction("Ke profil",urlProfil);
+        URIAction urlPoster = new URIAction("Ke postingan terakhir",urlPost);
+        URIAction urlImgPost = new URIAction("Download postingan terakhir",urlPost);
         List<Action> action = new ArrayList<Action>();
+        action.add(urlProfilUser);
         action.add(urlPoster);
-        CarouselColumn profil = new CarouselColumn(urlImg,"Nama","Deskripsi",action);
+        action.add(urlImgPost);
+
+        CarouselColumn profil = new CarouselColumn(urlImg,username,deskripsiProfil,action);
         CarouselColumn postingan = new CarouselColumn(urlPost,"Judul","Deskripsi",action);
         List<CarouselColumn> columns = new ArrayList<CarouselColumn>();
         columns.add(profil);
         columns.add(postingan);
+
         Template carousel = new CarouselTemplate(columns);
         TemplateMessage templateMessage = new TemplateMessage("Stalk",carousel);
+
         ReplyMessage replyMessage = new ReplyMessage(rToken, templateMessage);
         try {
             Response<BotApiResponse> response = LineMessagingServiceBuilder
