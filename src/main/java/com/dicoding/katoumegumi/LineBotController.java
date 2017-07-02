@@ -213,7 +213,7 @@ public class LineBotController
                     }
                 }
 
-                if (payload.events[0].message.text.contains("Oke Katou ucapkan selamat ulang tahun ke ")) {
+                if (payload.events[0].message.text.contains("Katou ucapkan selamat ulang tahun ke ")) {
                     String textUltah = payload.events[0].message.text.substring(0,41);
                     String namaUltah = payload.events[0].message.text.substring(41);
                     replyToUser(payload.events[0].replyToken,"Selamat Ulang Tahun "+namaUltah+" :D");
