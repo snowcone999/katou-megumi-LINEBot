@@ -202,7 +202,7 @@ public class LineBotController
                         }
                         String nine = "Stalking "+keyword+" Selesai.";
 
-                        replyToUserTemplateIg(payload.events[0].replyToken,profile_pic,profileUrl,username,five,urlPost,urlImg;
+                        replyToUserTemplateIg(payload.events[0].replyToken,profile_pic,profileUrl,username,five,urlPost,urlImg);
                     } catch (URISyntaxException e) {
                         e.printStackTrace();
                     } catch (IOException e) {
