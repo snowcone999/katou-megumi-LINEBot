@@ -331,7 +331,7 @@ public class LineBotController
         action.add(urlImgPost);
 
         CarouselColumn profil = new CarouselColumn(urlImg,username,deskripsiProfil,action);
-        CarouselColumn postingan = new CarouselColumn(urlPostImg,"Judul","Deskripsi",action);
+        CarouselColumn postingan = new CarouselColumn(urlImg,username,deskripsiProfil,action);
         List<CarouselColumn> columns = new ArrayList<CarouselColumn>();
         columns.add(profil);
         columns.add(postingan);
