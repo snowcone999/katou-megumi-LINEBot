@@ -8,9 +8,15 @@ import com.linecorp.bot.client.LineMessagingServiceBuilder;
 import com.linecorp.bot.client.LineSignatureValidator;
 import com.linecorp.bot.model.PushMessage;
 import com.linecorp.bot.model.ReplyMessage;
+import com.linecorp.bot.model.action.Action;
+import com.linecorp.bot.model.action.URIAction;
 import com.linecorp.bot.model.message.ImageMessage;
+import com.linecorp.bot.model.message.TemplateMessage;
 import com.linecorp.bot.model.message.TextMessage;
 import com.linecorp.bot.model.message.VideoMessage;
+import com.linecorp.bot.model.message.template.CarouselColumn;
+import com.linecorp.bot.model.message.template.CarouselTemplate;
+import com.linecorp.bot.model.message.template.Template;
 import com.linecorp.bot.model.response.BotApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -83,15 +89,15 @@ public class LineBotController
 
             } else {
                 if (payload.events[0].message.text.equals("Hai Katou")) {
-                    msgText = "Hai juga" ;
+                    replyToUser(payload.events[0].replyToken,"Hai juga");
                 }
 
                 if (payload.events[0].message.text.equals("Katou")) {
-                    msgText = "Iya";
+                    replyToUser(payload.events[0].replyToken,msgText = "Iya");
                 }
 
                 if (payload.events[0].message.text.equals("Katou ramal")) {
-                    msgText = getRandom(ramal);
+                    replyToUser(payload.events[0].replyToken,getRandom(ramal));
                 }
 
                 if (payload.events[0].message.text.contains("Katou cari video ")) {
@@ -167,18 +173,58 @@ public class LineBotController
                     }
                 }
 
+                if (payload.events[0].message.text.contains("Katou stalk carousel ")) {
+                    String keyword = payload.events[0].message.text.substring(21);
+                    List listIg = null;
+                    try {
+                        listIg = SearchIg(keyword);
+                        String urlPost = null;
+                        String urlImg = null;
+                        String seven = null;
+                        String eight = null;
+                        String is_private = String.valueOf(listIg.get(0));
+                        String username = String.valueOf(listIg.get(1));
+                        String fullname = String.valueOf(listIg.get(2));
+                        String followers = String.valueOf(listIg.get(3));
+                        String following = String.valueOf(listIg.get(4));
+                        String profile_pic = String.valueOf(listIg.get(5));
+                        if(is_private != "true") {
+                            urlImg = String.valueOf(listIg.get(6));
+                            urlPost = String.valueOf(listIg.get(7));
+                        }
+
+
+                        String first = "Stalking user instagram dengan id : "+keyword;
+                        String sec = "Username : "+username;
+                        String third = "Nama panjang : "+fullname;
+                        String five = "Followers : "+followers+"\nFollowing : "+following;
+                        String six = "Foto Profil :";
+                        if(is_private != "true") {
+                            seven = "Postingan terakhir :";
+                            eight = urlPost;
+                        }
+                        String nine = "Stalking "+keyword+" Selesai.";
+
+                        replyToUserTemplateIg(payload.events[0].replyToken,profile_pic,urlImg);
+                    } catch (URISyntaxException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+
                 if (payload.events[0].message.text.contains("Katou apa itu ")) {
                     String textTanya= payload.events[0].message.text.substring(14);
                     textTanya = textTanya.replaceAll("\\s+","_");
                     try {
                         String jawaban = wiki(textTanya);
-                        msgText = jawaban;
+                        replyToUser(payload.events[0].replyToken,jawaban);
                     } catch (IOException e) {
                         e.printStackTrace();
 
                     } catch (NullPointerException e){
                         e.printStackTrace();
-                        msgText = "Tidak ditemukan hasil dengan keyword : "+textTanya;
+                        replyToUser(payload.events[0].replyToken,"Tidak ditemukan hasil dengan keyword : "+textTanya);
                     }
                 }
 
@@ -216,7 +262,7 @@ public class LineBotController
                 if (payload.events[0].message.text.contains("Katou cuaca ")) {
                     String namaKota = payload.events[0].message.text.substring(12);
                     try {
-                        msgText = forecastweather(namaKota);
+                        replyToUser(payload.events[0].replyToken,forecastweather(namaKota));
                     } catch (URISyntaxException e) {
                         e.printStackTrace();
                     } catch (IOException e) {
@@ -227,7 +273,7 @@ public class LineBotController
                 if (payload.events[0].message.text.contains("Oke Katou ucapkan selamat ulang tahun ke ")) {
                     String textUltah = payload.events[0].message.text.substring(0,41);
                     String namaUltah = payload.events[0].message.text.substring(41);
-                    msgText = "Selamat Ulang Tahun "+namaUltah+" :D";
+                    replyToUser(payload.events[0].replyToken,"Selamat Ulang Tahun "+namaUltah+" :D");
                 }
 
                 if (payload.events[0].message.text.contains("Katou berapa ")) {
@@ -243,7 +289,7 @@ public class LineBotController
                         e.printStackTrace();
                     }
                     String hasil = String.valueOf(hitung);
-                    msgText = "Hasil dari "+angka+" adalah "+hasil;
+                    replyToUser(payload.events[0].replyToken,"Hasil dari "+angka+" adalah "+hasil);
                 }
 
 //                if (payload.events[0].message.text.equals("Katou siapa namaku ?")) {
@@ -275,6 +321,31 @@ public class LineBotController
     private void getMessageData(String message, String targetID) throws IOException{
         if (message!=null){
             pushMessage(targetID, message);
+        }
+    }
+
+    private void replyToUserTemplateIg(String rToken, String urlImg, String urlPost){
+        URIAction urlPoster = new URIAction("Ke postingan",urlPost);
+        List<Action> action = new ArrayList<Action>();
+        action.add(urlPoster);
+        CarouselColumn profil = new CarouselColumn(urlImg,"Nama","Deskripsi",action);
+        CarouselColumn postingan = new CarouselColumn(urlPost,"Judul","Deskripsi",action);
+        List<CarouselColumn> columns = new ArrayList<CarouselColumn>();
+        columns.add(profil);
+        columns.add(postingan);
+        Template carousel = new CarouselTemplate(columns);
+        TemplateMessage templateMessage = new TemplateMessage("Stalk",carousel);
+        ReplyMessage replyMessage = new ReplyMessage(rToken, templateMessage);
+        try {
+            Response<BotApiResponse> response = LineMessagingServiceBuilder
+                    .create(lChannelAccessToken)
+                    .build()
+                    .replyMessage(replyMessage)
+                    .execute();
+            System.out.println("Reply Message: " + response.code() + " " + response.message());
+        } catch (IOException e) {
+            System.out.println("Exception is raised ");
+            e.printStackTrace();
         }
     }
 
