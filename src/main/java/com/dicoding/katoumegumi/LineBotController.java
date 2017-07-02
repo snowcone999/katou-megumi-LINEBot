@@ -243,33 +243,12 @@ public class LineBotController
 //                    String iduser = payload.events[0].source.userId;
 //                    msgText = "Namamu " +  UserProfileName(iduser) ;
 //                }
-
-                if (!msgText.contains("bot leave")){
-                    try {
-                        getMessageData(msgText, idTarget);
-                    } catch (IOException e) {
-                        System.out.println("Exception is raised ");
-                        e.printStackTrace();
-                    }
-                } else {
-                    if (payload.events[0].source.type.equals("group")){
-                        leaveGR(payload.events[0].source.groupId, "group");
-                    } else if (payload.events[0].source.type.equals("room")){
-                        leaveGR(payload.events[0].source.roomId, "room");
-                    }
-                }
-
             }
         }
          
         return new ResponseEntity<String>(HttpStatus.OK);
     }
 
-    private void getMessageData(String message, String targetID) throws IOException{
-        if (message!=null){
-            pushMessage(targetID, message);
-        }
-    }
 
     private void replyToUserTemplateIgCarousel(String rToken, String urlImg, String username, String deskripsiProfil, String deskripsiPost,String profileUrl, String urlPostImg, String urlPost){
         URIAction urlProfil = new URIAction("Ke profil",profileUrl);
@@ -357,37 +336,6 @@ public class LineBotController
         }
     }
 
-    private void pushMessage(String sourceId, String txt){
-        TextMessage textMessage = new TextMessage(txt);
-        PushMessage pushMessage = new PushMessage(sourceId,textMessage);
-        try {
-            Response<BotApiResponse> response = LineMessagingServiceBuilder
-            .create(lChannelAccessToken)
-            .build()
-            .pushMessage(pushMessage)
-            .execute();
-            System.out.println(response.code() + " " + response.message());
-        } catch (IOException e) {
-            System.out.println("Exception is raised ");
-            e.printStackTrace();
-        }
-    }
-
-    private void pushMessageImage(String sourceId, String imageUrl, String previewURl){
-        ImageMessage imgMessage = new ImageMessage(imageUrl,previewURl);
-        PushMessage pushMessage = new PushMessage(sourceId,imgMessage);
-        try {
-            Response<BotApiResponse> response = LineMessagingServiceBuilder
-                    .create(lChannelAccessToken)
-                    .build()
-                    .pushMessage(pushMessage)
-                    .execute();
-            System.out.println(response.code() + " " + response.message());
-        } catch (IOException e) {
-            System.out.println("Exception is raised ");
-            e.printStackTrace();
-        }
-    }
 
     private void leaveGR(String id, String type){
         try {
