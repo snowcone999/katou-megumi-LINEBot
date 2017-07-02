@@ -72,10 +72,10 @@ public class LineBotController
 
         if (eventType.equals("join")){
             if (payload.events[0].source.type.equals("group")){
-                replyToUser(payload.events[0].replyToken, "Halo Semuanya :D");
+                replyToUser(payload.events[0].replyToken, "Halo Semuanya silahkan ketik 'Katou keyword' untuk melihat keyword :D");
             }
             if (payload.events[0].source.type.equals("room")){
-                replyToUser(payload.events[0].replyToken, "Halo Semuanya :D");
+                replyToUser(payload.events[0].replyToken, "Halo Semuanya silahkan ketik 'Katou keyword' untuk melihat keyword :D");
             }
         } else if (eventType.equals("message")){
             if (payload.events[0].source.type.equals("group")){
