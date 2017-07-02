@@ -89,10 +89,6 @@ public class LineBotController
             if (!payload.events[0].message.type.equals("text")){
 
             } else {
-                if (payload.events[0].message.text.equals("Hai Katou")) {
-                    replyToUser(payload.events[0].replyToken,"Hai juga");
-                }
-
                 if (payload.events[0].message.text.equals("Katou")) {
                     replyToUser(payload.events[0].replyToken,msgText = "Iya");
                 }
