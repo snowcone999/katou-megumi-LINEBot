@@ -130,80 +130,29 @@ public class LineBotController
                         listIg = SearchIg(keyword);
                         String urlPost = null;
                         String urlImg = null;
-                        String seven = null;
-                        String eight = null;
-                        String is_private = String.valueOf(listIg.get(0));
-                        String username = String.valueOf(listIg.get(1));
-                        String fullname = String.valueOf(listIg.get(2));
-                        String followers = String.valueOf(listIg.get(3));
-                        String following = String.valueOf(listIg.get(4));
-                        String profile_pic = String.valueOf(listIg.get(5));
-                        if(is_private != "true") {
-                            urlImg = String.valueOf(listIg.get(6));
-                            urlPost = String.valueOf(listIg.get(7));
-                        }
-
-
-                        String first = "Stalking user instagram dengan id : "+keyword;
-                        String sec = "Username : "+username;
-                        String third = "Nama panjang : "+fullname;
-                        String five = "Followers : "+followers+"\nFollowing : "+following;
-                        String six = "Foto Profil :";
-                        if(is_private != "true") {
-                           seven = "Postingan terakhir :";
-                           eight = urlPost;
-                        }
-                        String nine = "Stalking "+keyword+" Selesai.";
-
-                        pushMessage(idTarget,first);
-                        pushMessage(idTarget,sec);
-                        pushMessage(idTarget,third);
-                        pushMessage(idTarget,five);
-                        pushMessage(idTarget,six);
-                        pushMessageImage(idTarget,profile_pic,profile_pic);
-                        if(is_private != "true") {
-                            pushMessage(idTarget,seven);
-                            pushMessageImage(idTarget,urlImg,urlImg);
-                            pushMessage(idTarget,eight);
-                        }
-                        pushMessage(idTarget,nine);
-                    } catch (URISyntaxException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-                if (payload.events[0].message.text.contains("Katou stalk carousel ")) {
-                    String keyword = payload.events[0].message.text.substring(21);
-                    List listIg = null;
-                    try {
-                        listIg = SearchIg(keyword);
-                        String urlPost = null;
-                        String urlImg = null;
-                        String seven = null;
-                        String eight = null;
+                        String comments = null;
+                        String likes = null;
+                        String deskripsi_post = null;
                         String is_private = String.valueOf(listIg.get(0));
                         String username = String.valueOf(listIg.get(1));
                         String followers = String.valueOf(listIg.get(2));
                         String following = String.valueOf(listIg.get(3));
                         String profile_pic = String.valueOf(listIg.get(4));
                         String profile_url = "https://www.instagram.com/"+username;
-                        String comments = String.valueOf(listIg.get(7));
-                        String likes = String.valueOf(listIg.get(8));
-                        String deskripsi_post = "Likes : "+likes+"\nComments : "+comments;
-                        if(is_private != "true") {
-                            urlImg = String.valueOf(listIg.get(5));
-                            urlPost = String.valueOf(listIg.get(6));
-                        }
 
                         String five = "Followers : "+followers+"\nFollowing : "+following;
 
                         if(is_private != "true") {
+                            urlImg = String.valueOf(listIg.get(5));
+                            urlPost = String.valueOf(listIg.get(6));
+                            comments = String.valueOf(listIg.get(7));
+                            likes = String.valueOf(listIg.get(8));
+                            deskripsi_post = "Likes : "+likes+"\nComments : "+comments;
                             replyToUserTemplateIgCarousel(payload.events[0].replyToken, profile_pic, username, five, deskripsi_post, profile_url, urlImg, urlPost);
                         }else{
                             replyToUserTemplateIgButton(payload.events[0].replyToken,profile_pic,username,five,profile_url);
                         }
+
                     } catch (URISyntaxException e) {
                         e.printStackTrace();
                     } catch (IOException e) {
