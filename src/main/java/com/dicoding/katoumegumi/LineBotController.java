@@ -324,14 +324,14 @@ public class LineBotController
     private void replyToUserTemplateIg(String rToken, String urlImg, String urlProfil, String username, String deskripsiProfil, String urlPost, String urlPostImg){
         URIAction urlProfilUser = new URIAction("Ke profil",urlProfil);
         URIAction urlPoster = new URIAction("Ke postingan terakhir",urlPost);
-        URIAction urlImgPost = new URIAction("Download postingan terakhir",urlPost);
+        URIAction urlImgPost = new URIAction("Download postingan terakhir",urlPostImg);
         List<Action> action = new ArrayList<Action>();
         action.add(urlProfilUser);
         action.add(urlPoster);
         action.add(urlImgPost);
 
         CarouselColumn profil = new CarouselColumn(urlImg,username,deskripsiProfil,action);
-        CarouselColumn postingan = new CarouselColumn(urlPost,"Judul","Deskripsi",action);
+        CarouselColumn postingan = new CarouselColumn(urlPostImg,"Judul","Deskripsi",action);
         List<CarouselColumn> columns = new ArrayList<CarouselColumn>();
         columns.add(profil);
         columns.add(postingan);
