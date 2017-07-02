@@ -188,6 +188,7 @@ public class LineBotController
                         String followers = String.valueOf(listIg.get(3));
                         String following = String.valueOf(listIg.get(4));
                         String profile_pic = String.valueOf(listIg.get(5));
+                        String profile_url = "https://www.instagram.com/"+username;
                         if(is_private != "true") {
                             urlImg = String.valueOf(listIg.get(6));
                             urlPost = String.valueOf(listIg.get(7));
@@ -205,7 +206,7 @@ public class LineBotController
                         }
                         String nine = "Stalking "+keyword+" Selesai.";
 
-                        replyToUserTemplateIg(payload.events[0].replyToken,profile_pic,urlImg);
+                        replyToUserTemplateIg(payload.events[0].replyToken,profile_pic,profile_url,urlImg,urlPost);
                     } catch (URISyntaxException e) {
                         e.printStackTrace();
                     } catch (IOException e) {
@@ -324,13 +325,17 @@ public class LineBotController
         }
     }
 
-    private void replyToUserTemplateIg(String rToken, String urlImg, String urlPost){
+    private void replyToUserTemplateIg(String rToken, String urlImg,String profileUrl, String urlPostImg, String urlPost){
+        URIAction urlProfil = new URIAction("Ke profil",profileUrl);
         URIAction urlPoster = new URIAction("Ke postingan",urlPost);
+        URIAction urlDownload = new URIAction("Download postingan terakhir",urlPostImg);
         List<Action> action = new ArrayList<Action>();
+        action.add(urlProfil);
         action.add(urlPoster);
+        action.add(urlDownload);
 
         CarouselColumn profil = new CarouselColumn(urlImg,"Nama","Deskripsi",action);
-        CarouselColumn postingan = new CarouselColumn(urlPost,"Judul","Deskripsi",action);
+        CarouselColumn postingan = new CarouselColumn(urlPostImg,"Judul","Deskripsi",action);
         List<CarouselColumn> columns = new ArrayList<CarouselColumn>();
         columns.add(profil);
         columns.add(postingan);
