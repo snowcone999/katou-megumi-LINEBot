@@ -136,7 +136,7 @@ public class LineBotController
                         String comments = null;
                         String likes = null;
                         String deskripsi_post = null;
-                        String count = String.valueOf(listIg.get(0));
+                        String is_count = String.valueOf(listIg.get(0));
                         String is_private = String.valueOf(listIg.get(1));
                         String username = String.valueOf(listIg.get(2));
                         String followers = String.valueOf(listIg.get(3));
@@ -146,7 +146,7 @@ public class LineBotController
 
                         String five = "Followers : "+followers+"\nFollowing : "+following;
 
-                        if(is_private != "true" && count != "0") {
+                        if(!is_private.equals("true") && !is_count.equals("0") ) {
                             urlImg = String.valueOf(listIg.get(6));
                             urlPost = String.valueOf(listIg.get(7));
                             comments = String.valueOf(listIg.get(8));
@@ -160,6 +160,8 @@ public class LineBotController
                     } catch (URISyntaxException e) {
                         e.printStackTrace();
                     } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (NullPointerException e){
                         e.printStackTrace();
                         replyToUser(payload.events[0].replyToken,"User instagram dengan id "+keyword+" gagal ditemukan");
                     }
