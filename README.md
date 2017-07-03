@@ -36,7 +36,7 @@ Katou cari gambar (teks teks) --
 Jawaban : hasil gambar dari google
 
 --
-Oke Katou ucapkan selamat ulang tahun ke (nama) -- 
+Katou ucapkan selamat ulang tahun ke (nama) -- 
 Jawaban : Selamat Ulang Tahun (nama) :D
 
 --
