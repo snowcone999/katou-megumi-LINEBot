@@ -161,6 +161,7 @@ public class LineBotController
                         e.printStackTrace();
                     } catch (IOException e) {
                         e.printStackTrace();
+                        replyToUser(payload.events[0].replyToken,"User instagram dengan id "+keyword+" gagal ditemukan");
                     } catch (NullPointerException e){
                         e.printStackTrace();
                         replyToUser(payload.events[0].replyToken,"User instagram dengan id "+keyword+" gagal ditemukan");
@@ -613,7 +614,7 @@ public class LineBotController
 
         URL url = null;
         try {
-            url = new URL("https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&order=relevance&q=" + keyword + "&key=AIzaSyDlrK6kokD3dDhSoWQKCz3oMAaJMCqaQqM");
+            url = new URL("https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=50&order=relevance&q=" + keyword + "&key=AIzaSyDlrK6kokD3dDhSoWQKCz3oMAaJMCqaQqM");
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
@@ -650,7 +651,7 @@ public class LineBotController
         return list;
     }
 
-    private static List SearchIg(String text)  throws MalformedURLException, URISyntaxException, IOException {
+    private static List SearchIg(String text)  throws MalformedURLException, URISyntaxException, IOException, FileNotFoundException {
         URL url = new URL(
                 "https://www.instagram.com/"+text+"/?__a=1");
         HttpURLConnection request = (HttpURLConnection) url.openConnection();
