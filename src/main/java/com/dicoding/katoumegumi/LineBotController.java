@@ -227,9 +227,9 @@ public class LineBotController
                     String angkaNumber = "20";
                     ScriptEngineManager mgr = new ScriptEngineManager();
                     ScriptEngine engine = mgr.getEngineByName("JavaScript");
-                    float hitung = 0;
+                    double hitung = 0;
                     try {
-                        hitung = (float) engine.eval(angka);
+                        hitung = (double) engine.eval(angka);
                     } catch (ScriptException e) {
                         e.printStackTrace();
                     }
