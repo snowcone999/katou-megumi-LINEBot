@@ -604,18 +604,34 @@ public class LineBotController
         return list;
     }
 
-    private static List<String> ambilUrlVideoId(String text) throws MalformedURLException,IOException,Exception {
+    private static List<String> ambilUrlVideoId(String text) {
         String keyword = text;
         keyword = keyword.replace(" ", "+");
 
         URL url = null;
-        url = new URL("https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&order=relevance&q=" + keyword + "&key=AIzaSyDlrK6kokD3dDhSoWQKCz3oMAaJMCqaQqM");
+        try {
+            url = new URL("https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&order=relevance&q=" + keyword + "&key=AIzaSyDlrK6kokD3dDhSoWQKCz3oMAaJMCqaQqM");
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
         HttpURLConnection request = null;
-        request = (HttpURLConnection) url.openConnection();
-        request.connect();
+        try {
+            request = (HttpURLConnection) url.openConnection();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            request.connect();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         JsonElement jsonElement = null;
-        jsonElement = new JsonParser().parse(new InputStreamReader((InputStream) request.getContent()));
+        try {
+            jsonElement = new JsonParser().parse(new InputStreamReader((InputStream) request.getContent()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         JsonArray items = jsonElement.getAsJsonObject().getAsJsonArray("items");
 
         List<String> list = null;
@@ -626,7 +642,6 @@ public class LineBotController
             JsonObject id = itemsObj.get("id").getAsJsonObject();
             String videoId = id.get("videoId").getAsString();
             list.add(videoId);
-            return list;
         }
 
         return list;
