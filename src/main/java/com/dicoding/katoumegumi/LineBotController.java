@@ -153,6 +153,7 @@ public class LineBotController
                         e.printStackTrace();
                     } catch (IOException e) {
                         e.printStackTrace();
+                        replyToUser(payload.events[0].replyToken,"User instagram dengan id "+keyword+" gagal ditemukan");
                     }
                 }
 
@@ -190,15 +191,16 @@ public class LineBotController
                     textGambar = textGambar.replaceAll("\\s+","+");
                     try {
                        List url = Search(textGambar);
-                       String linkImg = String.valueOf(url.get(0));
+                       Random rand = new Random();
+                       String linkImg = String.valueOf(url.get(rand.nextInt(url.size())));
                        String httpnyaLink = linkImg.substring(0,5);
-                       String thumbnailLinkImg = String.valueOf(url.get(1));
                        replyToUserImage(payload.events[0].replyToken,
-                               httpnyaLink.equals("http:")?linkImg.replace("http","https"):linkImg, thumbnailLinkImg);
+                               httpnyaLink.equals("http:")?linkImg.replace("http","https"):linkImg, httpnyaLink.equals("http:")?linkImg.replace("http","https"):linkImg);
                     } catch (URISyntaxException e) {
                         e.printStackTrace();
                     } catch (IOException e) {
                         e.printStackTrace();
+                        replyToUser(payload.events[0].replyToken,"Gambar gagal ditemukan atau LIMIT");
                     }
                 }
 
@@ -225,9 +227,9 @@ public class LineBotController
                     String angkaNumber = "20";
                     ScriptEngineManager mgr = new ScriptEngineManager();
                     ScriptEngine engine = mgr.getEngineByName("JavaScript");
-                    int hitung = 0;
+                    float hitung = 0;
                     try {
-                        hitung = (int) engine.eval(angka);
+                        hitung = (float) engine.eval(angka);
                     } catch (ScriptException e) {
                         e.printStackTrace();
                     }
@@ -407,7 +409,7 @@ public class LineBotController
         String fileType = "png,jpg";
         String searchType = "image";
         URL url = new URL(
-                "https://www.googleapis.com/customsearch/v1?key=" + key + "&cx=" + cx + "&q=" + qry + "&fileType=" + fileType + "&searchType=" + searchType + "&num=1&alt=json");
+                "https://www.googleapis.com/customsearch/v1?key=" + key + "&cx=" + cx + "&q=" + qry + "&fileType=" + fileType + "&searchType=" + searchType + "&num=10&alt=json");
         HttpURLConnection request = (HttpURLConnection) url.openConnection();
         request.connect();
 
@@ -415,15 +417,13 @@ public class LineBotController
         JsonArray items = jsonElement.getAsJsonObject().getAsJsonArray("items");
 
         List<String> list = null;
+        list = new ArrayList<String>();
 
         for (JsonElement it : items) {
             JsonObject itemsObj = it.getAsJsonObject();
             JsonObject imgObj = itemsObj.get("image").getAsJsonObject();
             String link = itemsObj.get("link").getAsString();
-            String thumbnailLink = imgObj.get("thumbnailLink").getAsString();
-            list = new ArrayList<String>();
             list.add(link);
-            list.add(thumbnailLink);
             return list;
         }
 
