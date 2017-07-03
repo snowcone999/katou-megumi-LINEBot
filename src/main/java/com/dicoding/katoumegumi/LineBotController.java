@@ -614,7 +614,7 @@ public class LineBotController
 
         URL url = null;
         try {
-            url = new URL("https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=50&order=relevance&q=" + keyword + "&key=AIzaSyDlrK6kokD3dDhSoWQKCz3oMAaJMCqaQqM");
+            url = new URL("https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&order=relevance&q=" + keyword + "&key=AIzaSyDlrK6kokD3dDhSoWQKCz3oMAaJMCqaQqM");
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
