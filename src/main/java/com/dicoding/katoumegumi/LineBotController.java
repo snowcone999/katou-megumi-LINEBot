@@ -136,20 +136,21 @@ public class LineBotController
                         String comments = null;
                         String likes = null;
                         String deskripsi_post = null;
-                        String is_private = String.valueOf(listIg.get(0));
-                        String username = String.valueOf(listIg.get(1));
-                        String followers = String.valueOf(listIg.get(2));
-                        String following = String.valueOf(listIg.get(3));
-                        String profile_pic = String.valueOf(listIg.get(4));
+                        String count = String.valueOf(listIg.get(0));
+                        String is_private = String.valueOf(listIg.get(1));
+                        String username = String.valueOf(listIg.get(2));
+                        String followers = String.valueOf(listIg.get(3));
+                        String following = String.valueOf(listIg.get(4));
+                        String profile_pic = String.valueOf(listIg.get(5));
                         String profile_url = "https://www.instagram.com/"+username;
 
                         String five = "Followers : "+followers+"\nFollowing : "+following;
 
-                        if(is_private != "true") {
-                            urlImg = String.valueOf(listIg.get(5));
-                            urlPost = String.valueOf(listIg.get(6));
-                            comments = String.valueOf(listIg.get(7));
-                            likes = String.valueOf(listIg.get(8));
+                        if(is_private != "true" && count != "0") {
+                            urlImg = String.valueOf(listIg.get(6));
+                            urlPost = String.valueOf(listIg.get(7));
+                            comments = String.valueOf(listIg.get(8));
+                            likes = String.valueOf(listIg.get(9));
                             deskripsi_post = "Likes : "+likes+"\nComments : "+comments;
                             replyToUserTemplateIgCarousel(payload.events[0].replyToken, profile_pic, username, five, deskripsi_post, profile_url, urlImg, urlPost);
                         }else{
@@ -658,6 +659,7 @@ public class LineBotController
         JsonObject media = user.get("media").getAsJsonObject();
         JsonArray nodes = media.get("nodes").getAsJsonArray();
 
+        String count = media.get("count").getAsString();
         String username = user.get("username").getAsString();
         JsonObject followers = user.get("followed_by").getAsJsonObject();
         JsonObject follows = user.get("follows").getAsJsonObject();
@@ -668,13 +670,14 @@ public class LineBotController
 
         List<String> list = null;
         list = new ArrayList<String>();
+        list.add(count);
         list.add(is_private);
         list.add(username);
         list.add(folowers);
         list.add(following);
         list.add(profile_pic);
 
-        if(is_private != "true") {
+        if(is_private != "true" && count != "0") {
             for (JsonElement it : nodes) {
                 JsonObject items = it.getAsJsonObject();
                 JsonObject comments = items.get("comments").getAsJsonObject();
