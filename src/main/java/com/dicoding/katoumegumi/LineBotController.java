@@ -553,7 +553,7 @@ public class LineBotController
                 listUrl.add(d.url);
             }
 
-            urlDownload = String.valueOf(listUrl.get(2));
+            urlDownload = String.valueOf(listUrl.get(3));
         } catch (Exception e) {
             e.printStackTrace();
         }
