@@ -677,7 +677,7 @@ public class LineBotController
         list.add(following);
         list.add(profile_pic);
 
-        if(is_private != "true" && count != "0") {
+        if(is_private != "true") {
             for (JsonElement it : nodes) {
                 JsonObject items = it.getAsJsonObject();
                 JsonObject comments = items.get("comments").getAsJsonObject();
