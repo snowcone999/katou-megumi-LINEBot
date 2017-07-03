@@ -99,8 +99,15 @@ public class LineBotController
 
                 if (payload.events[0].message.text.contains("Katou cari video ")) {
                     String keyword = payload.events[0].message.text.substring(17);
-                    List videoItem = ambilUrlVideoId(keyword);
-                    String urlVideoId = String.valueOf(videoItem.get(0));
+                    List videoItem = null;
+                    try {
+                        videoItem = ambilUrlVideoId(keyword);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        replyToUser(payload.events[0].replyToken,"Gagal menemukan video atau LIMIT");
+                    }
+                    Random rand = new Random();
+                    String urlVideoId = String.valueOf(videoItem.get(rand.nextInt(videoItem.size())));
                     String urlYoutubeDownload = ambilUrlVideo(urlVideoId.replace("[","").replace("]",""));
                     String urlYoutubeThumbnail = "https://i.ytimg.com/vi/"+urlVideoId.replace("[","").replace("]","")+"/default.jpg";
 //                    String urlYoutubeDownload = ambilUrlVideo();
@@ -110,7 +117,7 @@ public class LineBotController
 
                 if (payload.events[0].message.text.contains("Katou download musik ")) {
                     String keyword = payload.events[0].message.text.substring(21);
-                    List videoItem = ambilUrlVideoId(keyword);
+                    List videoItem = ambilUrlVideoIdMP3(keyword);
                     String urlVideoId = String.valueOf(videoItem.get(0));
                     String urlVideoTitle = String.valueOf(videoItem.get(1));
                     String title = urlVideoTitle;
@@ -421,7 +428,6 @@ public class LineBotController
 
         for (JsonElement it : items) {
             JsonObject itemsObj = it.getAsJsonObject();
-            JsonObject imgObj = itemsObj.get("image").getAsJsonObject();
             String link = itemsObj.get("link").getAsString();
             list.add(link);
             return list;
@@ -551,7 +557,7 @@ public class LineBotController
         return urlDownload;
     }
 
-    private static List<String> ambilUrlVideoId(String text) {
+    private static List<String> ambilUrlVideoIdMP3(String text) {
         String keyword = text;
         keyword = keyword.replace(" ", "+");
 
@@ -592,6 +598,34 @@ public class LineBotController
             list = new ArrayList<String>();
             list.add(videoId);
             list.add(title);
+            return list;
+        }
+
+        return list;
+    }
+
+    private static List<String> ambilUrlVideoId(String text) throws MalformedURLException,IOException,Exception {
+        String keyword = text;
+        keyword = keyword.replace(" ", "+");
+
+        URL url = null;
+        url = new URL("https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&order=relevance&q=" + keyword + "&key=AIzaSyDlrK6kokD3dDhSoWQKCz3oMAaJMCqaQqM");
+        HttpURLConnection request = null;
+        request = (HttpURLConnection) url.openConnection();
+        request.connect();
+
+        JsonElement jsonElement = null;
+        jsonElement = new JsonParser().parse(new InputStreamReader((InputStream) request.getContent()));
+        JsonArray items = jsonElement.getAsJsonObject().getAsJsonArray("items");
+
+        List<String> list = null;
+        list = new ArrayList<String>();
+
+        for (JsonElement it : items) {
+            JsonObject itemsObj = it.getAsJsonObject();
+            JsonObject id = itemsObj.get("id").getAsJsonObject();
+            String videoId = id.get("videoId").getAsString();
+            list.add(videoId);
             return list;
         }
 
