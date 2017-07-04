@@ -423,7 +423,7 @@ public class LineBotController
         String fileType = "png,jpg";
         String searchType = "image";
         URL url = new URL(
-                "https://www.googleapis.com/customsearch/v1?key=" + key + "&cx=" + cx + "&q=" + qry + "&fileType=" + fileType + "&searchType=" + searchType + "&num=10&alt=json");
+                "https://www.googleapis.com/customsearch/v1?key=" + key + "&cx=" + cx + "&q=" + qry + "&fileType=" + fileType + "&searchType=" + searchType + "&num=10&safe=high&alt=json");
         HttpURLConnection request = (HttpURLConnection) url.openConnection();
         request.connect();
 
@@ -607,7 +607,7 @@ public class LineBotController
 
         URL url = null;
         try {
-            url = new URL("https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&order=relevance&q=" + keyword + "&key=AIzaSyDlrK6kokD3dDhSoWQKCz3oMAaJMCqaQqM");
+            url = new URL("https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=50&order=relevance&q=" + keyword + "&safeSearch=strict&key=AIzaSyDlrK6kokD3dDhSoWQKCz3oMAaJMCqaQqM");
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
@@ -639,7 +639,7 @@ public class LineBotController
             JsonObject id = itemsObj.get("id").getAsJsonObject();
             String kind = id.get("kind").getAsString();
 
-            if(!kind.equals("youtube#channel")) {
+            if(kind.equals("youtube#video")) {
                 String videoId = id.get("videoId").getAsString();
                 list.add(videoId);
             }
