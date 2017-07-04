@@ -549,7 +549,7 @@ public class LineBotController
             e.printStackTrace();
         }
 
-        Elements buttonUnduh = doc.select(".result-table tbody tr:nth-child(3) td:nth-child(4) a");
+        Elements buttonUnduh = doc.select("td:contains(480p)").first().parent().children().get(3).getAllElements();
         String linkhref = buttonUnduh.attr("href");
         return linkhref;
     }
