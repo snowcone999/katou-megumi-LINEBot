@@ -120,7 +120,7 @@ public class LineBotController
 
                 if (payload.events[0].message.text.contains("Katou download musik ")) {
                     String keyword = payload.events[0].message.text.substring(21);
-                    List videoItem = ambilUrlVideoIdMP3(keyword);
+                    List videoItem = ambilUrlVideoIdMp3(keyword);
                     String urlVideoId = String.valueOf(videoItem.get(0));
                     String urlVideoTitle = String.valueOf(videoItem.get(1));
                     String title = urlVideoTitle;
@@ -204,7 +204,7 @@ public class LineBotController
                     String textGambar= payload.events[0].message.text.substring(18);
                     textGambar = textGambar.replaceAll("\\s+","+");
                     try {
-                       List url = Search(textGambar);
+                       List url = searchImg(textGambar);
                        Random rand = new Random();
                        String linkImg = String.valueOf(url.get(rand.nextInt(url.size())));
                        String httpnyaLink = linkImg.substring(0,5);
@@ -221,7 +221,7 @@ public class LineBotController
                 if (payload.events[0].message.text.contains("Katou cuaca ")) {
                     String namaKota = payload.events[0].message.text.substring(12);
                     try {
-                        replyToUser(payload.events[0].replyToken,forecastweather(namaKota));
+                        replyToUser(payload.events[0].replyToken,forecastWeather(namaKota));
                     } catch (URISyntaxException e) {
                         e.printStackTrace();
                     } catch (IOException e) {
@@ -416,7 +416,7 @@ public class LineBotController
         return textArray;
     }
 
-    private List<String> Search(String text)  throws MalformedURLException, URISyntaxException, IOException {
+    private List<String> searchImg(String text)  throws MalformedURLException, URISyntaxException, IOException {
         String key = "AIzaSyDlrK6kokD3dDhSoWQKCz3oMAaJMCqaQqM";
         String qry = text;
         String cx = "016498147224075515320:ukepxzq_vus";
@@ -473,7 +473,7 @@ public class LineBotController
             return extract+" Read More : "+urls;
         }
     }
-    private static String forecastweather(String text)  throws MalformedURLException, URISyntaxException, IOException {
+    private static String forecastWeather(String text)  throws MalformedURLException, URISyntaxException, IOException {
 
         // Connect to the URL using java's native library
         URL url = new URL("http://api.openweathermap.org/data/2.5/weather?q="+text+"&units=metric&APPID=2505c1215671faf783b59b44620d4218");
@@ -554,7 +554,7 @@ public class LineBotController
         return linkhref;
     }
 
-    private static List<String> ambilUrlVideoIdMP3(String text) {
+    private static List<String> ambilUrlVideoIdMp3(String text) {
         String keyword = text;
         keyword = keyword.replace(" ", "+");
 
