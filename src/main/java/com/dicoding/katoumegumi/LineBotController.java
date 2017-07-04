@@ -19,6 +19,9 @@ import com.linecorp.bot.model.message.template.CarouselColumn;
 import com.linecorp.bot.model.message.template.CarouselTemplate;
 import com.linecorp.bot.model.message.template.Template;
 import com.linecorp.bot.model.response.BotApiResponse;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -539,26 +542,16 @@ public class LineBotController
 //    }
 
     private static String ambilUrlVideo(String text) {
-        String urlDownload = null;
-        String videoId = text;
+        Document doc = null;
         try {
-            String url = "http://www.youtube.com/watch?v="+videoId;
-            YouTubeInfo info = new YouTubeInfo(new URL(url));
-
-            YouTubeParser parser = new YouTubeParser();
-
-            List<YouTubeParser.VideoDownload> list = parser.extractLinks(info);
-            List<URL> listUrl = new ArrayList<URL>();
-            for (YouTubeParser.VideoDownload d : list) {
-                listUrl.add(d.url);
-            }
-
-            urlDownload = String.valueOf(listUrl.get(2));
-        } catch (Exception e) {
+            doc = Jsoup.connect("http://keepvid.com/?url=http%3A%2F%2Fyoutube.com%2Fwatch%3Fv%3D"+text).get();
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
-        return urlDownload;
+        Elements buttonUnduh = doc.select(".result-table tbody tr:nth-child(3) td:nth-child(4) a");
+        String linkhref = buttonUnduh.attr("href");
+        return linkhref;
     }
 
     private static List<String> ambilUrlVideoIdMP3(String text) {
