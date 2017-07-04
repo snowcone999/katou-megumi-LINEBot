@@ -201,21 +201,22 @@ public class LineBotController
 //                }
 
                 if (payload.events[0].message.text.contains("Katou cari gambar ")) {
-                    String textGambar= payload.events[0].message.text.substring(18);
-                    textGambar = textGambar.replaceAll("\\s+","+");
-                    try {
-                       List url = searchImg(textGambar);
-                       Random rand = new Random();
-                       String linkImg = String.valueOf(url.get(rand.nextInt(url.size())));
-                       String httpnyaLink = linkImg.substring(0,5);
-                       replyToUserImage(payload.events[0].replyToken,
-                               httpnyaLink.equals("http:")?linkImg.replace("http","https"):linkImg, httpnyaLink.equals("http:")?linkImg.replace("http","https"):linkImg);
-                    } catch (URISyntaxException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        replyToUser(payload.events[0].replyToken,"Gambar gagal ditemukan atau LIMIT");
-                    }
+//                    String textGambar= payload.events[0].message.text.substring(18);
+//                    textGambar = textGambar.replaceAll("\\s+","+");
+//                    try {
+//                       List url = searchImg(textGambar);
+//                       Random rand = new Random();
+//                       String linkImg = String.valueOf(url.get(rand.nextInt(url.size())));
+//                       String httpnyaLink = linkImg.substring(0,5);
+//                       replyToUserImage(payload.events[0].replyToken,
+//                               httpnyaLink.equals("http:")?linkImg.replace("http","https"):linkImg, httpnyaLink.equals("http:")?linkImg.replace("http","https"):linkImg);
+//                    } catch (URISyntaxException e) {
+//                        e.printStackTrace();
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                        replyToUser(payload.events[0].replyToken,"Gambar gagal ditemukan atau LIMIT");
+//                    }
+                    replyToUser(payload.events[0].replyToken,"sedang perbaikan");
                 }
 
                 if (payload.events[0].message.text.contains("Katou cuaca ")) {
