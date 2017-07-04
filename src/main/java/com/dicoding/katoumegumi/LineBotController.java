@@ -637,8 +637,12 @@ public class LineBotController
         for (JsonElement it : items) {
             JsonObject itemsObj = it.getAsJsonObject();
             JsonObject id = itemsObj.get("id").getAsJsonObject();
-            String videoId = id.get("videoId").getAsString();
-            list.add(videoId);
+            String kind = id.get("kind").getAsString();
+
+            if(!kind.equals("youtube#channel")) {
+                String videoId = id.get("videoId").getAsString();
+                list.add(videoId);
+            }
         }
 
         return list;
