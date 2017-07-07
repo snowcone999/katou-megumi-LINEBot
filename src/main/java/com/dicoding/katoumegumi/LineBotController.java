@@ -21,16 +21,17 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.xml.sax.SAXException;
 import retrofit2.Response;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
-import java.net.URL;
+import java.net.*;
 import java.util.*;
 import java.util.List;
 
@@ -239,6 +240,24 @@ public class LineBotController
                     String namaKota = payload.events[0].message.text.substring(12);
                     try {
                         replyToUser(payload.events[0].replyToken,forecastWeather(namaKota));
+                    } catch (URISyntaxException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                if (payload.events[0].message.text.contains("Katou terjemahkan ")) {
+                    String textAsli = payload.events[0].message.text.substring(24);
+                    String terjemahkan = payload.events[0].message.text.substring(18);
+                    try {
+                        textAsli = URLEncoder.encode(textAsli,"UTF-8");
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
+
+                    try {
+                        replyToUser(payload.events[0].replyToken,"Terjemahan dari : \n"+textAsli+"\n\n"+translate(textAsli,terjemahkan)+"\n\n\"Powered by Yandex.Translate\"\nhttp://translate.yandex.com/");
                     } catch (URISyntaxException e) {
                         e.printStackTrace();
                     } catch (IOException e) {
@@ -758,6 +777,34 @@ public class LineBotController
         }
 
         return list;
+    }
+
+    private static String translate(String Text,String lang)  throws  URISyntaxException, IOException, JsonIOException {
+        String key = "trnsl.1.1.20170707T101448Z.97d0be7226643896.37de4347e7f5ac433179a779aadeb974e50247b7";
+        URL url = new URL(
+                "https://translate.yandex.net/api/v1.5/tr/translate?key=" + key + "&text=" + Text + "&lang=" + lang + "&format=plain&option=");
+        HttpURLConnection request = (HttpURLConnection) url.openConnection();
+        request.connect();
+
+        InputStream xml = request.getInputStream();
+
+        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+        DocumentBuilder db = null;
+        try {
+            db = dbf.newDocumentBuilder();
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        }
+        String textHasil = null;
+        try {
+            org.w3c.dom.Document doc = db.parse(xml);
+            org.w3c.dom.Element text =  doc.getDocumentElement();
+            textHasil = text.getTextContent();
+
+        } catch (SAXException e) {
+            e.printStackTrace();
+        }
+        return textHasil;
     }
 
 }
