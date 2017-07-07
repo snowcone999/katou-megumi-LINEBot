@@ -214,7 +214,7 @@ public class LineBotController
                 }
 
                 if (payload.events[0].message.text.contains("Katou cari lokasi ")) {
-                    String textLokasi= payload.events[0].message.text.substring(19);
+                    String textLokasi= payload.events[0].message.text.substring(18);
                     textLokasi = textLokasi.replaceAll("\\s+","+");
                     try {
                         List results = searchLocation(textLokasi);
