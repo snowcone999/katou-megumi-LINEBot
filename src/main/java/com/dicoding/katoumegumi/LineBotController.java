@@ -344,7 +344,7 @@ public class LineBotController
         }
     }
 
-    private void replyToUserLocation(String rToken, String text, String address, Double lat, Double lng){
+    private void replyToUserLocation(String rToken, String text, String address, double lat, double lng){
         LocationMessage textMessage = new LocationMessage(text,address,lat,lng);
         ReplyMessage replyMessage = new ReplyMessage(rToken, textMessage);
         try {
