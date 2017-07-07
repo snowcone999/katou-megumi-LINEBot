@@ -214,6 +214,7 @@ public class LineBotController
                 }
 
                 if (payload.events[0].message.text.contains("Katou cari lokasi ")) {
+                    String textTitle = payload.events[0].message.text.substring(18);
                     String textLokasi= payload.events[0].message.text.substring(18);
                     textLokasi = textLokasi.replaceAll("\\s+","+");
                     try {
@@ -221,13 +222,17 @@ public class LineBotController
                         String address = String.valueOf(results.get(0));
                         double lat = Double.valueOf(String.valueOf(results.get(1)));
                         double lng = Double.valueOf(String.valueOf(results.get(2)));
-                        replyToUserLocation(payload.events[0].replyToken,textLokasi,address,lat,lng);
+                        replyToUserLocation(payload.events[0].replyToken,textTitle,address,lat,lng);
                     } catch (URISyntaxException e) {
                         e.printStackTrace();
                     } catch (IOException e) {
                         e.printStackTrace();
                         replyToUser(payload.events[0].replyToken,"Lokasi gagal ditemukan");
+                    } catch (Exception e){
+                        e.printStackTrace();
+                        replyToUser(payload.events[0].replyToken,"Lokasi gagal ditemukan");
                     }
+
                 }
 
                 if (payload.events[0].message.text.contains("Katou cuaca ")) {
@@ -742,6 +747,9 @@ public class LineBotController
             JsonObject geometry = itemsObj.get("geometry").getAsJsonObject();
             JsonObject location = geometry.get("location").getAsJsonObject();
             String address_formated = itemsObj.get("formatted_address").getAsString();
+            if(address_formated.length() > 100){
+                address_formated = address_formated.substring(0,97)+"...";
+            }
             String lat = location.get("lat").getAsString();
             String lng = location.get("lng").getAsString();
             list.add(address_formated);
