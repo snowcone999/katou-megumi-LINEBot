@@ -219,8 +219,8 @@ public class LineBotController
                     try {
                         List results = searchLocation(textLokasi);
                         String address = String.valueOf(results.get(0));
-                        Double lat = Double.valueOf(String.valueOf(results.get(1)));
-                        Double lng = Double.valueOf(String.valueOf(results.get(2)));
+                        double lat = Double.valueOf(String.valueOf(results.get(1)));
+                        double lng = Double.valueOf(String.valueOf(results.get(2)));
                         replyToUserLocation(payload.events[0].replyToken,textLokasi,address,lat,lng);
                     } catch (URISyntaxException e) {
                         e.printStackTrace();
