@@ -249,7 +249,8 @@ public class LineBotController
 
                 if (payload.events[0].message.text.contains("Katou terjemahkan ")) {
                     String textAsli = payload.events[0].message.text.substring(25);
-                    String terjemahkan = payload.events[0].message.text.substring(18);
+                    String terjemahkan = payload.events[0].message.text.substring(18,24);
+                    terjemahkan = terjemahkan.replaceAll("\\s+","");
                     try {
                         textAsli = URLEncoder.encode(textAsli,"UTF-8");
                     } catch (UnsupportedEncodingException e) {
