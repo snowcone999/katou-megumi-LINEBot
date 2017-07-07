@@ -1,19 +1,13 @@
 
 package com.dicoding.katoumegumi;
 
-import com.github.axet.vget.vhs.YouTubeInfo;
-import com.github.axet.vget.vhs.YouTubeParser;
 import com.google.gson.*;
 import com.linecorp.bot.client.LineMessagingServiceBuilder;
 import com.linecorp.bot.client.LineSignatureValidator;
-import com.linecorp.bot.model.PushMessage;
 import com.linecorp.bot.model.ReplyMessage;
 import com.linecorp.bot.model.action.Action;
 import com.linecorp.bot.model.action.URIAction;
-import com.linecorp.bot.model.message.ImageMessage;
-import com.linecorp.bot.model.message.TemplateMessage;
-import com.linecorp.bot.model.message.TextMessage;
-import com.linecorp.bot.model.message.VideoMessage;
+import com.linecorp.bot.model.message.*;
 import com.linecorp.bot.model.message.template.ButtonsTemplate;
 import com.linecorp.bot.model.message.template.CarouselColumn;
 import com.linecorp.bot.model.message.template.CarouselTemplate;
@@ -219,6 +213,23 @@ public class LineBotController
 //                    replyToUser(payload.events[0].replyToken,"sedang perbaikan");
                 }
 
+                if (payload.events[0].message.text.contains("Katou cari lokasi ")) {
+                    String textLokasi= payload.events[0].message.text.substring(19);
+                    textLokasi = textLokasi.replaceAll("\\s+","+");
+                    try {
+                        List results = searchLocation(textLokasi);
+                        String address = String.valueOf(results.get(0));
+                        Double lat = Double.valueOf(String.valueOf(results.get(1)));
+                        Double lng = Double.valueOf(String.valueOf(results.get(2)));
+                        replyToUserLocation(payload.events[0].replyToken,textLokasi,address,lat,lng);
+                    } catch (URISyntaxException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        replyToUser(payload.events[0].replyToken,"Lokasi gagal ditemukan");
+                    }
+                }
+
                 if (payload.events[0].message.text.contains("Katou cuaca ")) {
                     String namaKota = payload.events[0].message.text.substring(12);
                     try {
@@ -326,6 +337,22 @@ public class LineBotController
                 .build()
                 .replyMessage(replyMessage)
                 .execute();
+            System.out.println("Reply Message: " + response.code() + " " + response.message());
+        } catch (IOException e) {
+            System.out.println("Exception is raised ");
+            e.printStackTrace();
+        }
+    }
+
+    private void replyToUserLocation(String rToken, String text, String address, Double lat, Double lng){
+        LocationMessage textMessage = new LocationMessage(text,address,lat,lng);
+        ReplyMessage replyMessage = new ReplyMessage(rToken, textMessage);
+        try {
+            Response<BotApiResponse> response = LineMessagingServiceBuilder
+                    .create(lChannelAccessToken)
+                    .build()
+                    .replyMessage(replyMessage)
+                    .execute();
             System.out.println("Reply Message: " + response.code() + " " + response.message());
         } catch (IOException e) {
             System.out.println("Exception is raised ");
@@ -693,6 +720,34 @@ public class LineBotController
             }
         }
 
+
+        return list;
+    }
+
+    private static List<String> searchLocation(String address)  throws  URISyntaxException, IOException, JsonIOException {
+        String key = "AIzaSyDlrK6kokD3dDhSoWQKCz3oMAaJMCqaQqM";
+        URL url = new URL(
+                "https://maps.googleapis.com/maps/api/geocode/json?address="+address+"&key="+key);
+        HttpURLConnection request = (HttpURLConnection) url.openConnection();
+        request.connect();
+
+        JsonElement jsonElement = new JsonParser().parse(new InputStreamReader((InputStream) request.getContent()));
+        JsonArray results = jsonElement.getAsJsonObject().getAsJsonArray("results");
+
+        List<String> list = null;
+        list = new ArrayList<String>();
+
+        for (JsonElement it : results) {
+            JsonObject itemsObj = it.getAsJsonObject();
+            JsonObject geometry = itemsObj.get("geometry").getAsJsonObject();
+            JsonObject location = geometry.get("location").getAsJsonObject();
+            String address_formated = itemsObj.get("formatted_address").getAsString();
+            String lat = location.get("lat").getAsString();
+            String lng = location.get("lng").getAsString();
+            list.add(address_formated);
+            list.add(lat);
+            list.add(lng);
+        }
 
         return list;
     }
