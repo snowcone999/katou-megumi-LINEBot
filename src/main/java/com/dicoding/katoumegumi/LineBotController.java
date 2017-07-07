@@ -248,7 +248,7 @@ public class LineBotController
                 }
 
                 if (payload.events[0].message.text.contains("Katou terjemahkan ")) {
-                    String textAsli = payload.events[0].message.text.substring(24);
+                    String textAsli = payload.events[0].message.text.substring(25);
                     String terjemahkan = payload.events[0].message.text.substring(18);
                     try {
                         textAsli = URLEncoder.encode(textAsli,"UTF-8");
@@ -257,12 +257,15 @@ public class LineBotController
                     }
 
                     try {
-                        replyToUser(payload.events[0].replyToken,"Terjemahan dari : \n"+textAsli+"\n\n"+translate(textAsli,terjemahkan)+"\n\n\"Powered by Yandex.Translate\"\nhttp://translate.yandex.com/");
+                        String terjemahan = translate(textAsli,terjemahkan);
+                        replyToUser(payload.events[0].replyToken,"Terjemahan dari : \n"+textAsli+"\n\n"+terjemahan+"\n\n\"Powered by Yandex.Translate\"\nhttp://translate.yandex.com/");
                     } catch (URISyntaxException e) {
                         e.printStackTrace();
                     } catch (IOException e) {
                         e.printStackTrace();
+                        replyToUser(payload.events[0].replyToken,"Gagal Menterjemahkan");
                     }
+
                 }
 
                 if (payload.events[0].message.text.contains("Katou ucapkan selamat ulang tahun ke ")) {
