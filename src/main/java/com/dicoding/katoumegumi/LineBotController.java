@@ -248,7 +248,7 @@ public class LineBotController
                 }
 
                 if (payload.events[0].message.text.contains("Katou terjemahkan ")) {
-                    String textAsli = payload.events[0].message.text.substring(25);
+                    String textAsli = payload.events[0].message.text.substring(24);
                     String terjemahkan = payload.events[0].message.text.substring(18,24);
                     terjemahkan = terjemahkan.replaceAll("\\s+","");
                     try {
