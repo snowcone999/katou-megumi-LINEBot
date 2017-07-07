@@ -22,7 +22,7 @@ Jawaban : respon stiker tendang kelinci 3 kali
 --
 Katou berapa (angka) -- 
 Jawaban : Hasil
-perlu diketahui untuk kali menggunakan "*",bagi menggunakan "/", dan sisa hasil bagi menggunakan "%"
+
 --
 Katou ramal -- 
 Jawaban : text ramalan
