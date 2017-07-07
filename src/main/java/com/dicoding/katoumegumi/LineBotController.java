@@ -249,6 +249,7 @@ public class LineBotController
 
                 if (payload.events[0].message.text.contains("Katou terjemahkan ")) {
                     String textAsli = payload.events[0].message.text.substring(24);
+                    String textAsli1 = payload.events[0].message.text.substring(24);
                     String terjemahkan = payload.events[0].message.text.substring(18,24);
                     terjemahkan = terjemahkan.replaceAll("\\s+","");
                     try {
@@ -259,7 +260,7 @@ public class LineBotController
 
                     try {
                         String terjemahan = translate(textAsli,terjemahkan);
-                        replyToUser(payload.events[0].replyToken,"Terjemahan dari : \n"+textAsli+"\n\n"+terjemahan+"\n\n\"Powered by Yandex.Translate\"\nhttp://translate.yandex.com/");
+                        replyToUser(payload.events[0].replyToken,"Terjemahan dari : \n"+textAsli1+"\n\n"+terjemahan+"\n\n\"Powered by Yandex.Translate\"\nhttp://translate.yandex.com/");
                     } catch (URISyntaxException e) {
                         e.printStackTrace();
                     } catch (IOException e) {
