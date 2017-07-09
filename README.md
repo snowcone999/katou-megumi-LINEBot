@@ -60,7 +60,7 @@ Katou stalk (id instagram) --
 Jawaban : mendapatkan informasi user dari id instagram
 
 --
-Katou lokasi (teks lokasi) -- 
+Katou cari lokasi (teks lokasi) -- 
 Jawaban : mendapatkan lokasi dari keyword
 
 --
