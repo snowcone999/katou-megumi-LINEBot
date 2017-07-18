@@ -249,11 +249,8 @@ public class LineBotController
                     }
                 }
 
-                if (payload.events[0].message.text.contains("Katou 9gag")) {
+                if (payload.events[0].message.text.contains("Katou 9gag ")) {
                     String textKeyword = payload.events[0].message.text.substring(11);
-                    if(textKeyword.length() < 0){
-                        textKeyword = "hot";
-                    }
                     try {
                         List<String> urlImg = search9gag(textKeyword);
                         replyToUser9gag(payload.events[0].replyToken, urlImg.get(0),urlImg.get(1));
@@ -264,8 +261,17 @@ public class LineBotController
                         e.printStackTrace();
                         replyToUser(payload.events[0].replyToken,"Gagal menemukan section "+textKeyword+" di 9GAG");
                     }
-
+                }else if (payload.events[0].message.text.equals("Katou 9gag")) {
+                    try {
+                        List<String> urlImg = search9gag("hot");
+                        replyToUser9gag(payload.events[0].replyToken, urlImg.get(0),urlImg.get(1));
+                    } catch (URISyntaxException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
+
 
                 if (payload.events[0].message.text.contains("Katou terjemahkan ")) {
                     String textAsli = payload.events[0].message.text.substring(24);
