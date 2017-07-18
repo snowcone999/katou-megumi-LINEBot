@@ -188,14 +188,7 @@ public class LineBotController
 
                 if (payload.events[0].message.text.contains("Katou tulis ")) {
                     String textGambar = payload.events[0].message.text.substring(12);
-                    try {
-                        String urlImg = String.valueOf(gambarTeks(textGambar));
-                        replyToUserImage(payload.events[0].replyToken,urlImg,urlImg);
-                    } catch (URISyntaxException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    replyToUserImage(payload.events[0].replyToken,"https://chart.apis.google.com/chart?chs=300x50&cht=p3&chtt="+textGambar+"&chts=FFFFFF,24&chf=bg,s,000000","https://chart.apis.google.com/chart?chs=300x50&cht=p3&chtt="+textGambar+"&chts=FFFFFF,24&chf=bg,s,000000");
                 }
 
                 if (payload.events[0].message.text.contains("Katou cari gambar ")) {
