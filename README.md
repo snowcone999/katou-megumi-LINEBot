@@ -128,5 +128,5 @@ Malay	      :  ms
 # Section 9GAG
 hot, trending, fresh, funny, ask9gag, gaming, wtf, savage, movie-tv, superhero, comic, sport, girly, relationship, awesome, cute, country, school, horror, science, imadedis, politics, timely, girl, anime-manga, food, darkhumor, ugly, got
 
-jika inging mencari postingan fresh dari setiap section tambahkan dibelakangnya /fresh
+jika ingin mencari postingan fresh dari setiap section tambahkan dibelakangnya /fresh
 contoh : anime-manga/fresh
