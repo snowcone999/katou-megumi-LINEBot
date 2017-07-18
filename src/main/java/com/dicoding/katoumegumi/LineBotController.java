@@ -258,6 +258,7 @@ public class LineBotController
                         e.printStackTrace();
                     } catch (IOException e) {
                         e.printStackTrace();
+                        replyToUser(payload.events[0].replyToken,"Gagal menemukan section "+textKeyword+"di 9GAG");
                     }
 
                 }
