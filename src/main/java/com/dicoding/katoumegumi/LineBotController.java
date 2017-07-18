@@ -8,6 +8,7 @@ import com.linecorp.bot.model.ReplyMessage;
 import com.linecorp.bot.model.action.Action;
 import com.linecorp.bot.model.action.URIAction;
 import com.linecorp.bot.model.message.*;
+import com.linecorp.bot.model.message.Message;
 import com.linecorp.bot.model.message.template.ButtonsTemplate;
 import com.linecorp.bot.model.message.template.CarouselColumn;
 import com.linecorp.bot.model.message.template.CarouselTemplate;
@@ -248,11 +249,11 @@ public class LineBotController
                     }
                 }
 
-                if (payload.events[0].message.text.contains("Katou 9gag")) {
-                    String textKeyword = payload.events[0].message.text;
+                if (payload.events[0].message.text.contains("Katou 9gag ")) {
+                    String textKeyword = payload.events[0].message.text.substring(11);
                     try {
-                        String urlImg = search9gag(textKeyword);
-                        replyToUserImage(payload.events[0].replyToken,urlImg,urlImg);
+                        List<String> urlImg = search9gag(textKeyword);
+                        replyToUser9gag(payload.events[0].replyToken, urlImg.get(0),urlImg.get(1));
                     } catch (URISyntaxException e) {
                         e.printStackTrace();
                     } catch (IOException e) {
@@ -358,6 +359,27 @@ public class LineBotController
         TemplateMessage templateMessage = new TemplateMessage("Stalk",carousel);
 
         ReplyMessage replyMessage = new ReplyMessage(rToken, templateMessage);
+        try {
+            Response<BotApiResponse> response = LineMessagingServiceBuilder
+                    .create(lChannelAccessToken)
+                    .build()
+                    .replyMessage(replyMessage)
+                    .execute();
+            System.out.println("Reply Message: " + response.code() + " " + response.message());
+        } catch (IOException e) {
+            System.out.println("Exception is raised ");
+            e.printStackTrace();
+        }
+    }
+
+    private void replyToUser9gag(String rToken, String textTitle, String urlImg){
+        TextMessage title = new TextMessage(textTitle);
+        ImageMessage image = new ImageMessage(urlImg,urlImg);
+
+        List<Message> item = new ArrayList<Message>();
+        item.add(title);
+        item.add(image);
+        ReplyMessage replyMessage = new ReplyMessage(rToken,item);
         try {
             Response<BotApiResponse> response = LineMessagingServiceBuilder
                     .create(lChannelAccessToken)
@@ -826,29 +848,40 @@ public class LineBotController
         return textHasil;
     }
 
-    private static String search9gag(String Text) throws  URISyntaxException, IOException, JsonIOException{
+    private static List<String> search9gag(String Text) throws  URISyntaxException, IOException, JsonIOException{
         Document doc;
         List<String> list = null;
         list = new ArrayList<String>();
 
-        if (Text.contains("fresh")){
-            doc = Jsoup.connect("https://9gag.com/fresh").get();
-        }else if(Text.contains("trending")){
-            doc = Jsoup.connect("https://9gag.com/trending").get();
-        }else{
-            doc = Jsoup.connect("https://9gag.com/").get();
+        doc = Jsoup.connect("https://9gag.com/"+Text).get();
+
+        Elements getImage = doc.select(".badge-item-img");
+
+        List<String> titleText = new ArrayList<String>();
+        List<String> img = new ArrayList<String>();
+
+        for(Element titleElement : getImage){
+            String title = titleElement.attr("alt");
+            titleText.add(title);
+            System.out.println(title);
         }
 
-        Elements buttonUnduh = doc.select(".badge-item-img");
-
-        for(Element imgElement : buttonUnduh) {
-            String linkhref = imgElement.attr("src");
-            list.add(linkhref);
+        for(Element imgElement : getImage) {
+            String linkImg = imgElement.attr("src");
+            img.add(linkImg);
+            System.out.println(linkImg);
         }
 
         Random rnd = new Random();
-        String urlImg = list.get(rnd.nextInt(list.size()));
-        return urlImg;
+        int i = rnd.nextInt(img.size());
+        String titleReturn = titleText.get(i);
+        String imgReturn = img.get(i);
+
+        List<String> item = new ArrayList<String>();
+        item.add(titleReturn);
+        item.add(imgReturn);
+
+        return  item;
     }
 
 }
