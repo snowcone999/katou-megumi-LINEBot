@@ -251,15 +251,18 @@ public class LineBotController
 
                 if (payload.events[0].message.text.contains("Katou 9gag")) {
                     String textKeyword = payload.events[0].message.text.substring(11);
+                    if(textKeyword.length() < 0){
+                        textKeyword = "hot";
+                    }
                     try {
                         List<String> urlImg = search9gag(textKeyword);
                         replyToUser9gag(payload.events[0].replyToken, urlImg.get(0),urlImg.get(1));
                     } catch (URISyntaxException e) {
                         e.printStackTrace();
-                        replyToUser(payload.events[0].replyToken,"Gagal menemukan section "+textKeyword+"di 9GAG");
+                        replyToUser(payload.events[0].replyToken,"Gagal menemukan section "+textKeyword+" di 9GAG");
                     } catch (IOException e) {
                         e.printStackTrace();
-                        replyToUser(payload.events[0].replyToken,"Gagal menemukan section "+textKeyword+"di 9GAG");
+                        replyToUser(payload.events[0].replyToken,"Gagal menemukan section "+textKeyword+" di 9GAG");
                     }
 
                 }
