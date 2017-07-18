@@ -14,6 +14,9 @@ import com.linecorp.bot.model.message.template.CarouselColumn;
 import com.linecorp.bot.model.message.template.CarouselTemplate;
 import com.linecorp.bot.model.message.template.Template;
 import com.linecorp.bot.model.response.BotApiResponse;
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.Unirest;
+import com.mashape.unirest.http.exceptions.UnirestException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -183,19 +186,17 @@ public class LineBotController
                     }
                 }
 
-//                if (payload.events[0].message.text.contains("Katou tulis ")) {
-//                    String textGambar= payload.events[0].message.text.substring(12);
-//                    try {
-//                        String urlImg = ambilGambar(textGambar);
-//                        replyToUserImage(payload.events[0].replyToken,urlImg,urlImg);
-//                    } catch (URISyntaxException e) {
-//                        e.printStackTrace();
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    } catch (Exception e) {
-//                        e.printStackTrace();
-//                    }
-//                }
+                if (payload.events[0].message.text.contains("Katou tulis ")) {
+                    String textGambar = payload.events[0].message.text.substring(12);
+                    try {
+                        String urlImg = gambarTeks(textGambar);
+                        replyToUserImage(payload.events[0].replyToken,urlImg,urlImg);
+                    } catch (URISyntaxException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
 
                 if (payload.events[0].message.text.contains("Katou cari gambar ")) {
                     String textGambar= payload.events[0].message.text.substring(18);
@@ -893,6 +894,19 @@ public class LineBotController
         item.add(imgReturn);
 
         return  item;
+    }
+
+    private static String gambarTeks(String Text)  throws  URISyntaxException, IOException, JsonIOException {
+        HttpResponse<String> response = null;
+        try {
+            response = Unirest.get("https://img4me.p.mashape.com/?fcolor=000000&font=trebuchet&size=12&text="+Text+"&type=png")
+                    .header("X-Mashape-Key", "eIn259Ue9cmshGou0GrwMhPQa67Wp1qy2eajsn9LrjzqOV2wiy")
+                    .header("Accept", "text/plain")
+                    .asString();
+        } catch (UnirestException e) {
+            e.printStackTrace();
+        }
+        return String.valueOf(response);
     }
 
 }
