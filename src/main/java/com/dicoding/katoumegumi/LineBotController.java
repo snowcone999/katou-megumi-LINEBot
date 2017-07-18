@@ -15,6 +15,7 @@ import com.linecorp.bot.model.message.template.Template;
 import com.linecorp.bot.model.response.BotApiResponse;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -245,6 +246,19 @@ public class LineBotController
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
+                }
+
+                if (payload.events[0].message.text.contains("Katou 9gag")) {
+                    String textKeyword = payload.events[0].message.text;
+                    try {
+                        String urlImg = search9gag(textKeyword);
+                        replyToUserImage(payload.events[0].replyToken,urlImg,urlImg);
+                    } catch (URISyntaxException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
                 }
 
                 if (payload.events[0].message.text.contains("Katou terjemahkan ")) {
@@ -810,6 +824,31 @@ public class LineBotController
             e.printStackTrace();
         }
         return textHasil;
+    }
+
+    private static String search9gag(String Text) throws  URISyntaxException, IOException, JsonIOException{
+        Document doc;
+        List<String> list = null;
+        list = new ArrayList<String>();
+
+        if (Text.contains("fresh")){
+            doc = Jsoup.connect("https://9gag.com/fresh").get();
+        }else if(Text.contains("trending")){
+            doc = Jsoup.connect("https://9gag.com/trending").get();
+        }else{
+            doc = Jsoup.connect("https://9gag.com/").get();
+        }
+
+        Elements buttonUnduh = doc.select(".badge-item-img");
+
+        for(Element imgElement : buttonUnduh) {
+            String linkhref = imgElement.attr("src");
+            list.add(linkhref);
+        }
+
+        Random rnd = new Random();
+        String urlImg = list.get(rnd.nextInt(list.size()));
+        return urlImg;
     }
 
 }
