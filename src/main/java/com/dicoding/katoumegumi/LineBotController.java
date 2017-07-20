@@ -258,7 +258,7 @@ public class LineBotController
                     }
                 }
 
-                if (payload.events[0].message.text.contains("Katou stiker nyanca hai ")) {
+                if (payload.events[0].message.text.contains("Katou stiker nyanca hai")) {
                     replyToUserImage(payload.events[0].replyToken,"https://image.ibb.co/b32P4k/Nyanca_chibi_hai.png","https://image.ibb.co/b32P4k/Nyanca_chibi_hai.png");
                 }
 
