@@ -963,7 +963,7 @@ public class LineBotController
 
         String[] abjadAlay = {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"};
 
-        String[] abjadBener = {"4", "6", "c", "D", "3", "F", "9", "H", "!", "j", "k", "1", "m", "11", "0", "p", "Q", "12", "s", "7", "v", "V", "w", "*", "y", "z"};
+        String[] abjadBener = {"4", "6", "c", "D", "3", "F", "9", "H", "!", "j", "k", "L", "m", "11", "0", "p", "Q", "12", "s", "7", "v", "V", "w", "*", "y", "z"};
 
         String hasilConvert = null;
 
