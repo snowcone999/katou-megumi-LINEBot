@@ -196,6 +196,16 @@ public class LineBotController
                     replyToUserImage(payload.events[0].replyToken,"https://chart.apis.google.com/chart?chs=300x50&cht=p3&chtt="+textGambar+"&chts=FFFFFF,24&chf=bg,s,000000","https://chart.apis.google.com/chart?chs=300x50&cht=p3&chtt="+textGambar+"&chts=FFFFFF,24&chf=bg,s,000000");
                 }
 
+                if (payload.events[0].message.text.contains("Katou ubah alay ")) {
+                    String textKeyword = payload.events[0].message.text.substring(16);
+                    replyToUser(payload.events[0].replyToken,ubahAlay(textKeyword));
+                }
+
+                if (payload.events[0].message.text.contains("Katou terjemahkan alay ")) {
+                    String textKeyword = payload.events[0].message.text.substring(16);
+                    replyToUser(payload.events[0].replyToken,translateAlay(textKeyword));
+                }
+
                 if (payload.events[0].message.text.contains("Katou cari gambar ")) {
                     String textGambar= payload.events[0].message.text.substring(18);
                     textGambar = textGambar.replaceAll("\\s+","+");
@@ -905,6 +915,88 @@ public class LineBotController
             e.printStackTrace();
         }
         return response;
+    }
+
+    private static String ubahAlay(String teks) {
+        String teksKeyword = teks.toLowerCase();
+
+        String[] abjadBener = {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"};
+
+        String[] abjadAlay = {"4", "6", "c", "D", "3", "F", "9", "H", "!", "j", "k", "1", "m", "11", "0", "p", "Q", "12", "s", "7", "v", "V", "w", "*", "y", "z"};
+
+        String hasilConvert = null;
+
+        hasilConvert = teksKeyword
+                .replace(abjadBener[0], abjadAlay[0])
+                .replace(abjadBener[1], abjadAlay[1])
+                .replace(abjadBener[2], abjadAlay[2])
+                .replace(abjadBener[3], abjadAlay[3])
+                .replace(abjadBener[4], abjadAlay[4])
+                .replace(abjadBener[5], abjadAlay[5])
+                .replace(abjadBener[6], abjadAlay[6])
+                .replace(abjadBener[7], abjadAlay[7])
+                .replace(abjadBener[8], abjadAlay[8])
+                .replace(abjadBener[9], abjadAlay[9])
+                .replace(abjadBener[10], abjadAlay[10])
+                .replace(abjadBener[11], abjadAlay[11])
+                .replace(abjadBener[12], abjadAlay[12])
+                .replace(abjadBener[13], abjadAlay[13])
+                .replace(abjadBener[14], abjadAlay[14])
+                .replace(abjadBener[15], abjadAlay[15])
+                .replace(abjadBener[16], abjadAlay[16])
+                .replace(abjadBener[17], abjadAlay[17])
+                .replace(abjadBener[18], abjadAlay[18])
+                .replace(abjadBener[19], abjadAlay[19])
+                .replace(abjadBener[20], abjadAlay[20])
+                .replace(abjadBener[21], abjadAlay[21])
+                .replace(abjadBener[22], abjadAlay[22])
+                .replace(abjadBener[23], abjadAlay[23])
+                .replace(abjadBener[24], abjadAlay[24])
+                .replace(abjadBener[25], abjadAlay[25]);
+
+
+        return hasilConvert;
+    }
+
+    private static String translateAlay(String teks) {
+        String teksKeyword = teks.toLowerCase();
+
+        String[] abjadAlay = {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"};
+
+        String[] abjadBener = {"4", "6", "c", "D", "3", "F", "9", "H", "!", "j", "k", "1", "m", "11", "0", "p", "Q", "12", "s", "7", "v", "V", "w", "*", "y", "z"};
+
+        String hasilConvert = null;
+
+        hasilConvert = teksKeyword
+                .replace(abjadBener[0], abjadAlay[0])
+                .replace(abjadBener[1], abjadAlay[1])
+                .replace(abjadBener[2], abjadAlay[2])
+                .replace(abjadBener[3], abjadAlay[3])
+                .replace(abjadBener[4], abjadAlay[4])
+                .replace(abjadBener[5], abjadAlay[5])
+                .replace(abjadBener[6], abjadAlay[6])
+                .replace(abjadBener[7], abjadAlay[7])
+                .replace(abjadBener[8], abjadAlay[8])
+                .replace(abjadBener[9], abjadAlay[9])
+                .replace(abjadBener[10], abjadAlay[10])
+                .replace(abjadBener[11], abjadAlay[11])
+                .replace(abjadBener[12], abjadAlay[12])
+                .replace(abjadBener[13], abjadAlay[13])
+                .replace(abjadBener[14], abjadAlay[14])
+                .replace(abjadBener[15], abjadAlay[15])
+                .replace(abjadBener[16], abjadAlay[16])
+                .replace(abjadBener[17], abjadAlay[17])
+                .replace(abjadBener[18], abjadAlay[18])
+                .replace(abjadBener[19], abjadAlay[19])
+                .replace(abjadBener[20], abjadAlay[20])
+                .replace(abjadBener[21], abjadAlay[21])
+                .replace(abjadBener[22], abjadAlay[22])
+                .replace(abjadBener[23], abjadAlay[23])
+                .replace(abjadBener[24], abjadAlay[24])
+                .replace(abjadBener[25], abjadAlay[25]);
+
+
+        return hasilConvert;
     }
 
 }
