@@ -39,6 +39,14 @@ Jawaban : hasil gambar dari google
 Katou ucapkan selamat ulang tahun ke (nama) -- 
 Jawaban : Selamat Ulang Tahun (nama) :D
 
+-- 
+Katou ubah alay (teks yang ingin dirubah) --
+Jawaban : teks alay
+
+-- 
+Katou terjemahkan alay (teks yang ingin diterjemahkan) catatan : teks yang dapat diterjemahkan hanya teks alay yang didapet dari katou --
+Jawaban : teks alay yang sudah diterjemahkan
+
 --
 Katou cuaca (nama kota) -- 
 Jawaban : Cuaca
