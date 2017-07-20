@@ -202,7 +202,7 @@ public class LineBotController
                 }
 
                 if (payload.events[0].message.text.contains("Katou terjemahkan alay ")) {
-                    String textKeyword = payload.events[0].message.text.substring(16);
+                    String textKeyword = payload.events[0].message.text.substring(23);
                     replyToUser(payload.events[0].replyToken,translateAlay(textKeyword));
                 }
 
