@@ -1,12 +1,18 @@
-TextMessage textMessage = new TextMessage("hello");
-ReplyMessage replyMessage = new ReplyMessage(
-        "<replyToken>",
-        textMessage
-);
-Response<BotApiResponse> response =
-        LineMessagingServiceBuilder
-                .create("<channel access token>")
-                .build()
-                .replyMessage(replyMessage)
-                .execute();
-System.out.println(response.code() + " " + response.message());
+{
+  "events": [
+      {
+        "replyToken": "nHuyWiB7yP5Zw52FIkcQobQuGDXCTA",
+        "type": "message",
+        "timestamp": 1462629479859,
+        "source": {
+             "type": "user",
+             "userId": "U206d25c2ea6bd87c17655609a1c37cb8"
+         },
+         "message": {
+             "id": "325708",
+             "type": "text",
+             "text": "Hello, world"
+          }
+      }
+  ]
+}
